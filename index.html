@@ -87,6 +87,34 @@
             display: inline-block;
             animation: pulse-heart 1.5s infinite;
         }
+        
+        /* New Gallery Styles */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-auto-rows: minmax(200px, auto);
+            gap: 1rem;
+        }
+        @media (min-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(3, 1fr);
+                grid-auto-rows: minmax(250px, auto);
+            }
+        }
+        .gallery-item-1 { grid-column: span 2; }
+        .gallery-item-2 { grid-row: span 2; }
+        .gallery-item-3 { grid-column: span 1; }
+        .gallery-item-4 { grid-row: span 1; }
+        .gallery-item-5 { grid-column: span 1; }
+        .gallery-item-6 { grid-column: span 1; }
+        .gallery-image-tilt {
+            transform: rotate(-3deg);
+            transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
+        }
+        .gallery-image-tilt:hover {
+            transform: rotate(3deg) scale(1.05);
+            filter: brightness(1.1);
+        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-pink-50 to-orange-50 text-gray-800 font-montserrat">
@@ -113,7 +141,12 @@
     <!-- Main Content -->
     <div class="min-h-screen">
         <!-- Hero Section -->
-        <section class="relative h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-br from-pink-200 to-rose-50 text-center animate-on-scroll">
+        <section class="relative h-screen flex flex-col items-center justify-center p-4 text-center animate-on-scroll">
+            <!-- Background Image Container with Overlay -->
+            <div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('https://placehold.co/1200x800/d7c4b7/2e1a0b?text=Someshwaran+%26+Devi');">
+                <div class="absolute inset-0 bg-black opacity-20"></div>
+            </div>
+            
             <div class="relative z-10 animate-on-scroll">
                 <h1 class="text-4xl md:text-6xl font-extrabold text-white drop-shadow-lg font-playfair">Someshwaran <span class="text-white">&</span> Devi</h1>
                 <p class="mt-4 text-xl md:text-2xl font-light tracking-wide drop-shadow-md font-montserrat text-white">Get Ready to Celebrate with Us!</p>
@@ -187,13 +220,13 @@
         <section id="gallery" class="py-16 md:py-24 px-4 bg-white animate-on-scroll">
             <div class="container mx-auto text-center">
                 <h2 class="text-3xl md:text-5xl font-playfair font-bold text-pink-600 mb-12 animate-on-scroll flex items-center justify-center">Our Gallery <span class="ml-2 text-red-500 animated-heart">❤️</span></h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <img src="https://placehold.co/600x400/FF69B4/fff?text=Love+Story" alt="Gallery Photo 1" class="rounded-xl shadow-lg w-full h-auto animate-on-scroll">
-                    <img src="https://placehold.co/600x400/8A2BE2/fff?text=Candid+Moments" alt="Gallery Photo 2" class="rounded-xl shadow-lg w-full h-auto animate-on-scroll">
-                    <img src="https://placehold.co/600x400/FFD700/fff?text=Pre-Wedding+Shoot" alt="Gallery Photo 3" class="rounded-xl shadow-lg w-full h-auto animate-on-scroll">
-                    <img src="https://placehold.co/600x400/FF4500/fff?text=Engagement" alt="Gallery Photo 4" class="rounded-xl shadow-lg w-full h-auto animate-on-scroll">
-                    <img src="https://placehold.co/600x400/DA70D6/fff?text=Ceremony" alt="Gallery Photo 5" class="rounded-xl shadow-lg w-full h-auto animate-on-scroll">
-                    <img src="https://placehold.co/600x400/4B0082/fff?text=The+Couple" alt="Gallery Photo 6" class="rounded-xl shadow-lg w-full h-auto animate-on-scroll">
+                <div class="gallery-grid">
+                    <img src="https://placehold.co/600x400/FF69B4/fff" alt="Gallery Photo 1" class="gallery-item-1 rounded-2xl shadow-lg w-full h-full object-cover transition-transform transform hover:scale-105 gallery-image-tilt">
+                    <img src="https://placehold.co/400x600/8A2BE2/fff" alt="Gallery Photo 2" class="gallery-item-2 rounded-2xl shadow-lg w-full h-full object-cover transition-transform transform hover:scale-105">
+                    <img src="https://placehold.co/600x400/FFD700/fff" alt="Gallery Photo 3" class="gallery-item-3 rounded-2xl shadow-lg w-full h-full object-cover transition-transform transform hover:scale-105">
+                    <img src="https://placehold.co/600x600/DA70D6/fff" alt="Gallery Photo 4" class="gallery-item-4 rounded-full shadow-lg w-full h-full object-cover transition-transform transform hover:scale-105">
+                    <img src="https://placehold.co/600x400/FF4500/fff" alt="Gallery Photo 5" class="gallery-item-5 rounded-2xl shadow-lg w-full h-full object-cover transition-transform transform hover:scale-105 gallery-image-tilt">
+                    <img src="https://placehold.co/600x400/4B0082/fff" alt="Gallery Photo 6" class="gallery-item-6 rounded-2xl shadow-lg w-full h-full object-cover transition-transform transform hover:scale-105">
                 </div>
             </div>
         </section>
@@ -202,7 +235,7 @@
         <section id="whatsapp-wishes" class="py-16 md:py-24 px-4 bg-gradient-to-r from-pink-100 to-red-100 text-center animate-on-scroll">
             <div class="container mx-auto max-w-md">
                 <h2 class="text-3xl md:text-5xl font-playfair font-bold text-purple-600 mb-8 animate-on-scroll">Send Your Wishes</h2>
-                <a href="https://api.whatsapp.com/send/?phone=8675168590&text=I+am+attending+the+event&type=phone_number&app_absent=0" class="inline-block bg-green-500 text-white font-bold py-4 px-8 rounded-full shadow-lg hover:bg-green-600 transition-colors transform hover:scale-105">
+                <a href="https://api.whatsapp.com/send/?phone=8675168590&text=I+am+attending+the+event&type=phone_number&app_absent=0" class="inline-block bg-green-500 text-white font-bold py-2 px-6 rounded-full shadow-lg hover:bg-green-600 transition-colors transform hover:scale-105">
                     Send Wishes on WhatsApp
                 </a>
             </div>
@@ -212,23 +245,10 @@
         <footer class="bg-red-900 text-center py-8 text-white">
             <p class="font-bold text-lg font-playfair">With Love,</p>
             <p class="mt-2 text-xl font-bold font-montserrat">Someshwaran & Devi</p>
-            <div class="mt-4 text-sm text-red-200">
-                Total Visits: <span id="visit-count" class="font-bold text-lg">0</span>
-            </div>
         </footer>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-
-        let db, auth;
-
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Hide loading screen after a short delay
             setTimeout(() => {
@@ -242,62 +262,7 @@
             setupCountdown();
             setupIntersectionObserver();
             generateHearts(); // Start generating floating hearts
-            
-            // Firebase setup
-            const app = initializeApp(firebaseConfig);
-            db = getFirestore(app);
-            auth = getAuth(app);
-            
-            initFirestore();
         });
-
-        async function initFirestore() {
-            try {
-                if (initialAuthToken) {
-                    await signInWithCustomToken(auth, initialAuthToken);
-                } else {
-                    await signInAnonymously(auth);
-                }
-                
-                onAuthStateChanged(auth, (user) => {
-                    if (user) {
-                        console.log("Authenticated with Firebase. UID:", user.uid);
-                        setupVisitCounter();
-                    } else {
-                        console.log("No user is signed in.");
-                    }
-                });
-            } catch (error) {
-                console.error("Firebase Auth Error:", error);
-            }
-        }
-        
-        async function setupVisitCounter() {
-            const counterRef = doc(db, `/artifacts/${appId}/public/data/visit_count/main`);
-            
-            // Increment the visit count on page load
-            try {
-                await setDoc(counterRef, { count: increment(1) }, { merge: true });
-                console.log("Visit count incremented.");
-            } catch (e) {
-                console.error("Error updating visit count:", e);
-            }
-
-            // Listen for real-time updates to the visit count
-            onSnapshot(counterRef, (docSnap) => {
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    const visitCountElement = document.getElementById('visit-count');
-                    if (visitCountElement) {
-                        visitCountElement.textContent = data.count;
-                    }
-                } else {
-                    console.log("No visit counter found. Initializing...");
-                }
-            }, (error) => {
-                console.error("Error getting real-time visit count:", error);
-            });
-        }
 
         // Function to generate a continuous stream of floating hearts
         function generateHearts() {
