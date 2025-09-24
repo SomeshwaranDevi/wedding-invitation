@@ -3,162 +3,246 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Someshwaran & Devi - We're Getting Married</title>
+    <title>Real-time To-Do List</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap');
-        html {
-            scroll-behavior: smooth;
-        }
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #fcfaf4;
-            color: #2c5d6c;
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .playfair {
-            font-family: 'Playfair Display', serif;
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
         }
-        .section-background {
-            background-image: url('https://placehold.co/1920x1080/e5ddd5/4a2f2b?text=Couple+Photo+Here');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+        .todo-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
         }
-        .invitation-background {
-            background-image: url('https://placehold.co/1920x1080/fdf5e6/1e3a8a?text=Floral+Background');
-            background-size: cover;
-            background-position: center;
+        .todo-item:last-child {
+            border-bottom: none;
         }
-        /* On-scroll animation styles */
-        .animated-section {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        .todo-item.completed .task-text {
+            text-decoration: line-through;
+            color: #999;
         }
-        .animated-section.is-visible {
-            opacity: 1;
-            transform: translateY(0);
+        .task-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .action-button {
+            padding: 0.5rem;
+            border-radius: 9999px;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+        .action-button:hover {
+            transform: translateY(-2px);
         }
     </style>
 </head>
-<body class="overflow-x-hidden">
+<body>
+    <div class="container">
+        <div class="flex flex-col items-center mb-6">
+            <h1 class="text-3xl font-bold text-center text-blue-600 mb-2">My To-Do List</h1>
+            <p class="text-xs text-gray-500 text-center" id="user-id-display">Connecting...</p>
+        </div>
+
+        <!-- Add To-Do Form -->
+        <form id="todo-form" class="flex gap-2 mb-6">
+            <input type="text" id="task-input" placeholder="Add a new task..." required class="flex-grow p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+            <button type="submit" id="add-button" class="bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>Add Task</button>
+        </form>
+
+        <!-- To-Do List -->
+        <div id="todo-list" class="rounded-lg border border-gray-200">
+            <p id="status-message" class="text-center text-gray-500 py-4 px-2">Loading tasks...</p>
+        </div>
+    </div>
 
     <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, where, Timestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc, query, where, Timestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // Set Firebase log level for debugging
         setLogLevel('Debug');
 
         // Global variables for Firebase
-        window.appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        window.firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-        window.initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-        
-        let app, db, auth;
-        window.isAuthReady = false;
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        let db, auth, userId;
+        let isAuthReady = false;
 
         document.addEventListener('DOMContentLoaded', async () => {
-            if (Object.keys(window.firebaseConfig).length > 0) {
-                app = initializeApp(window.firebaseConfig);
+            if (Object.keys(firebaseConfig).length > 0) {
+                const app = initializeApp(firebaseConfig);
                 db = getFirestore(app);
                 auth = getAuth(app);
 
                 onAuthStateChanged(auth, async (user) => {
                     if (user) {
-                        window.userId = user.uid;
-                        document.getElementById('user-id-display').textContent = 'Your User ID: ' + window.userId;
-                        window.isAuthReady = true;
-                        console.log("User authenticated with ID:", window.userId);
-                        setupRsvpListener();
-                        document.getElementById('submit-button').disabled = false;
-                        document.getElementById('auth-status-message').textContent = 'You are ready to send your wishes!';
+                        userId = user.uid;
+                        document.getElementById('user-id-display').textContent = `User ID: ${userId.substring(0, 8)}...`;
+                        isAuthReady = true;
+                        document.getElementById('add-button').disabled = false;
+                        document.getElementById('status-message').textContent = 'Ready to add tasks!';
+                        setupRealtimeListener();
                     } else {
                         // Sign in anonymously if no token is available
-                        await signInAnonymously(auth);
+                        try {
+                            await signInAnonymously(auth);
+                        } catch (error) {
+                            console.error("Anonymous sign-in failed:", error);
+                            document.getElementById('status-message').textContent = 'Authentication failed. Functionality is limited.';
+                        }
                     }
                 });
 
-                if (window.initialAuthToken) {
-                    await signInWithCustomToken(auth, window.initialAuthToken);
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
                 } else {
                     await signInAnonymously(auth);
                 }
             } else {
-                console.error("Firebase config is missing. Wishes functionality will be disabled.");
-                const wishesForm = document.getElementById('wishes-form');
-                if (wishesForm) {
-                    wishesForm.innerHTML = '<p class="text-center text-red-500">Wishes functionality is currently unavailable. Please check back later.</p>';
-                }
+                console.error("Firebase config is missing. To-do functionality will be disabled.");
+                document.getElementById('status-message').textContent = 'To-do list functionality is currently unavailable. Please check back later.';
+                document.getElementById('todo-form').innerHTML = '';
             }
         });
 
-        // Setup real-time listener for RSVPs
-        function setupRsvpListener() {
-            if (!db || !window.isAuthReady) {
-                console.log("Database not ready or user not authenticated. Skipping RSVP listener setup.");
+        // Setup real-time listener for tasks
+        function setupRealtimeListener() {
+            if (!db || !isAuthReady) {
+                console.log("Database not ready or user not authenticated. Skipping listener setup.");
                 return;
             }
 
-            const wishesRef = collection(db, `artifacts/${window.appId}/public/data/wishes`);
-            const q = query(wishesRef, where("appId", "==", window.appId));
+            // Using a public collection so all users can see all tasks
+            const tasksRef = collection(db, `artifacts/${appId}/public/data/todos`);
+            const q = query(tasksRef, where("appId", "==", appId));
 
             onSnapshot(q, (snapshot) => {
-                const wishesList = document.getElementById('wishes-list');
-                wishesList.innerHTML = '';
+                const todoList = document.getElementById('todo-list');
+                todoList.innerHTML = '';
+                if (snapshot.empty) {
+                    document.getElementById('status-message').textContent = 'No tasks yet. Add one above!';
+                    return;
+                }
+                document.getElementById('status-message').textContent = '';
+
                 snapshot.forEach((doc) => {
-                    const wish = doc.data();
-                    const wishItem = document.createElement('div');
-                    wishItem.className = 'bg-white p-4 rounded-lg shadow-sm mb-2';
-                    wishItem.innerHTML = `
-                        <p class="font-bold">${wish.name}</p>
-                        <p class="text-sm italic text-gray-600">${wish.message}</p>
+                    const task = doc.data();
+                    const taskId = doc.id;
+                    const taskItem = document.createElement('div');
+                    taskItem.className = `todo-item ${task.completed ? 'completed' : ''}`;
+                    taskItem.innerHTML = `
+                        <p class="task-text flex-grow">${task.text}</p>
+                        <div class="task-actions">
+                            <button onclick="toggleCompleted('${taskId}', ${!task.completed})" class="action-button text-white bg-green-500 hover:bg-green-600 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                            <button onclick="deleteTask('${taskId}')" class="action-button text-white bg-red-500 hover:bg-red-600 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm4 0a1 1 0 112 0v6a1 1 0 11-2 0V8z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
                     `;
-                    wishesList.appendChild(wishItem);
+                    todoList.appendChild(taskItem);
                 });
             });
         }
 
-        // Handle Wishes form submission
-        window.submitWishes = async (event) => {
+        // Handle Add Task form submission
+        document.getElementById('todo-form').addEventListener('submit', async (event) => {
             event.preventDefault();
-            if (!db) {
+            if (!db || !isAuthReady) {
                 showModal("Error", "Database not ready. Please wait a moment.");
                 return;
             }
 
-            const name = document.getElementById('name').value;
-            const message = document.getElementById('message').value;
+            const taskInput = document.getElementById('task-input');
+            const taskText = taskInput.value.trim();
 
-            if (!name || !message) {
-                showModal("Error", "Please fill in all required fields.");
+            if (taskText === '') {
+                showModal("Error", "Please enter a task.");
                 return;
             }
 
             try {
-                const wishData = {
-                    name: name,
-                    message: message,
-                    userId: window.userId,
-                    appId: window.appId,
+                const taskData = {
+                    text: taskText,
+                    completed: false,
+                    userId: userId,
+                    appId: appId,
                     timestamp: Timestamp.now()
                 };
-                
-                await addDoc(collection(db, `artifacts/${window.appId}/public/data/wishes`), wishData);
-                showModal("Success!", "Thank you for your warm wishes!");
-                document.getElementById('wishes-form').reset();
+                await addDoc(collection(db, `artifacts/${appId}/public/data/todos`), taskData);
+                taskInput.value = '';
             } catch (e) {
                 console.error("Error adding document: ", e);
-                showModal("Error", "Failed to submit your wishes. Please try again.");
+                showModal("Error", "Failed to add task. Please try again.");
+            }
+        });
+
+        // Function to toggle task completion status
+        window.toggleCompleted = async (taskId, completedStatus) => {
+            if (!db || !isAuthReady) return;
+            try {
+                const taskRef = doc(db, `artifacts/${appId}/public/data/todos`, taskId);
+                await updateDoc(taskRef, {
+                    completed: completedStatus
+                });
+            } catch (e) {
+                console.error("Error updating document: ", e);
             }
         };
 
-        // Custom Modal UI
+        // Function to delete a task
+        window.deleteTask = async (taskId) => {
+            if (!db || !isAuthReady) return;
+            try {
+                const taskRef = doc(db, `artifacts/${appId}/public/data/todos`, taskId);
+                await deleteDoc(taskRef);
+            } catch (e) {
+                console.error("Error deleting document: ", e);
+            }
+        };
+
+        // Custom Modal UI (re-used from previous Canvas for consistent feedback)
         function showModal(title, message) {
-            const modal = document.getElementById('custom-modal');
+            let modal = document.getElementById('custom-modal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'custom-modal';
+                modal.className = 'hidden fixed inset-0 bg-gray-600 bg-opacity-75 z-50 items-center justify-center';
+                modal.innerHTML = `
+                    <div class="bg-white rounded-xl shadow-2xl p-6 m-4 w-full max-w-sm transform transition-all">
+                        <h3 id="modal-title" class="text-xl font-bold mb-2 text-center text-blue-600"></h3>
+                        <p id="modal-message" class="text-gray-700 text-center mb-4"></p>
+                        <button onclick="closeModal()" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-full hover:bg-blue-700 transition-colors">Close</button>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            }
             document.getElementById('modal-title').textContent = title;
             document.getElementById('modal-message').textContent = message;
             modal.classList.remove('hidden');
@@ -170,227 +254,6 @@
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         };
-
-        // Countdown Timer Logic
-        function startCountdown() {
-            const weddingDate = new Date("November 3, 2025 04:30:00").getTime();
-            const countdownElement = document.getElementById('countdown');
-
-            const updateCountdown = setInterval(() => {
-                const now = new Date().getTime();
-                const distance = weddingDate - now;
-
-                if (distance < 0) {
-                    clearInterval(updateCountdown);
-                    countdownElement.innerHTML = `<span class="text-xl font-bold">The day is here!</span>`;
-                    return;
-                }
-
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                countdownElement.innerHTML = `
-                    <div class="flex flex-col items-center mx-2">
-                        <span class="text-2xl md:text-4xl font-bold">${days}</span>
-                        <span class="text-sm md:text-base">Days</span>
-                    </div>
-                    <div class="flex flex-col items-center mx-2">
-                        <span class="text-2xl md:text-4xl font-bold">${hours}</span>
-                        <span class="text-sm md:text-base">Hours</span>
-                    </div>
-                    <div class="flex flex-col items-center mx-2">
-                        <span class="text-2xl md:text-4xl font-bold">${minutes}</span>
-                        <span class="text-sm md:text-base">Minutes</span>
-                    </div>
-                    <div class="flex flex-col items-center mx-2">
-                        <span class="text-2xl md:text-4xl font-bold">${seconds}</span>
-                        <span class="text-sm md:text-base">Seconds</span>
-                    </div>
-                `;
-            }, 1000);
-        }
-
-        // On-scroll animation logic using IntersectionObserver
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
-
-        window.onload = () => {
-            document.querySelectorAll('.animated-section').forEach(section => {
-                observer.observe(section);
-            });
-            startCountdown();
-
-            // Loading screen logic
-            const loadingScreen = document.getElementById('loading-screen');
-            const mainContent = document.getElementById('main-content');
-            
-            // Fade out the loading screen and fade in the content
-            loadingScreen.classList.add('opacity-0');
-            mainContent.classList.remove('opacity-0');
-            
-            // Remove the loading screen from the DOM after the transition is complete
-            setTimeout(() => {
-                loadingScreen.remove();
-            }, 1000);
-        };
     </script>
-
-    <!-- Loading Screen -->
-    <div id="loading-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#fcfaf4] transition-opacity duration-1000 ease-out">
-        <svg class="animate-pulse w-20 h-20 text-[#8c3b4a]" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M10 3.22l-.7-.7c-1.45-1.45-3.8-1.45-5.25 0-1.45 1.45-1.45 3.8 0 5.25l.7.7 5.25 5.25 5.25-5.25.7-.7c1.45-1.45 1.45-3.8 0-5.25s-3.8-1.45-5.25 0l-.7.7z"/>
-        </svg>
-        <p class="mt-4 text-xl playfair text-[#2c5d6c] font-bold">Unveiling...</p>
-    </div>
-
-    <!-- Modal for feedback -->
-    <div id="custom-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-75 z-50 items-center justify-center">
-        <div class="bg-white rounded-xl shadow-2xl p-6 m-4 w-full max-w-sm transform transition-all">
-            <h3 id="modal-title" class="text-xl font-bold mb-2 text-center text-[#8c3b4a]"></h3>
-            <p id="modal-message" class="text-gray-700 text-center mb-4"></p>
-            <button onclick="closeModal()" class="w-full bg-[#d4ac4a] text-white font-bold py-2 px-4 rounded-full hover:bg-[#b38b3c] transition-colors">Close</button>
-        </div>
-    </div>
-
-    <!-- Main Content Wrapper -->
-    <div id="main-content" class="opacity-0 transition-opacity duration-1000">
-
-        <!-- Navigation Bar -->
-        <nav class="fixed top-0 left-0 w-full z-40 bg-white bg-opacity-80 backdrop-blur-sm shadow-md py-4">
-            <div class="container mx-auto flex justify-center space-x-8 text-[#2c5d6c]">
-                <a href="#hero" class="text-sm md:text-base font-bold hover:text-[#d4ac4a] transition-colors">Home</a>
-                <a href="#invitation" class="text-sm md:text-base font-bold hover:text-[#d4ac4a] transition-colors">Details</a>
-                <a href="#gallery" class="text-sm md:text-base font-bold hover:text-[#d4ac4a] transition-colors">Gallery</a>
-                <a href="#wishes" class="text-sm md:text-base font-bold hover:text-[#d4ac4a] transition-colors">Wishes</a>
-            </div>
-        </nav>
-
-        <!-- Hero Section -->
-        <section id="hero" class="section-background h-screen flex flex-col justify-center items-center text-center p-4">
-            <div class="bg-white bg-opacity-70 p-8 rounded-2xl shadow-xl backdrop-blur-sm animated-section">
-                <h4 class="playfair text-xl md:text-2xl italic mb-4 text-[#2c5d6c]">You are cordially invited to celebrate the union of</h4>
-                <h1 class="playfair text-5xl md:text-7xl font-bold text-[#8c3b4a] mb-2">Someshwaran <span class="text-3xl">&hearts;</span> Devi</h1>
-                <p class="text-lg md:text-xl font-semibold text-[#2c5d6c]">November 3, 2025</p>
-                <p id="user-id-display" class="text-xs text-gray-500 mt-4"></p>
-            </div>
-        </section>
-
-        <!-- Countdown Section -->
-        <section class="py-12 bg-[#e8f0f3] text-center animated-section">
-            <h2 class="playfair text-3xl md:text-4xl font-bold text-[#2c5d6c] mb-6">Countdown to Forever</h2>
-            <div id="countdown" class="flex justify-center items-center text-[#2c5d6c]">
-                <!-- Countdown timer populated by JavaScript -->
-            </div>
-        </section>
-
-        <!-- Invitation & Details Section -->
-        <section id="invitation" class="invitation-background py-16 px-4 animated-section">
-            <div class="container mx-auto max-w-2xl bg-white bg-opacity-80 p-8 rounded-2xl shadow-xl backdrop-blur-sm text-center">
-                <h2 class="playfair text-4xl font-bold text-[#2c5d6c] mb-6">&hearts; Our Story Begins... &hearts;</h2>
-                <p class="text-lg mb-8 leading-relaxed text-[#2c5d6c]">
-                    We joyfully invite you to celebrate our wedding! Your presence and blessings mean the world to us.
-                </p>
-                <p class="text-base italic text-gray-600 mb-8">
-                    அன்பும் அறனும் உடைத்தாயின் இல்வாழ்க்கை <br> பண்பும் பயனும் அது.
-                </p>
-
-                <div class="flex flex-col md:flex-row justify-center items-stretch gap-8">
-                    <!-- Wedding Card -->
-                    <div class="flex-1 bg-[#e8f0f3] rounded-xl shadow-lg p-8 flex flex-col items-center text-center">
-                        <div class="text-3xl mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-[#8c3b4a] mb-2" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M20 6h-3V4c0-1.103-.897-2-2-2H9c-1.103 0-2 .897-2 2v2H4c-1.103 0-2 .897-2 2v13c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V8c0-1.103-.897-2-2-2zM9 4h6v2H9V4zm11 17H4V8h16l.001 13z"/>
-                                <path d="M12 10c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"/>
-                            </svg>
-                        </div>
-                        <h3 class="font-bold text-xl mb-2 text-[#8c3b4a]">The Wedding</h3>
-                        <p class="text-gray-700">November 3, 2025</p>
-                        <p class="text-gray-700">4:30 AM - 11:00 AM</p>
-                        <p class="text-gray-700 font-semibold mt-4">Om Sakthi Hall, Kaveripattinam</p>
-                        <a href="https://share.google/eanakiYCKT4sR2VkL" target="_blank" class="mt-auto inline-block bg-[#d4ac4a] text-white font-bold py-2 px-4 rounded-full hover:bg-[#b38b3c] transition-colors">
-                            View on Map
-                        </a>
-                    </div>
-
-                    <!-- Reception Card -->
-                    <div class="flex-1 bg-[#e8f0f3] rounded-xl shadow-lg p-8 flex flex-col items-center text-center">
-                        <div class="text-3xl mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-[#8c3b4a] mb-2" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M21.9 14.2c-.2.2-.4.4-.7.6L14.4 22c-.6.6-1.5.8-2.3.8-.8 0-1.7-.3-2.3-.8L1.8 14.8c-.8-.8-1-1.8-.8-2.6.2-.8.8-1.5 1.6-1.8.8-.4 1.7-.5 2.5-.2.8.2 1.5.8 1.9 1.6L9 14.7l.8.8c.6.6 1.5.8 2.3.8.8 0 1.7-.3 2.3-.8l7.5-7.5c.8-.8 1.8-1 2.6-.8.8.2 1.5.8 1.8 1.6.4.8.5 1.7.2 2.5z"/>
-                            </svg>
-                        </div>
-                        <h3 class="font-bold text-xl mb-2 text-[#8c3b4a]">The Reception</h3>
-                        <p class="text-gray-700">November 9, 2025</p>
-                        <p class="text-gray-700">11:00 AM - 03:00 PM</p>
-                        <p class="text-gray-700 font-semibold mt-4">MKM Kalayana Mandapam, Andhra Pradesh</p>
-                        <a href="https://share.google/JDIlUxWFIuxoyAowG" target="_blank" class="mt-auto inline-block bg-[#d4ac4a] text-white font-bold py-2 px-4 rounded-full hover:bg-[#b38b3c] transition-colors">
-                            View on Map
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Photo Gallery Section -->
-        <section id="gallery" class="py-16 px-4 animated-section">
-            <div class="container mx-auto text-center">
-                <h2 class="playfair text-4xl font-bold text-[#2c5d6c] mb-8">Our Cherished Moments</h2>
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                    <!-- Replace these placeholder URLs with your actual hosted image URLs -->
-                    <img src="https://example.com/your-image-1.jpg" alt="Someshwaran and Devi Photo 1" class="w-full h-auto rounded-xl shadow-md">
-                    <img src="https://example.com/your-image-2.jpg" alt="Someshwaran and Devi Photo 2" class="w-full h-auto rounded-xl shadow-md">
-                    <img src="https://example.com/your-image-3.jpg" alt="Someshwaran and Devi Photo 3" class="w-full h-auto rounded-xl shadow-md">
-                    <img src="https://example.com/your-image-4.jpg" alt="Someshwaran and Devi Photo 4" class="w-full h-auto rounded-xl shadow-md">
-                    <img src="https://example.com/your-image-5.jpg" alt="Someshwaran and Devi Photo 5" class="w-full h-auto rounded-xl shadow-md hidden sm:block">
-                    <img src="https://example.com/your-image-6.jpg" alt="Someshwaran and Devi Photo 6" class="w-full h-auto rounded-xl shadow-md hidden sm:block">
-                </div>
-            </div>
-        </section>
-
-        <!-- Wishes Section -->
-        <section id="wishes" class="bg-[#e8f0f3] py-16 px-4 animated-section">
-            <div class="container mx-auto max-w-2xl text-center">
-                <h2 class="playfair text-4xl font-bold text-[#2c5d6c] mb-8">&hearts; Share Your Wishes &hearts;</h2>
-                <p class="text-lg mb-8 leading-relaxed text-[#2c5d6c]">
-                    Please leave a message to bless our new journey together. We can't wait to read your kind words!
-                </p>
-                <form id="wishes-form" onsubmit="submitWishes(event)" class="bg-white p-8 rounded-2xl shadow-xl">
-                    <div class="mb-4">
-                        <label for="name" class="block text-gray-700 font-bold mb-2 text-left">Your Name</label>
-                        <input type="text" id="name" name="name" required class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d4ac4a] transition-colors">
-                    </div>
-                    <div class="mb-6">
-                        <label for="message" class="block text-gray-700 font-bold mb-2 text-left">Your Message</label>
-                        <textarea id="message" name="message" rows="4" required class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d4ac4a] transition-colors"></textarea>
-                    </div>
-                    <p id="auth-status-message" class="text-sm text-gray-500 mb-4">Connecting to guest book...</p>
-                    <button type="submit" id="submit-button" disabled class="w-full bg-[#d4ac4a] text-white font-bold py-3 px-6 rounded-full hover:bg-[#b38b3c] transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">Submit Wish</button>
-                </form>
-
-                <h3 class="playfair text-3xl font-bold text-[#2c5d6c] mt-12 mb-4">Guest Book</h3>
-                <div id="wishes-list" class="mt-4 text-left">
-                    <!-- Wishes will be populated here by JavaScript -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer Section -->
-        <footer class="bg-[#2c5d6c] text-white text-center py-8 px-4">
-            <div class="container mx-auto">
-                <h3 class="playfair text-xl md:text-2xl font-bold mb-2">With love, Someshwaran &hearts; Devi</h3>
-                <p class="text-sm md:text-base">Thank you for being a part of our love story.</p>
-            </div>
-        </footer>
-
-    </div>
-
 </body>
 </html>
