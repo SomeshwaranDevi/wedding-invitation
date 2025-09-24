@@ -98,7 +98,8 @@
                 onAuthStateChanged(auth, async (user) => {
                     if (user) {
                         userId = user.uid;
-                        document.getElementById('user-id-display').textContent = `User ID: ${userId.substring(0, 8)}...`;
+                        // Display the full user ID as required for multi-user collaboration
+                        document.getElementById('user-id-display').textContent = `User ID: ${userId}`;
                         isAuthReady = true;
                         document.getElementById('add-button').disabled = false;
                         document.getElementById('status-message').textContent = 'Ready to add tasks!';
