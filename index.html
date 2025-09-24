@@ -86,8 +86,11 @@
                     await signInAnonymously(auth);
                 }
             } else {
-                console.error("Firebase config is missing. RSVP functionality will be disabled.");
-                document.getElementById('rsvp-form').innerHTML = '<p class="text-center text-red-500">RSVP functionality is currently unavailable. Please check back later.</p>';
+                console.error("Firebase config is missing. Wishes functionality will be disabled.");
+                const wishesForm = document.getElementById('wishes-form');
+                if (wishesForm) {
+                    wishesForm.innerHTML = '<p class="text-center text-red-500">Wishes functionality is currently unavailable. Please check back later.</p>';
+                }
             }
         });
 
