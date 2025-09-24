@@ -3,71 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real-time To-Do List</title>
+    <title>Someshwaran & Devi</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js"></script>
     <style>
-        body {
-            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-            background-color: #f7f7f7;
-            color: #333;
-            min-height: 100vh;
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .animate-on-scroll.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .thirukural-kural {
+            font-size: 1.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+        .thirukural-kural span {
+            display: block;
+        }
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fce8e6;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease-out;
         }
-        .container {
-            max-width: 600px;
-            width: 100%;
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .heart-pulse {
+            animation: pulse 1.5s infinite;
+        }
+        .fade-out {
+            opacity: 0;
+        }
+        .rsvp-form-container {
+            max-width: 500px;
+            margin: 2rem auto;
             background-color: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
-        .todo-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1rem;
-            border-bottom: 1px solid #eee;
-            transition: all 0.3s ease;
-        }
-        .todo-item:last-child {
-            border-bottom: none;
-        }
-        .todo-item.completed .task-text {
-            text-decoration: line-through;
-            color: #999;
-        }
-        .task-actions {
-            display: flex;
-            gap: 0.5rem;
-        }
-        .action-button {
-            padding: 0.5rem;
+        .fab-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #f97316;
+            color: white;
+            padding: 1rem 1.5rem;
             border-radius: 9999px;
-            transition: transform 0.2s ease, background-color 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            font-size: 1rem;
+            transition: background-color 0.2s ease, transform 0.2s ease;
         }
-        .action-button:hover {
+        .fab-button:hover {
+            background-color: #ea580c;
             transform: translateY(-2px);
+        }
+        .modal {
+            background-color: rgba(0, 0, 0, 0.6);
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <div class="flex flex-col items-center mb-6">
-            <h1 class="text-3xl font-bold text-center text-blue-600 mb-2">My To-Do List</h1>
-            <p class="text-xs text-gray-500 text-center" id="user-id-display">Connecting...</p>
-        </div>
+<body class="bg-gray-50 text-gray-800">
 
-        <!-- Add To-Do Form -->
-        <form id="todo-form" class="flex gap-2 mb-6">
-            <input type="text" id="task-input" placeholder="Add a new task..." required class="flex-grow p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
-            <button type="submit" id="add-button" class="bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>Add Task</button>
-        </form>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <svg class="w-16 h-16 text-red-400 heart-pulse" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+        </svg>
+        <p class="mt-4 text-xl font-semibold text-red-500">Love is in the air...</p>
+    </div>
 
-        <!-- To-Do List -->
-        <div id="todo-list" class="rounded-lg border border-gray-200">
-            <p id="status-message" class="text-center text-gray-500 py-4 px-2">Loading tasks...</p>
+    <!-- Main Content -->
+    <div class="min-h-screen">
+        <!-- Hero Section -->
+        <section class="relative bg-center bg-cover h-screen text-center flex flex-col items-center justify-center p-4 text-white" style="background-image: url('https://placehold.co/1920x1080/4a2f2b/e5ddd5?text=Couple+Photo+Here');">
+            <div class="absolute inset-0 bg-black opacity-40"></div>
+            <div class="relative z-10 animate-on-scroll">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-[#f6d7b0] drop-shadow-lg font-['Playfair_Display']">Someshwaran <span class="text-[#f6d7b0]">&</span> Devi</h1>
+                <p class="mt-4 text-xl md:text-2xl font-light tracking-wide drop-shadow-md">Get Ready to Celebrate with Us!</p>
+                <div id="countdown" class="mt-8 text-xl md:text-3xl font-bold tracking-wider bg-white bg-opacity-30 backdrop-blur-sm rounded-full py-3 px-6 shadow-xl"></div>
+            </div>
+        </section>
+
+        <!-- Navigation Bar -->
+        <nav class="sticky top-0 z-50 bg-[#e7c7a7] backdrop-blur-lg bg-opacity-80 shadow-lg py-3">
+            <div class="container mx-auto px-4 flex justify-center space-x-6 text-gray-800">
+                <a href="#details" class="font-semibold hover:text-[#5c2a11] transition-colors">Details</a>
+                <a href="#gallery" class="font-semibold hover:text-[#5c2a11] transition-colors">Gallery</a>
+                <a href="#wishes-board" class="font-semibold hover:text-[#5c2a11] transition-colors">Wishes</a>
+            </div>
+        </nav>
+
+        <!-- Details Section -->
+        <section id="details" class="py-16 md:py-24 px-4 bg-[#f8f5f2] animate-on-scroll">
+            <div class="container mx-auto text-center">
+                <h2 class="text-3xl md:text-5xl font-['Playfair_Display'] font-bold text-[#5c2a11] mb-12 animate-on-scroll">The Ceremonies</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto mb-12 animate-on-scroll">We cordially invite you to share our joy and celebrate the union of two souls.</p>
+
+                <div class="grid md:grid-cols-2 gap-8 lg:gap-12 text-gray-700">
+                    <!-- Marriage Section -->
+                    <div class="bg-white p-6 md:p-10 rounded-2xl shadow-xl border border-gray-200 animate-on-scroll">
+                        <h3 class="text-2xl md:text-3xl font-['Playfair_Display'] font-bold text-[#b45f47] mb-4">Marriage</h3>
+                        <p class="text-sm md:text-base font-semibold text-[#8f4f3e] mb-2">DATE & TIME</p>
+                        <p class="text-lg md:text-xl font-bold mb-4">Monday, December 25, 2025<br>09:00 AM</p>
+                        <hr class="w-16 mx-auto my-6 border-[#e7c7a7]">
+                        <p class="text-sm md:text-base font-semibold text-[#8f4f3e] mb-2">VENUE</p>
+                        <p class="text-lg md:text-xl font-bold">Om Sakthi Hall<br>Kaveripattinam</p>
+                    </div>
+
+                    <!-- Reception Section -->
+                    <div class="bg-white p-6 md:p-10 rounded-2xl shadow-xl border border-gray-200 animate-on-scroll">
+                        <h3 class="text-2xl md:text-3xl font-['Playfair_Display'] font-bold text-[#b45f47] mb-4">Reception</h3>
+                        <p class="text-sm md:text-base font-semibold text-[#8f4f3e] mb-2">DATE & TIME</p>
+                        <p class="text-lg md:text-xl font-bold mb-4">Sunday, December 24, 2025<br>07:00 PM</p>
+                        <hr class="w-16 mx-auto my-6 border-[#e7c7a7]">
+                        <p class="text-sm md:text-base font-semibold text-[#8f4f3e] mb-2">VENUE</p>
+                        <p class="text-lg md:text-xl font-bold">MKM Kalayana Mandapam<br>Andhra Pradesh</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Thirukural Section -->
+        <section class="py-16 md:py-24 px-4 bg-[#fce8e6] text-center animate-on-scroll">
+            <div class="container mx-auto max-w-2xl">
+                <div class="thirukural-kural text-[#5c2a11] leading-relaxed">
+                    <span>அன்பும் அறனும் உடைத்தாயின் இல்வாழ்க்கை</span>
+                    <span>பண்பும் பயனும் அது.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="py-16 md:py-24 px-4 bg-[#f8f5f2] animate-on-scroll">
+            <div class="container mx-auto text-center">
+                <h2 class="text-3xl md:text-5xl font-['Playfair_Display'] font-bold text-[#5c2a11] mb-12 animate-on-scroll">Our Gallery</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <img src="https://placehold.co/600x400/805128/fff?text=Photo+1" alt="Gallery Photo 1" class="rounded-xl shadow-lg w-full h-auto animate-on-scroll">
+                    <img src="https://placehold.co/600x400/8f4f3e/fff?text=Photo+2" alt="Gallery Photo 2" class="rounded-xl shadow-lg w-full h-auto animate-on-scroll">
+                    <img src="https://placehold.co/600x400/a35f47/fff?text=Photo+3" alt="Gallery Photo 3" class="rounded-xl shadow-lg w-full h-auto animate-on-scroll">
+                    <img src="https://placehold.co/600x400/c78d59/fff?text=Photo+4" alt="Gallery Photo 4" class="rounded-xl shadow-lg w-full h-auto animate-on-scroll">
+                    <img src="https://placehold.co/600x400/8f4f3e/fff?text=Photo+5" alt="Gallery Photo 5" class="rounded-xl shadow-lg w-full h-auto animate-on-scroll">
+                    <img src="https://placehold.co/600x400/a35f47/fff?text=Photo+6" alt="Gallery Photo 6" class="rounded-xl shadow-lg w-full h-auto animate-on-scroll">
+                </div>
+            </div>
+        </section>
+
+        <!-- Wishes Board Section -->
+        <section id="wishes-board" class="py-16 md:py-24 px-4 bg-[#fce8e6] animate-on-scroll">
+            <div class="container mx-auto">
+                <div class="flex flex-col items-center mb-6">
+                    <h2 class="text-3xl md:text-5xl font-['Playfair_Display'] font-bold text-[#5c2a11] mb-2 animate-on-scroll">Our Wishes Board</h2>
+                    <p class="text-sm text-gray-500 text-center" id="user-id-display">Connecting...</p>
+                </div>
+                <div id="wishes-list" class="rounded-lg border border-gray-200 p-4 min-h-[200px] overflow-y-auto max-h-[60vh] bg-white shadow-inner animate-on-scroll">
+                    <p id="status-message" class="text-center text-gray-500 py-4 px-2">Loading wishes...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Floating Action Button for Adding a Wish -->
+        <button id="add-wish-btn" class="fab-button" disabled>Send a Wish</button>
+
+        <!-- Modal for Submitting a Wish -->
+        <div id="wish-modal" class="hidden fixed inset-0 modal z-50 items-center justify-center p-4">
+            <div class="bg-white rounded-xl shadow-2xl p-6 m-4 w-full max-w-md transform transition-all">
+                <h3 class="text-xl font-bold mb-4 text-center text-[#5c2a11]">Share Your Wishes</h3>
+                <form id="wish-form" class="flex flex-col gap-4">
+                    <input type="text" id="wish-name-input" placeholder="Your Name" required class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e7c7a7]">
+                    <textarea id="wish-message-input" rows="4" placeholder="Your message or wish..." required class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e7c7a7]"></textarea>
+                    <button type="submit" class="bg-[#e7c7a7] text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-[#d4b094] transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Submit Wish</button>
+                </form>
+                <button onclick="closeModal()" class="w-full mt-4 text-gray-600 hover:text-gray-800 transition-colors">Cancel</button>
+            </div>
         </div>
     </div>
 
@@ -75,7 +205,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc, query, where, Timestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, where, Timestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // Set Firebase log level for debugging
@@ -90,145 +220,143 @@
         let isAuthReady = false;
 
         document.addEventListener('DOMContentLoaded', async () => {
-            if (Object.keys(firebaseConfig).length > 0) {
-                const app = initializeApp(firebaseConfig);
-                db = getFirestore(app);
-                auth = getAuth(app);
+            try {
+                if (Object.keys(firebaseConfig).length > 0) {
+                    const app = initializeApp(firebaseConfig);
+                    db = getFirestore(app);
+                    auth = getAuth(app);
 
-                onAuthStateChanged(auth, async (user) => {
-                    if (user) {
-                        userId = user.uid;
-                        // Display the full user ID as required for multi-user collaboration
-                        document.getElementById('user-id-display').textContent = `User ID: ${userId}`;
-                        isAuthReady = true;
-                        document.getElementById('add-button').disabled = false;
-                        document.getElementById('status-message').textContent = 'Ready to add tasks!';
-                        setupRealtimeListener();
-                    } else {
-                        // Sign in anonymously if no token is available
-                        try {
-                            await signInAnonymously(auth);
-                        } catch (error) {
-                            console.error("Anonymous sign-in failed:", error);
-                            document.getElementById('status-message').textContent = 'Authentication failed. Functionality is limited.';
+                    onAuthStateChanged(auth, async (user) => {
+                        if (user) {
+                            userId = user.uid;
+                            document.getElementById('user-id-display').textContent = `User ID: ${userId}`;
+                            isAuthReady = true;
+                            document.getElementById('add-wish-btn').disabled = false;
+                            document.getElementById('status-message').textContent = 'Ready to receive wishes!';
+                            setupRealtimeListener();
+                        } else {
+                            try {
+                                await signInAnonymously(auth);
+                            } catch (error) {
+                                console.error("Anonymous sign-in failed:", error);
+                                document.getElementById('status-message').textContent = 'Authentication failed. Functionality is limited.';
+                            }
                         }
-                    }
-                });
+                    });
 
-                if (initialAuthToken) {
-                    await signInWithCustomToken(auth, initialAuthToken);
+                    if (initialAuthToken) {
+                        await signInWithCustomToken(auth, initialAuthToken);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
                 } else {
-                    await signInAnonymously(auth);
+                    console.error("Firebase config is missing. Wish functionality will be disabled.");
+                    document.getElementById('status-message').textContent = 'Wish functionality is currently unavailable. Please check back later.';
+                    document.getElementById('add-wish-btn').style.display = 'none';
                 }
-            } else {
-                console.error("Firebase config is missing. To-do functionality will be disabled.");
-                document.getElementById('status-message').textContent = 'To-do list functionality is currently unavailable. Please check back later.';
-                document.getElementById('todo-form').innerHTML = '';
+            } catch (error) {
+                console.error("Initialization error:", error);
+                document.getElementById('status-message').textContent = 'An error occurred during initialization. Please try again later.';
+            } finally {
+                // Hide loading screen after a short delay
+                setTimeout(() => {
+                    const loadingScreen = document.getElementById('loading-screen');
+                    loadingScreen.classList.add('fade-out');
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                    }, 1000);
+                }, 1000);
             }
+
+            setupCountdown();
+            setupIntersectionObserver();
         });
 
-        // Setup real-time listener for tasks
+        // Setup real-time listener for wishes
         function setupRealtimeListener() {
             if (!db || !isAuthReady) {
                 console.log("Database not ready or user not authenticated. Skipping listener setup.");
                 return;
             }
 
-            // Using a public collection so all users can see all tasks
-            const tasksRef = collection(db, `artifacts/${appId}/public/data/todos`);
-            const q = query(tasksRef, where("appId", "==", appId));
+            const wishesRef = collection(db, `artifacts/${appId}/public/data/wishes`);
+            const q = query(wishesRef, where("appId", "==", appId));
 
             onSnapshot(q, (snapshot) => {
-                const todoList = document.getElementById('todo-list');
-                todoList.innerHTML = '';
+                const wishesList = document.getElementById('wishes-list');
+                wishesList.innerHTML = '';
                 if (snapshot.empty) {
-                    document.getElementById('status-message').textContent = 'No tasks yet. Add one above!';
+                    document.getElementById('status-message').textContent = 'No wishes yet. Be the first to send one!';
                     return;
                 }
                 document.getElementById('status-message').textContent = '';
 
                 snapshot.forEach((doc) => {
-                    const task = doc.data();
-                    const taskId = doc.id;
-                    const taskItem = document.createElement('div');
-                    taskItem.className = `todo-item ${task.completed ? 'completed' : ''}`;
-                    taskItem.innerHTML = `
-                        <p class="task-text flex-grow">${task.text}</p>
-                        <div class="task-actions">
-                            <button onclick="toggleCompleted('${taskId}', ${!task.completed})" class="action-button text-white bg-green-500 hover:bg-green-600 transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                                </svg>
-                            </button>
-                            <button onclick="deleteTask('${taskId}')" class="action-button text-white bg-red-500 hover:bg-red-600 transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm4 0a1 1 0 112 0v6a1 1 0 11-2 0V8z" clip-rule="evenodd" />
-                                </svg>
-                            </button>
-                        </div>
+                    const wish = doc.data();
+                    const wishItem = document.createElement('div');
+                    wishItem.className = 'wish-item';
+                    wishItem.innerHTML = `
+                        <p class="font-bold text-lg text-gray-800">${wish.name}</p>
+                        <p class="text-sm text-gray-600 mb-2">${new Date(wish.timestamp.toDate()).toLocaleString()}</p>
+                        <p class="text-gray-700">${wish.message}</p>
                     `;
-                    todoList.appendChild(taskItem);
+                    wishesList.appendChild(wishItem);
                 });
             });
         }
 
-        // Handle Add Task form submission
-        document.getElementById('todo-form').addEventListener('submit', async (event) => {
+        // Event listener for the floating action button
+        document.getElementById('add-wish-btn').addEventListener('click', () => {
+            const modal = document.getElementById('wish-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        });
+
+        // Handle Add Wish form submission
+        document.getElementById('wish-form').addEventListener('submit', async (event) => {
             event.preventDefault();
-            if (!db || !isAuthReady) {
-                showModal("Error", "Database not ready. Please wait a moment.");
+            const nameInput = document.getElementById('wish-name-input');
+            const messageInput = document.getElementById('wish-message-input');
+            const submitButton = event.target.querySelector('button[type="submit"]');
+
+            const nameText = nameInput.value.trim();
+            const messageText = messageInput.value.trim();
+
+            if (nameText === '' || messageText === '') {
+                showModal("Error", "Please fill in all fields.");
                 return;
             }
 
-            const taskInput = document.getElementById('task-input');
-            const taskText = taskInput.value.trim();
-
-            if (taskText === '') {
-                showModal("Error", "Please enter a task.");
-                return;
-            }
+            submitButton.disabled = true;
 
             try {
-                const taskData = {
-                    text: taskText,
-                    completed: false,
+                const wishData = {
+                    name: nameText,
+                    message: messageText,
                     userId: userId,
                     appId: appId,
                     timestamp: Timestamp.now()
                 };
-                await addDoc(collection(db, `artifacts/${appId}/public/data/todos`), taskData);
-                taskInput.value = '';
+                await addDoc(collection(db, `artifacts/${appId}/public/data/wishes`), wishData);
+                nameInput.value = '';
+                messageInput.value = '';
+                closeModal();
             } catch (e) {
-                console.error("Error adding document: ", e);
-                showModal("Error", "Failed to add task. Please try again.");
+                console.error("Error adding wish: ", e);
+                showModal("Error", "Failed to send wish. Please try again.");
+            } finally {
+                submitButton.disabled = false;
             }
         });
 
-        // Function to toggle task completion status
-        window.toggleCompleted = async (taskId, completedStatus) => {
-            if (!db || !isAuthReady) return;
-            try {
-                const taskRef = doc(db, `artifacts/${appId}/public/data/todos`, taskId);
-                await updateDoc(taskRef, {
-                    completed: completedStatus
-                });
-            } catch (e) {
-                console.error("Error updating document: ", e);
-            }
+        // Function to close the modal
+        window.closeModal = () => {
+            const modal = document.getElementById('wish-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
         };
 
-        // Function to delete a task
-        window.deleteTask = async (taskId) => {
-            if (!db || !isAuthReady) return;
-            try {
-                const taskRef = doc(db, `artifacts/${appId}/public/data/todos`, taskId);
-                await deleteDoc(taskRef);
-            } catch (e) {
-                console.error("Error deleting document: ", e);
-            }
-        };
-
-        // Custom Modal UI (re-used from previous Canvas for consistent feedback)
+        // Custom Modal UI for general feedback
         function showModal(title, message) {
             let modal = document.getElementById('custom-modal');
             if (!modal) {
@@ -250,11 +378,54 @@
             modal.classList.add('flex');
         }
 
-        window.closeModal = () => {
-            const modal = document.getElementById('custom-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        };
+        // Countdown Timer
+        function setupCountdown() {
+            const countdownElement = document.getElementById('countdown');
+            const weddingDate = new Date("Dec 25, 2025 09:00:00").getTime();
+
+            setInterval(() => {
+                const now = new Date().getTime();
+                const distance = weddingDate - now;
+
+                if (distance < 0) {
+                    countdownElement.innerHTML = "We're Married!";
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }, 1000);
+        }
+
+        // Intersection Observer for animations
+        function setupIntersectionObserver() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.animate-on-scroll').forEach(element => {
+                observer.observe(element);
+            });
+
+            // Smooth scrolling for nav links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        }
     </script>
 </body>
 </html>
