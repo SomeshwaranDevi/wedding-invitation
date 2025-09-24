@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Someshwaran & Devi</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     <style>
         .font-playfair {
@@ -61,42 +58,6 @@
         
         .fade-out { opacity: 0; }
         
-        .rsvp-form-container {
-            max-width: 500px;
-            margin: 2rem auto;
-            background-color: #fff;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        .fab-button {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background-color: #ef4444; /* Vibrant Red */
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 9999px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            font-weight: bold;
-            font-size: 1rem;
-            transition: background-color 0.2s ease, transform 0.2s ease;
-        }
-        .fab-button:hover {
-            background-color: #dc2626; /* Darker Red */
-            transform: translateY(-2px);
-        }
-        .modal {
-            background-color: rgba(0, 0, 0, 0.6);
-        }
-        .wish-item {
-            background-color: #fdf2f8; /* Soft pink */
-            transition: transform 0.2s ease-in-out;
-        }
-        .wish-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-        }
         /* Floating hearts animation */
         @keyframes floatHeart {
             0% { transform: translateY(0) rotate(0deg); opacity: 0; }
@@ -152,11 +113,10 @@
     <!-- Main Content -->
     <div class="min-h-screen">
         <!-- Hero Section -->
-        <section class="relative bg-center bg-cover h-screen text-center flex flex-col items-center justify-center p-4 text-white" style="background-image: url('https://placehold.co/1920x1080/e5a0b7/fff?text=Someshwaran+and+Devi');">
-            <div class="absolute inset-0 bg-black opacity-40"></div>
+        <section class="relative h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-br from-pink-200 to-rose-50 text-center animate-on-scroll">
             <div class="relative z-10 animate-on-scroll">
-                <h1 class="text-4xl md:text-6xl font-extrabold text-[#f6d7b0] drop-shadow-lg font-playfair">Someshwaran <span class="text-[#f6d7b0]">&</span> Devi</h1>
-                <p class="mt-4 text-xl md:text-2xl font-light tracking-wide drop-shadow-md font-montserrat">Get Ready to Celebrate with Us!</p>
+                <h1 class="text-4xl md:text-6xl font-extrabold text-white drop-shadow-lg font-playfair">Someshwaran <span class="text-white">&</span> Devi</h1>
+                <p class="mt-4 text-xl md:text-2xl font-light tracking-wide drop-shadow-md font-montserrat text-white">Get Ready to Celebrate with Us!</p>
                 <!-- New Countdown Section -->
                 <div id="countdown" class="mt-8"></div>
             </div>
@@ -178,7 +138,7 @@
                 <a href="#details" class="font-semibold hover:text-red-700 transition-colors">Details</a>
                 <a href="#story" class="font-semibold hover:text-red-700 transition-colors">Our Story</a>
                 <a href="#gallery" class="font-semibold hover:text-red-700 transition-colors">Gallery</a>
-                <a href="#wishes-board" class="font-semibold hover:text-red-700 transition-colors">Wishes</a>
+                <a href="#whatsapp-wishes" class="font-semibold hover:text-red-700 transition-colors">Wishes</a>
             </div>
         </nav>
 
@@ -196,7 +156,7 @@
                         <p class="text-lg md:text-xl font-bold mb-4 font-montserrat">Monday, November 3, 2025<br>04:30 AM - 11:00 AM</p>
                         <hr class="w-16 mx-auto my-6 border-pink-300">
                         <p class="text-sm md:text-base font-semibold text-purple-400 mb-2 font-montserrat">VENUE</p>
-                        <a href="https://www.google.com/maps?sca_esv=99f1a6d769628b16&rlz=1C1ONGR_enIN1124IN1124&output=search&q=Om+Sakthi+Hall+Kaveripattinam&source=lnms&fbs=AIIjpHxU7SXXniUZfeShr2fp4giZ1Y6MJ25_tmWITc7uy4KIetxLMeWi1u_d0OMRvkClUbalBeyXa8ssyRd_VUj5FQB2M49RDgUuMIHyvVwTXA6WeXN8OYrVcEOZlc9atiCHm0R2j8foPCWdDOHylTF9fjm1GHWYqDI_AUx1PTfRHQ2NUQoWJZaxKatIUK7rKkeaJSOMSksjoMc_q9NrpqYtHQ92eQGGKQ&entry=mc&ved=1t:200715&ictx:111" class="text-lg md:text-xl font-bold text-red-600 hover:underline font-montserrat">Om Sakthi Hall<br>Kaveripattinam</a>
+                        <a href="https://www.google.com/maps?sca_esv=99f1a6d769628b16&rlz=1C1ONGR_enIN1124IN1124&output=search&q=Om+Sakthi+Hall+Kaveripattinam&source=lnms&fbs=AIIjpHxU7SXXniUZfeShr2fp4giZ1Y6MJ25_tmWITc7uy4KIetxLMeWi1u_d0OMRvkClUbalBeyXa8ssyRd_VUj5FQB2M49RDgUuMIHyvVwTXA6WeXN8OYrVcEOZlc9atiCHm0R2j8foPCWdDOHylTF9fjm1GHWYqDI_AUx1PTfRHQ92eQGGKQ&entry=mc&ved=1t:200715&ictx:111" class="text-lg md:text-xl font-bold text-red-600 hover:underline font-montserrat">Om Sakthi Hall<br>Kaveripattinam</a>
                     </div>
 
                     <!-- Reception Section -->
@@ -238,113 +198,106 @@
             </div>
         </section>
 
-        <!-- Wishes Board Section -->
-        <section id="wishes-board" class="py-16 md:py-24 px-4 bg-gradient-to-r from-pink-100 to-red-100 animate-on-scroll">
-            <div class="container mx-auto">
-                <div class="flex flex-col items-center mb-6">
-                    <h2 class="text-3xl md:text-5xl font-playfair font-bold text-purple-600 mb-2 animate-on-scroll flex items-center justify-center">Our Wishes Board <span class="ml-2 text-red-500 animated-heart">💕</span></h2>
-                    <p class="text-sm text-gray-500 text-center font-montserrat" id="user-id-display">Connecting...</p>
-                </div>
-                <div id="wishes-list" class="rounded-lg border border-pink-300 p-4 min-h-[200px] overflow-y-auto max-h-[60vh] bg-white shadow-inner animate-on-scroll">
-                    <p id="status-message" class="text-center text-gray-500 py-4 px-2 font-montserrat">Loading wishes...</p>
-                </div>
+        <!-- New WhatsApp Wishes Section -->
+        <section id="whatsapp-wishes" class="py-16 md:py-24 px-4 bg-gradient-to-r from-pink-100 to-red-100 text-center animate-on-scroll">
+            <div class="container mx-auto max-w-md">
+                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-purple-600 mb-8 animate-on-scroll">Send Your Wishes</h2>
+                <a href="https://api.whatsapp.com/send/?phone=8675168590&text=I+am+attending+the+event&type=phone_number&app_absent=0" class="inline-block bg-green-500 text-white font-bold py-4 px-8 rounded-full shadow-lg hover:bg-green-600 transition-colors transform hover:scale-105">
+                    Send Wishes on WhatsApp
+                </a>
             </div>
         </section>
-
-        <!-- Floating Action Button for Adding a Wish -->
-        <button id="add-wish-btn" class="fab-button" disabled>Send a Wish</button>
-
-        <!-- Modal for Submitting a Wish -->
-        <div id="wish-modal" class="hidden fixed inset-0 modal z-50 items-center justify-center p-4">
-            <div class="bg-white rounded-xl shadow-2xl p-6 m-4 w-full max-w-md transform transition-all">
-                <h3 class="text-xl font-bold mb-4 text-center text-pink-600 font-playfair">Share Your Wishes</h3>
-                <form id="wish-form" class="flex flex-col gap-4 font-montserrat">
-                    <input type="text" id="wish-name-input" placeholder="Your Name" required class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-300">
-                    <textarea id="wish-message-input" rows="4" placeholder="Your message or wish..." required class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-300"></textarea>
-                    <button type="submit" class="bg-pink-300 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-pink-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Submit Wish</button>
-                </form>
-                <button onclick="closeModal()" class="w-full mt-4 text-gray-600 hover:text-gray-800 transition-colors font-montserrat">Cancel</button>
-            </div>
-        </div>
 
         <!-- Footer -->
         <footer class="bg-red-900 text-center py-8 text-white">
             <p class="font-bold text-lg font-playfair">With Love,</p>
             <p class="mt-2 text-xl font-bold font-montserrat">Someshwaran & Devi</p>
+            <div class="mt-4 text-sm text-red-200">
+                Total Visits: <span id="visit-count" class="font-bold text-lg">0</span>
+            </div>
         </footer>
     </div>
 
-    <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, where, Timestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Set Firebase log level for debugging
-        setLogLevel('Debug');
-
-        // Global variables for Firebase
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const firebaseConfig = JSON.parse(__firebase_config);
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
-        let db, auth, userId;
-        let isAuthReady = false;
+        let db, auth;
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                if (Object.keys(firebaseConfig).length > 0) {
-                    const app = initializeApp(firebaseConfig);
-                    db = getFirestore(app);
-                    auth = getAuth(app);
-
-                    onAuthStateChanged(auth, async (user) => {
-                        if (user) {
-                            userId = user.uid;
-                            document.getElementById('user-id-display').textContent = `User ID: ${userId}`;
-                            isAuthReady = true;
-                            document.getElementById('add-wish-btn').disabled = false;
-                            document.getElementById('status-message').textContent = 'Ready to receive wishes!';
-                            setupRealtimeListener();
-                        } else {
-                            try {
-                                await signInAnonymously(auth);
-                            } catch (error) {
-                                console.error("Anonymous sign-in failed:", error);
-                                document.getElementById('status-message').textContent = 'Authentication failed. Functionality is limited.';
-                            }
-                        }
-                    });
-
-                    if (initialAuthToken) {
-                        await signInWithCustomToken(auth, initialAuthToken);
-                    } else {
-                        await signInAnonymously(auth);
-                    }
-                } else {
-                    console.error("Firebase config is missing. Wish functionality will be disabled.");
-                    document.getElementById('status-message').textContent = 'Wish functionality is currently unavailable. Please check back later.';
-                    document.getElementById('add-wish-btn').style.display = 'none';
-                }
-            } catch (error) {
-                console.error("Initialization error:", error);
-                document.getElementById('status-message').textContent = 'An error occurred during initialization. Please try again later.';
-            } finally {
-                // Hide loading screen after a short delay
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hide loading screen after a short delay
+            setTimeout(() => {
+                const loadingScreen = document.getElementById('loading-screen');
+                loadingScreen.classList.add('fade-out');
                 setTimeout(() => {
-                    const loadingScreen = document.getElementById('loading-screen');
-                    loadingScreen.classList.add('fade-out');
-                    setTimeout(() => {
-                        loadingScreen.style.display = 'none';
-                    }, 1000);
+                    loadingScreen.style.display = 'none';
                 }, 1000);
-            }
-
+            }, 1000);
+            
             setupCountdown();
             setupIntersectionObserver();
             generateHearts(); // Start generating floating hearts
+            
+            // Firebase setup
+            const app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+            
+            initFirestore();
         });
+
+        async function initFirestore() {
+            try {
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+                
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        console.log("Authenticated with Firebase. UID:", user.uid);
+                        setupVisitCounter();
+                    } else {
+                        console.log("No user is signed in.");
+                    }
+                });
+            } catch (error) {
+                console.error("Firebase Auth Error:", error);
+            }
+        }
+        
+        async function setupVisitCounter() {
+            const counterRef = doc(db, `/artifacts/${appId}/public/data/visit_count/main`);
+            
+            // Increment the visit count on page load
+            try {
+                await setDoc(counterRef, { count: increment(1) }, { merge: true });
+                console.log("Visit count incremented.");
+            } catch (e) {
+                console.error("Error updating visit count:", e);
+            }
+
+            // Listen for real-time updates to the visit count
+            onSnapshot(counterRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    const visitCountElement = document.getElementById('visit-count');
+                    if (visitCountElement) {
+                        visitCountElement.textContent = data.count;
+                    }
+                } else {
+                    console.log("No visit counter found. Initializing...");
+                }
+            }, (error) => {
+                console.error("Error getting real-time visit count:", error);
+            });
+        }
 
         // Function to generate a continuous stream of floating hearts
         function generateHearts() {
@@ -362,120 +315,6 @@
                     heart.remove();
                 }, 10000);
             }, 500);
-        }
-
-        // Setup real-time listener for wishes
-        function setupRealtimeListener() {
-            if (!db || !isAuthReady) {
-                console.log("Database not ready or user not authenticated. Skipping listener setup.");
-                return;
-            }
-
-            const wishesRef = collection(db, `artifacts/${appId}/public/data/wishes`);
-            const q = query(wishesRef, where("appId", "==", appId));
-
-            onSnapshot(q, (snapshot) => {
-                const wishesList = document.getElementById('wishes-list');
-                wishesList.innerHTML = '';
-                if (snapshot.empty) {
-                    document.getElementById('status-message').textContent = 'No wishes yet. Be the first to send one!';
-                    return;
-                }
-                document.getElementById('status-message').textContent = '';
-
-                try {
-                    snapshot.forEach((doc) => {
-                        const wish = doc.data();
-                        const wishItem = document.createElement('div');
-                        wishItem.className = 'wish-item mb-4 p-4 rounded-lg bg-white shadow-sm border border-pink-100 flex items-start';
-                        wishItem.innerHTML = `
-                            <span class="text-2xl mr-4">💕</span>
-                            <div>
-                                <p class="font-bold text-lg text-red-500">${wish.name}</p>
-                                <p class="text-sm text-gray-500 mb-2">${new Date(wish.timestamp.toDate()).toLocaleString()}</p>
-                                <p class="text-gray-700">${wish.message}</p>
-                            </div>
-                        `;
-                        wishesList.appendChild(wishItem);
-                    });
-                } catch (error) {
-                    console.error("Error processing snapshot data:", error);
-                    showModal("Error", "There was a problem loading wishes. Please refresh the page.");
-                }
-            });
-        }
-
-        // Event listener for the floating action button
-        document.getElementById('add-wish-btn').addEventListener('click', () => {
-            const modal = document.getElementById('wish-modal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        });
-
-        // Handle Add Wish form submission
-        document.getElementById('wish-form').addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const nameInput = document.getElementById('wish-name-input');
-            const messageInput = document.getElementById('wish-message-input');
-            const submitButton = event.target.querySelector('button[type="submit"]');
-
-            const nameText = nameInput.value.trim();
-            const messageText = messageInput.value.trim();
-
-            if (nameText === '' || messageText === '') {
-                showModal("Error", "Please fill in all fields.");
-                return;
-            }
-
-            submitButton.disabled = true;
-
-            try {
-                const wishData = {
-                    name: nameText,
-                    message: messageText,
-                    userId: userId,
-                    appId: appId,
-                    timestamp: Timestamp.now()
-                };
-                await addDoc(collection(db, `artifacts/${appId}/public/data/wishes`), wishData);
-                nameInput.value = '';
-                messageInput.value = '';
-                closeModal();
-            } catch (e) {
-                console.error("Error adding wish: ", e);
-                showModal("Error", "Failed to send wish. Please try again.");
-            } finally {
-                submitButton.disabled = false;
-            }
-        });
-
-        // Function to close the modal
-        window.closeModal = () => {
-            const modal = document.getElementById('wish-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        };
-
-        // Custom Modal UI for general feedback
-        function showModal(title, message) {
-            let modal = document.getElementById('custom-modal');
-            if (!modal) {
-                modal = document.createElement('div');
-                modal.id = 'custom-modal';
-                modal.className = 'hidden fixed inset-0 bg-gray-600 bg-opacity-75 z-50 items-center justify-center';
-                modal.innerHTML = `
-                    <div class="bg-white rounded-xl shadow-2xl p-6 m-4 w-full max-w-sm transform transition-all">
-                        <h3 id="modal-title" class="text-xl font-bold mb-2 text-center text-red-600"></h3>
-                        <p id="modal-message" class="text-gray-700 text-center mb-4"></p>
-                        <button onclick="closeModal()" class="w-full bg-red-600 text-white font-bold py-2 px-4 rounded-full hover:bg-red-700 transition-colors">Close</button>
-                    </div>
-                `;
-                document.body.appendChild(modal);
-            }
-            document.getElementById('modal-title').textContent = title;
-            document.getElementById('modal-message').textContent = message;
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
         }
 
         // Countdown Timer
@@ -498,18 +337,26 @@
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
                 countdownElement.innerHTML = `
-                    <div class="flex items-center justify-center space-x-2 md:space-x-4 backdrop-blur-sm rounded-full py-3 px-6 shadow-xl" style="background-image: url('https://placehold.co/1000x100/f0b4c8/fff?text=Love+is+Timeless'); background-size: cover; background-position: center; backdrop-filter: blur(5px);">
-                        <span class="text-2xl md:text-3xl font-bold font-playfair text-pink-600">${days}</span>
-                        <span class="text-xs md:text-sm font-montserrat text-white drop-shadow-lg">நாட்கள்</span>
-                        <span class="text-2xl animated-heart">❤️</span>
-                        <span class="text-2xl md:text-3xl font-bold font-playfair text-red-600">${hours}</span>
-                        <span class="text-xs md:text-sm font-montserrat text-white drop-shadow-lg">மணிநேரம்</span>
-                        <span class="text-2xl animated-heart">❤️</span>
-                        <span class="text-2xl md:text-3xl font-bold font-playfair text-pink-600">${minutes}</span>
-                        <span class="text-xs md:text-sm font-montserrat text-white drop-shadow-lg">நிமிடங்கள்</span>
-                        <span class="text-2xl animated-heart">❤️</span>
-                        <span class="text-2xl md:text-3xl font-bold font-playfair text-red-600">${seconds}</span>
-                        <span class="text-xs md:text-sm font-montserrat text-white drop-shadow-lg">விநாடிகள்</span>
+                    <div class="flex items-center justify-center space-x-2 md:space-x-4 backdrop-blur-sm rounded-full py-3 px-6 shadow-xl bg-pink-300 bg-opacity-40">
+                        <div class="flex flex-col items-center">
+                            <span class="text-2xl md:text-3xl font-bold font-playfair text-pink-700">${days}</span>
+                            <span class="text-xs md:text-sm font-montserrat text-gray-800">நாட்கள்</span>
+                        </div>
+                        <span class="text-2xl animated-heart text-red-500">❤️</span>
+                        <div class="flex flex-col items-center">
+                            <span class="text-2xl md:text-3xl font-bold font-playfair text-pink-700">${hours}</span>
+                            <span class="text-xs md:text-sm font-montserrat text-gray-800">மணிநேரம்</span>
+                        </div>
+                        <span class="text-2xl animated-heart text-red-500">❤️</span>
+                        <div class="flex flex-col items-center">
+                            <span class="text-2xl md:text-3xl font-bold font-playfair text-pink-700">${minutes}</span>
+                            <span class="text-xs md:text-sm font-montserrat text-gray-800">நிமிடங்கள்</span>
+                        </div>
+                        <span class="text-2xl animated-heart text-red-500">❤️</span>
+                        <div class="flex flex-col items-center">
+                            <span class="text-2xl md:text-3xl font-bold font-playfair text-pink-700">${seconds}</span>
+                            <span class="text-xs md:text-sm font-montserrat text-gray-800">விநாடிகள்</span>
+                        </div>
                     </div>
                 `;
             }, 1000);
@@ -521,7 +368,8 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('in-view');
-                        observer.unobserve(entry.target);
+                    } else {
+                        entry.target.classList.remove('in-view');
                     }
                 });
             }, { threshold: 0.1 });
