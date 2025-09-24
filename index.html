@@ -267,6 +267,16 @@
             right: 5%;
             top: 25%;
         }
+
+        /* New Footer SVG Heart Animation */
+        @keyframes pulse-svg-heart {
+            0% { transform: scale(0.9); filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5)); }
+            50% { transform: scale(1.1); filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8)); }
+            100% { transform: scale(0.9); filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5)); }
+        }
+        .animated-footer-heart-svg {
+            animation: pulse-svg-heart 2s ease-in-out infinite;
+        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-blue-50 to-teal-50 text-gray-800 font-montserrat">
@@ -421,6 +431,13 @@
             <span class="footer-fixed-heart left text-yellow-400">❤</span>
             <span class="footer-fixed-heart right text-green-400">❤</span>
             
+            <!-- New animated SVG heart in the background -->
+            <div class="absolute inset-0 flex items-center justify-center z-0">
+                <svg viewBox="0 0 100 100" class="w-2/3 h-2/3 animated-footer-heart-svg">
+                    <path d="M 50,20 A 20,20 0 0,1 70,40 Q 50,90 30,40 A 20,20 0 0,1 50,20 Z" fill="rgba(255,255,255,0.1)" stroke="white" stroke-width="1" />
+                </svg>
+            </div>
+
             <div class="relative z-10 flex flex-col items-center">
                 <p class="font-bold text-lg font-playfair mb-2">With Love,</p>
                 <div class="flex items-center justify-center space-x-2">
