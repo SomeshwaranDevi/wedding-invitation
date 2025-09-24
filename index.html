@@ -8,8 +8,14 @@
     <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+        .font-playfair {
+            font-family: 'Playfair Display', serif;
+        }
+        .font-montserrat {
+            font-family: 'Montserrat', sans-serif;
+        }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -45,16 +51,16 @@
             transition: opacity 1s ease-out;
         }
         @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+            0% { transform: scale(0.8); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.8); opacity: 0.5; }
         }
-        .heart-pulse {
-            animation: pulse 1.5s infinite;
-        }
-        .fade-out {
-            opacity: 0;
-        }
+        .heart-pulse-1 { animation: pulse 1.5s infinite; }
+        .heart-pulse-2 { animation: pulse 1.5s infinite 0.5s; }
+        .heart-pulse-3 { animation: pulse 1.5s infinite 1s; }
+        
+        .fade-out { opacity: 0; }
+        
         .rsvp-form-container {
             max-width: 500px;
             margin: 2rem auto;
@@ -67,7 +73,7 @@
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            background-color: #f97316;
+            background-color: #ef4444; /* Vibrant Red */
             color: white;
             padding: 1rem 1.5rem;
             border-radius: 9999px;
@@ -77,79 +83,139 @@
             transition: background-color 0.2s ease, transform 0.2s ease;
         }
         .fab-button:hover {
-            background-color: #ea580c;
+            background-color: #dc2626; /* Darker Red */
             transform: translateY(-2px);
         }
         .modal {
             background-color: rgba(0, 0, 0, 0.6);
         }
+        .wish-item {
+            background-color: #fdf2f8; /* Soft pink */
+            transition: transform 0.2s ease-in-out;
+        }
+        .wish-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        }
+        /* Floating hearts animation */
+        @keyframes floatHeart {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-1000px) rotate(360deg); opacity: 0; }
+        }
+        .heart {
+            position: fixed;
+            bottom: -50px;
+            font-size: 2rem;
+            color: #ef4444;
+            animation: floatHeart 10s ease-in infinite;
+            pointer-events: none;
+            z-index: 0;
+            text-shadow: 0 0 5px #fce8e6;
+        }
+        .heart:nth-child(2n) { color: #f472b6; }
+        .heart:nth-child(3n) { color: #ec4899; animation-duration: 12s; }
+        .heart:nth-child(4n) { color: #e11d48; animation-duration: 9s; }
+        /* Pulsating heart animation for titles */
+        @keyframes pulse-heart {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .animated-heart {
+            display: inline-block;
+            animation: pulse-heart 1.5s infinite;
+        }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-gradient-to-br from-pink-50 to-orange-50 text-gray-800 font-montserrat">
+
+    <!-- Floating hearts container -->
+    <div id="heart-container"></div>
 
     <!-- Loading Screen -->
-    <div id="loading-screen" class="loading-screen">
-        <svg class="w-16 h-16 text-red-400 heart-pulse" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
-        </svg>
+    <div id="loading-screen" class="loading-screen bg-gradient-to-br from-pink-100 to-red-100">
+        <div class="flex space-x-4">
+            <svg class="w-10 h-10 text-pink-500 heart-pulse-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+            </svg>
+            <svg class="w-10 h-10 text-red-500 heart-pulse-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+            </svg>
+            <svg class="w-10 h-10 text-pink-500 heart-pulse-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+            </svg>
+        </div>
         <p class="mt-4 text-xl font-semibold text-red-500">Love is in the air...</p>
     </div>
 
     <!-- Main Content -->
     <div class="min-h-screen">
         <!-- Hero Section -->
-        <section class="relative bg-center bg-cover h-screen text-center flex flex-col items-center justify-center p-4 text-white" style="background-image: url('https://placehold.co/1920x1080/4a2f2b/e5ddd5?text=Couple+Photo+Here');">
+        <section class="relative bg-center bg-cover h-screen text-center flex flex-col items-center justify-center p-4 text-white" style="background-image: url('https://placehold.co/1920x1080/e5a0b7/fff?text=Someshwaran+and+Devi');">
             <div class="absolute inset-0 bg-black opacity-40"></div>
             <div class="relative z-10 animate-on-scroll">
-                <h1 class="text-4xl md:text-6xl font-extrabold text-[#f6d7b0] drop-shadow-lg font-['Playfair_Display']">Someshwaran <span class="text-[#f6d7b0]">&</span> Devi</h1>
-                <p class="mt-4 text-xl md:text-2xl font-light tracking-wide drop-shadow-md">Get Ready to Celebrate with Us!</p>
-                <div id="countdown" class="mt-8 text-xl md:text-3xl font-bold tracking-wider bg-white bg-opacity-30 backdrop-blur-sm rounded-full py-3 px-6 shadow-xl"></div>
+                <h1 class="text-4xl md:text-6xl font-extrabold text-[#f6d7b0] drop-shadow-lg font-playfair">Someshwaran <span class="text-[#f6d7b0]">&</span> Devi</h1>
+                <p class="mt-4 text-xl md:text-2xl font-light tracking-wide drop-shadow-md font-montserrat">Get Ready to Celebrate with Us!</p>
+                <div id="countdown" class="mt-8 text-xl md:text-3xl font-bold tracking-wider bg-white bg-opacity-30 backdrop-blur-sm rounded-full py-3 px-6 shadow-xl font-montserrat"></div>
             </div>
         </section>
 
         <!-- Navigation Bar -->
-        <nav class="sticky top-0 z-50 bg-[#e7c7a7] backdrop-blur-lg bg-opacity-80 shadow-lg py-3">
-            <div class="container mx-auto px-4 flex justify-center space-x-6 text-gray-800">
-                <a href="#details" class="font-semibold hover:text-[#5c2a11] transition-colors">Details</a>
-                <a href="#gallery" class="font-semibold hover:text-[#5c2a11] transition-colors">Gallery</a>
-                <a href="#wishes-board" class="font-semibold hover:text-[#5c2a11] transition-colors">Wishes</a>
+        <nav class="sticky top-0 z-50 bg-pink-300 backdrop-blur-lg bg-opacity-80 shadow-lg py-3">
+            <div class="container mx-auto px-4 flex justify-center space-x-6 text-gray-800 font-montserrat">
+                <a href="#details" class="font-semibold hover:text-red-700 transition-colors">Details</a>
+                <a href="#story" class="font-semibold hover:text-red-700 transition-colors">Our Story</a>
+                <a href="#gallery" class="font-semibold hover:text-red-700 transition-colors">Gallery</a>
+                <a href="#wishes-board" class="font-semibold hover:text-red-700 transition-colors">Wishes</a>
             </div>
         </nav>
 
         <!-- Details Section -->
-        <section id="details" class="py-16 md:py-24 px-4 bg-[#f8f5f2] animate-on-scroll">
+        <section id="details" class="py-16 md:py-24 px-4 bg-white animate-on-scroll">
             <div class="container mx-auto text-center">
-                <h2 class="text-3xl md:text-5xl font-['Playfair_Display'] font-bold text-[#5c2a11] mb-12 animate-on-scroll">The Ceremonies</h2>
-                <p class="text-gray-600 max-w-2xl mx-auto mb-12 animate-on-scroll">We cordially invite you to share our joy and celebrate the union of two souls.</p>
+                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-pink-600 mb-12 animate-on-scroll flex items-center justify-center">The Ceremonies <span class="ml-2 text-red-500 animated-heart">❤️</span></h2>
+                <p class="text-gray-600 max-w-2xl mx-auto mb-12 animate-on-scroll font-montserrat">We cordially invite you to share our joy and celebrate the union of two souls.</p>
 
                 <div class="grid md:grid-cols-2 gap-8 lg:gap-12 text-gray-700">
                     <!-- Marriage Section -->
-                    <div class="bg-white p-6 md:p-10 rounded-2xl shadow-xl border border-gray-200 animate-on-scroll">
-                        <h3 class="text-2xl md:text-3xl font-['Playfair_Display'] font-bold text-[#b45f47] mb-4">Marriage</h3>
-                        <p class="text-sm md:text-base font-semibold text-[#8f4f3e] mb-2">DATE & TIME</p>
-                        <p class="text-lg md:text-xl font-bold mb-4">Monday, November 3, 2025<br>04:30 AM - 11:00 AM</p>
-                        <hr class="w-16 mx-auto my-6 border-[#e7c7a7]">
-                        <p class="text-sm md:text-base font-semibold text-[#8f4f3e] mb-2">VENUE</p>
-                        <a href="https://www.google.com/maps?sca_esv=99f1a6d769628b16&rlz=1C1ONGR_enIN1124IN1124&output=search&q=Om+Sakthi+Hall+Kaveripattinam&source=lnms&fbs=AIIjpHxU7SXXniUZfeShr2fp4giZ1Y6MJ25_tmWITc7uy4KIetxLMeWi1u_d0OMRvkClUbalBeyXa8ssyRd_VUj5FQB2M49RDgUuMIHyvVwTXA6WeXN8OYrVcEOZlc9atiCHm0R2j8foPCWdDOHylTF9fjm1GHWYqDI_AUx1PTfRHQ2NUQoWJZaxKatIUK7rKkeaJSOMSksjoMc_q9NrpqYtHQ92eQGGKQ&entry=mc&ved=1t:200715&ictx=111" class="text-lg md:text-xl font-bold text-blue-600 hover:underline">Om Sakthi Hall<br>Kaveripattinam</a>
+                    <div class="bg-pink-50 p-6 md:p-10 rounded-2xl shadow-xl border border-pink-200 animate-on-scroll">
+                        <h3 class="text-2xl md:text-3xl font-playfair font-bold text-purple-600 mb-4">Marriage</h3>
+                        <p class="text-sm md:text-base font-semibold text-purple-400 mb-2 font-montserrat">DATE & TIME</p>
+                        <p class="text-lg md:text-xl font-bold mb-4 font-montserrat">Monday, November 3, 2025<br>04:30 AM - 11:00 AM</p>
+                        <hr class="w-16 mx-auto my-6 border-pink-300">
+                        <p class="text-sm md:text-base font-semibold text-purple-400 mb-2 font-montserrat">VENUE</p>
+                        <a href="https://www.google.com/maps?sca_esv=99f1a6d769628b16&rlz=1C1ONGR_enIN1124IN1124&output=search&q=Om+Sakthi+Hall+Kaveripattinam&source=lnms&fbs=AIIjpHxU7SXXniUZfeShr2fp4giZ1Y6MJ25_tmWITc7uy4KIetxLMeWi1u_d0OMRvkClUbalBeyXa8ssyRd_VUj5FQB2M49RDgUuMIHyvVwTXA6WeXN8OYrVcEOZlc9atiCHm0R2j8foPCWdDOHylTF9fjm1GHWYqDI_AUx1PTfRHQ2NUQoWJZaxKatIUK7rKkeaJSOMSksjoMc_q9NrpqYtHQ92eQGGKQ&entry=mc&ved=1t:200715&ictx=111" class="text-lg md:text-xl font-bold text-red-600 hover:underline font-montserrat">Om Sakthi Hall<br>Kaveripattinam</a>
                     </div>
 
                     <!-- Reception Section -->
-                    <div class="bg-white p-6 md:p-10 rounded-2xl shadow-xl border border-gray-200 animate-on-scroll">
-                        <h3 class="text-2xl md:text-3xl font-['Playfair_Display'] font-bold text-[#b45f47] mb-4">Reception</h3>
-                        <p class="text-sm md:text-base font-semibold text-[#8f4f3e] mb-2">DATE & TIME</p>
-                        <p class="text-lg md:text-xl font-bold mb-4">Sunday, November 9, 2025<br>11:00 AM - 03:00 PM</p>
-                        <hr class="w-16 mx-auto my-6 border-[#e7c7a7]">
-                        <p class="text-sm md:text-base font-semibold text-[#8f4f3e] mb-2">VENUE</p>
-                        <a href="https://share.google/JDIlUxWFIuxoyAowG" class="text-lg md:text-xl font-bold text-blue-600 hover:underline">MKM Kalayana Mandapam<br>Andhra Pradesh</a>
+                    <div class="bg-pink-50 p-6 md:p-10 rounded-2xl shadow-xl border border-pink-200 animate-on-scroll">
+                        <h3 class="text-2xl md:text-3xl font-playfair font-bold text-purple-600 mb-4">Reception</h3>
+                        <p class="text-sm md:text-base font-semibold text-purple-400 mb-2 font-montserrat">DATE & TIME</p>
+                        <p class="text-lg md:text-xl font-bold mb-4 font-montserrat">Sunday, November 9, 2025<br>11:00 AM - 03:00 PM</p>
+                        <hr class="w-16 mx-auto my-6 border-pink-300">
+                        <p class="text-sm md:text-base font-semibold text-purple-400 mb-2 font-montserrat">VENUE</p>
+                        <a href="https://share.google/JDIlUxWFIuxoyAowG" class="text-lg md:text-xl font-bold text-red-600 hover:underline font-montserrat">MKM Kalayana Mandapam<br>Andhra Pradesh</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Thirukural Section -->
-        <section class="py-16 md:py-24 px-4 bg-[#fce8e6] text-center animate-on-scroll">
+        <!-- Our Story Section -->
+        <section id="story" class="py-16 md:py-24 px-4 bg-gradient-to-l from-pink-100 to-white text-center animate-on-scroll">
             <div class="container mx-auto max-w-2xl">
-                <div class="thirukural-kural text-[#5c2a11] leading-relaxed">
+                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-pink-600 mb-8 animate-on-scroll flex items-center justify-center">Our Story <span class="ml-2 text-red-500 animated-heart">💖</span></h2>
+                <img src="https://placehold.co/600x400/e8d5b7/4a2e2e?text=Our+Story" alt="Couple's Story Photo" class="w-full h-auto rounded-xl shadow-lg mb-8 animate-on-scroll">
+                <p class="text-gray-700 leading-relaxed text-lg font-montserrat animate-on-scroll">
+                    It all began on a crisp autumn day, a chance meeting that sparked a connection unlike any other. Through shared laughter, quiet conversations, and unwavering support, our love blossomed. We found our forever in each other's eyes, and now, we are ready to embark on this beautiful new journey.
+                </p>
+            </div>
+        </section>
+
+        <!-- Thirukural Section -->
+        <section class="py-16 md:py-24 px-4 bg-gradient-to-r from-purple-100 to-pink-100 text-center animate-on-scroll">
+            <div class="container mx-auto max-w-2xl">
+                <div class="thirukural-kural text-purple-800 leading-relaxed">
                     <span>அன்பும் அறனும் உடைத்தாயின் இல்வாழ்க்கை</span>
                     <span>பண்பும் பயனும் அது.</span>
                 </div>
@@ -157,29 +223,29 @@
         </section>
 
         <!-- Gallery Section -->
-        <section id="gallery" class="py-16 md:py-24 px-4 bg-[#f8f5f2] animate-on-scroll">
+        <section id="gallery" class="py-16 md:py-24 px-4 bg-white animate-on-scroll">
             <div class="container mx-auto text-center">
-                <h2 class="text-3xl md:text-5xl font-['Playfair_Display'] font-bold text-[#5c2a11] mb-12 animate-on-scroll">Our Gallery</h2>
+                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-pink-600 mb-12 animate-on-scroll flex items-center justify-center">Our Gallery <span class="ml-2 text-red-500 animated-heart">❤️</span></h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <img src="https://placehold.co/600x400/805128/fff?text=Photo+1" alt="Gallery Photo 1" class="rounded-xl shadow-lg w-full h-auto animate-on-scroll">
-                    <img src="https://placehold.co/600x400/8f4f3e/fff?text=Photo+2" alt="Gallery Photo 2" class="rounded-xl shadow-lg w-full h-auto animate-on-scroll">
-                    <img src="https://placehold.co/600x400/a35f47/fff?text=Photo+3" alt="Gallery Photo 3" class="rounded-xl shadow-lg w-full h-auto animate-on-scroll">
-                    <img src="https://placehold.co/600x400/c78d59/fff?text=Photo+4" alt="Gallery Photo 4" class="rounded-xl shadow-lg w-full h-auto animate-on-scroll">
-                    <img src="https://placehold.co/600x400/8f4f3e/fff?text=Photo+5" alt="Gallery Photo 5" class="rounded-xl shadow-lg w-full h-auto animate-on-scroll">
-                    <img src="https://placehold.co/600x400/a35f47/fff?text=Photo+6" alt="Gallery Photo 6" class="rounded-xl shadow-lg w-full h-auto animate-on-scroll">
+                    <img src="https://placehold.co/600x400/FF69B4/fff?text=Love+Story" alt="Gallery Photo 1" class="rounded-xl shadow-lg w-full h-auto animate-on-scroll">
+                    <img src="https://placehold.co/600x400/8A2BE2/fff?text=Candid+Moments" alt="Gallery Photo 2" class="rounded-xl shadow-lg w-full h-auto animate-on-scroll">
+                    <img src="https://placehold.co/600x400/FFD700/fff?text=Pre-Wedding+Shoot" alt="Gallery Photo 3" class="rounded-xl shadow-lg w-full h-auto animate-on-scroll">
+                    <img src="https://placehold.co/600x400/FF4500/fff?text=Engagement" alt="Gallery Photo 4" class="rounded-xl shadow-lg w-full h-auto animate-on-scroll">
+                    <img src="https://placehold.co/600x400/DA70D6/fff?text=Ceremony" alt="Gallery Photo 5" class="rounded-xl shadow-lg w-full h-auto animate-on-scroll">
+                    <img src="https://placehold.co/600x400/4B0082/fff?text=The+Couple" alt="Gallery Photo 6" class="rounded-xl shadow-lg w-full h-auto animate-on-scroll">
                 </div>
             </div>
         </section>
 
         <!-- Wishes Board Section -->
-        <section id="wishes-board" class="py-16 md:py-24 px-4 bg-[#fce8e6] animate-on-scroll">
+        <section id="wishes-board" class="py-16 md:py-24 px-4 bg-gradient-to-r from-pink-100 to-red-100 animate-on-scroll">
             <div class="container mx-auto">
                 <div class="flex flex-col items-center mb-6">
-                    <h2 class="text-3xl md:text-5xl font-['Playfair_Display'] font-bold text-[#5c2a11] mb-2 animate-on-scroll">Our Wishes Board</h2>
-                    <p class="text-sm text-gray-500 text-center" id="user-id-display">Connecting...</p>
+                    <h2 class="text-3xl md:text-5xl font-playfair font-bold text-purple-600 mb-2 animate-on-scroll flex items-center justify-center">Our Wishes Board <span class="ml-2 text-red-500 animated-heart">💕</span></h2>
+                    <p class="text-sm text-gray-500 text-center font-montserrat" id="user-id-display">Connecting...</p>
                 </div>
-                <div id="wishes-list" class="rounded-lg border border-gray-200 p-4 min-h-[200px] overflow-y-auto max-h-[60vh] bg-white shadow-inner animate-on-scroll">
-                    <p id="status-message" class="text-center text-gray-500 py-4 px-2">Loading wishes...</p>
+                <div id="wishes-list" class="rounded-lg border border-pink-300 p-4 min-h-[200px] overflow-y-auto max-h-[60vh] bg-white shadow-inner animate-on-scroll">
+                    <p id="status-message" class="text-center text-gray-500 py-4 px-2 font-montserrat">Loading wishes...</p>
                 </div>
             </div>
         </section>
@@ -190,15 +256,21 @@
         <!-- Modal for Submitting a Wish -->
         <div id="wish-modal" class="hidden fixed inset-0 modal z-50 items-center justify-center p-4">
             <div class="bg-white rounded-xl shadow-2xl p-6 m-4 w-full max-w-md transform transition-all">
-                <h3 class="text-xl font-bold mb-4 text-center text-[#5c2a11]">Share Your Wishes</h3>
-                <form id="wish-form" class="flex flex-col gap-4">
-                    <input type="text" id="wish-name-input" placeholder="Your Name" required class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e7c7a7]">
-                    <textarea id="wish-message-input" rows="4" placeholder="Your message or wish..." required class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e7c7a7]"></textarea>
-                    <button type="submit" class="bg-[#e7c7a7] text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-[#d4b094] transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Submit Wish</button>
+                <h3 class="text-xl font-bold mb-4 text-center text-pink-600 font-playfair">Share Your Wishes</h3>
+                <form id="wish-form" class="flex flex-col gap-4 font-montserrat">
+                    <input type="text" id="wish-name-input" placeholder="Your Name" required class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-300">
+                    <textarea id="wish-message-input" rows="4" placeholder="Your message or wish..." required class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-300"></textarea>
+                    <button type="submit" class="bg-pink-300 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-pink-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Submit Wish</button>
                 </form>
-                <button onclick="closeModal()" class="w-full mt-4 text-gray-600 hover:text-gray-800 transition-colors">Cancel</button>
+                <button onclick="closeModal()" class="w-full mt-4 text-gray-600 hover:text-gray-800 transition-colors font-montserrat">Cancel</button>
             </div>
         </div>
+
+        <!-- Footer -->
+        <footer class="bg-red-900 text-center py-8 text-white">
+            <p class="font-bold text-lg font-playfair">With Love,</p>
+            <p class="mt-2 text-xl font-bold font-montserrat">Someshwaran & Devi</p>
+        </footer>
     </div>
 
     <!-- Firebase SDKs -->
@@ -270,7 +342,26 @@
 
             setupCountdown();
             setupIntersectionObserver();
+            generateHearts(); // Start generating floating hearts
         });
+
+        // Function to generate a continuous stream of floating hearts
+        function generateHearts() {
+            const container = document.getElementById('heart-container');
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = `${Math.random() * 100}vw`;
+                heart.style.animationDelay = `${-Math.random() * 10}s`;
+                container.appendChild(heart);
+                
+                // Remove hearts after they float away to keep the DOM clean
+                setTimeout(() => {
+                    heart.remove();
+                }, 10000);
+            }, 500);
+        }
 
         // Setup real-time listener for wishes
         function setupRealtimeListener() {
@@ -295,17 +386,19 @@
                     snapshot.forEach((doc) => {
                         const wish = doc.data();
                         const wishItem = document.createElement('div');
-                        wishItem.className = 'wish-item';
+                        wishItem.className = 'wish-item mb-4 p-4 rounded-lg bg-white shadow-sm border border-pink-100 flex items-start';
                         wishItem.innerHTML = `
-                            <p class="font-bold text-lg text-gray-800">${wish.name}</p>
-                            <p class="text-sm text-gray-600 mb-2">${new Date(wish.timestamp.toDate()).toLocaleString()}</p>
-                            <p class="text-gray-700">${wish.message}</p>
+                            <span class="text-2xl mr-4">💕</span>
+                            <div>
+                                <p class="font-bold text-lg text-red-500">${wish.name}</p>
+                                <p class="text-sm text-gray-500 mb-2">${new Date(wish.timestamp.toDate()).toLocaleString()}</p>
+                                <p class="text-gray-700">${wish.message}</p>
+                            </div>
                         `;
                         wishesList.appendChild(wishItem);
                     });
                 } catch (error) {
                     console.error("Error processing snapshot data:", error);
-                    // Optionally, show a user-facing error message
                     showModal("Error", "There was a problem loading wishes. Please refresh the page.");
                 }
             });
@@ -371,9 +464,9 @@
                 modal.className = 'hidden fixed inset-0 bg-gray-600 bg-opacity-75 z-50 items-center justify-center';
                 modal.innerHTML = `
                     <div class="bg-white rounded-xl shadow-2xl p-6 m-4 w-full max-w-sm transform transition-all">
-                        <h3 id="modal-title" class="text-xl font-bold mb-2 text-center text-blue-600"></h3>
+                        <h3 id="modal-title" class="text-xl font-bold mb-2 text-center text-red-600"></h3>
                         <p id="modal-message" class="text-gray-700 text-center mb-4"></p>
-                        <button onclick="closeModal()" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-full hover:bg-blue-700 transition-colors">Close</button>
+                        <button onclick="closeModal()" class="w-full bg-red-600 text-white font-bold py-2 px-4 rounded-full hover:bg-red-700 transition-colors">Close</button>
                     </div>
                 `;
                 document.body.appendChild(modal);
