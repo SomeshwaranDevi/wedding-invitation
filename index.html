@@ -127,20 +127,20 @@
                     <div class="bg-white p-6 md:p-10 rounded-2xl shadow-xl border border-gray-200 animate-on-scroll">
                         <h3 class="text-2xl md:text-3xl font-['Playfair_Display'] font-bold text-[#b45f47] mb-4">Marriage</h3>
                         <p class="text-sm md:text-base font-semibold text-[#8f4f3e] mb-2">DATE & TIME</p>
-                        <p class="text-lg md:text-xl font-bold mb-4">Monday, December 25, 2025<br>09:00 AM</p>
+                        <p class="text-lg md:text-xl font-bold mb-4">Monday, November 3, 2025<br>04:30 AM - 11:00 AM</p>
                         <hr class="w-16 mx-auto my-6 border-[#e7c7a7]">
                         <p class="text-sm md:text-base font-semibold text-[#8f4f3e] mb-2">VENUE</p>
-                        <p class="text-lg md:text-xl font-bold">Om Sakthi Hall<br>Kaveripattinam</p>
+                        <a href="https://www.google.com/maps?sca_esv=99f1a6d769628b16&rlz=1C1ONGR_enIN1124IN1124&output=search&q=Om+Sakthi+Hall+Kaveripattinam&source=lnms&fbs=AIIjpHxU7SXXniUZfeShr2fp4giZ1Y6MJ25_tmWITc7uy4KIetxLMeWi1u_d0OMRvkClUbalBeyXa8ssyRd_VUj5FQB2M49RDgUuMIHyvVwTXA6WeXN8OYrVcEOZlc9atiCHm0R2j8foPCWdDOHylTF9fjm1GHWYqDI_AUx1PTfRHQ2NUQoWJZaxKatIUK7rKkeaJSOMSksjoMc_q9NrpqYtHQ92eQGGKQ&entry=mc&ved=1t:200715&ictx=111" class="text-lg md:text-xl font-bold text-blue-600 hover:underline">Om Sakthi Hall<br>Kaveripattinam</a>
                     </div>
 
                     <!-- Reception Section -->
                     <div class="bg-white p-6 md:p-10 rounded-2xl shadow-xl border border-gray-200 animate-on-scroll">
                         <h3 class="text-2xl md:text-3xl font-['Playfair_Display'] font-bold text-[#b45f47] mb-4">Reception</h3>
                         <p class="text-sm md:text-base font-semibold text-[#8f4f3e] mb-2">DATE & TIME</p>
-                        <p class="text-lg md:text-xl font-bold mb-4">Sunday, December 24, 2025<br>07:00 PM</p>
+                        <p class="text-lg md:text-xl font-bold mb-4">Sunday, November 9, 2025<br>11:00 AM - 03:00 PM</p>
                         <hr class="w-16 mx-auto my-6 border-[#e7c7a7]">
                         <p class="text-sm md:text-base font-semibold text-[#8f4f3e] mb-2">VENUE</p>
-                        <p class="text-lg md:text-xl font-bold">MKM Kalayana Mandapam<br>Andhra Pradesh</p>
+                        <a href="https://share.google/JDIlUxWFIuxoyAowG" class="text-lg md:text-xl font-bold text-blue-600 hover:underline">MKM Kalayana Mandapam<br>Andhra Pradesh</a>
                     </div>
                 </div>
             </div>
@@ -291,17 +291,23 @@
                 }
                 document.getElementById('status-message').textContent = '';
 
-                snapshot.forEach((doc) => {
-                    const wish = doc.data();
-                    const wishItem = document.createElement('div');
-                    wishItem.className = 'wish-item';
-                    wishItem.innerHTML = `
-                        <p class="font-bold text-lg text-gray-800">${wish.name}</p>
-                        <p class="text-sm text-gray-600 mb-2">${new Date(wish.timestamp.toDate()).toLocaleString()}</p>
-                        <p class="text-gray-700">${wish.message}</p>
-                    `;
-                    wishesList.appendChild(wishItem);
-                });
+                try {
+                    snapshot.forEach((doc) => {
+                        const wish = doc.data();
+                        const wishItem = document.createElement('div');
+                        wishItem.className = 'wish-item';
+                        wishItem.innerHTML = `
+                            <p class="font-bold text-lg text-gray-800">${wish.name}</p>
+                            <p class="text-sm text-gray-600 mb-2">${new Date(wish.timestamp.toDate()).toLocaleString()}</p>
+                            <p class="text-gray-700">${wish.message}</p>
+                        `;
+                        wishesList.appendChild(wishItem);
+                    });
+                } catch (error) {
+                    console.error("Error processing snapshot data:", error);
+                    // Optionally, show a user-facing error message
+                    showModal("Error", "There was a problem loading wishes. Please refresh the page.");
+                }
             });
         }
 
@@ -381,7 +387,7 @@
         // Countdown Timer
         function setupCountdown() {
             const countdownElement = document.getElementById('countdown');
-            const weddingDate = new Date("Dec 25, 2025 09:00:00").getTime();
+            const weddingDate = new Date("Nov 03, 2025 04:30:00").getTime();
 
             setInterval(() => {
                 const now = new Date().getTime();
