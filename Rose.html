@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Someshwaran & Devi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <style>
+        .font-playfair {
+            font-family: 'Playfair Display', serif;
+        }
+        .font-montserrat {
+            font-family: 'Montserrat', sans-serif;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .animate-on-scroll.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .thirukural-kural {
+            font-size: 1.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+        .thirukural-kural span {
+            display: block;
+        }
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fce8e6;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease-out;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.8); opacity: 0.5; }
+        }
+        .heart-pulse-1 { animation: pulse 1.5s infinite; }
+        .heart-pulse-2 { animation: pulse 1.5s infinite 0.5s; }
+        .heart-pulse-3 { animation: pulse 1.5s infinite 1s; }
+        
+        .fade-out { opacity: 0; }
+        
+        /* Floating hearts animation */
+        @keyframes floatHeart {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-1000px) rotate(360deg); opacity: 0; }
+        }
+        .heart {
+            position: fixed;
+            bottom: -50px;
+            font-size: 2rem;
+            color: #ef4444;
+            animation: floatHeart 10s ease-in infinite;
+            pointer-events: none;
+            z-index: 0;
+            text-shadow: 0 0 5px #fce8e6;
+        }
+        .heart:nth-child(2n) { color: #f472b6; }
+        .heart:nth-child(3n) { color: #ec4899; animation-duration: 12s; }
+        .heart:nth-child(4n) { color: #e11d48; animation-duration: 9s; }
+        /* Pulsating heart animation for titles and countdown */
+        @keyframes pulse-heart {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .animated-heart {
+            display: inline-block;
+            animation: pulse-heart 1.5s infinite;
+        }
+        
+        /* New Gallery Styles */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-auto-rows: minmax(200px, auto);
+            gap: 1rem;
+        }
+        @media (min-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(3, 1fr);
+                grid-auto-rows: minmax(250px, auto);
+            }
+        }
+        .gallery-item-1 { grid-column: span 2; }
+        .gallery-item-2 { grid-row: span 2; }
+        .gallery-item-3 { grid-column: span 1; }
+        .gallery-item-4 { grid-row: span 1; }
+        .gallery-item-5 { grid-column: span 1; }
+        .gallery-item-6 { grid-column: span 1; }
+        .gallery-image-tilt {
+            transform: rotate(-3deg);
+            transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
+        }
+        .gallery-image-tilt:hover {
+            transform: rotate(3deg) scale(1.05);
+            filter: brightness(1.1);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-pink-50 to-orange-50 text-gray-800 font-montserrat">
+
+    <!-- Floating hearts container -->
+    <div id="heart-container"></div>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen bg-gradient-to-br from-pink-100 to-red-100">
+        <div class="flex space-x-4">
+            <svg class="w-10 h-10 text-pink-500 heart-pulse-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+            </svg>
+            <svg class="w-10 h-10 text-red-500 heart-pulse-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+            </svg>
+            <svg class="w-10 h-10 text-pink-500 heart-pulse-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+            </svg>
+        </div>
+        <p class="mt-4 text-xl font-semibold text-red-500">Love is in the air...</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="min-h-screen">
+        <!-- Hero Section -->
+        <section class="relative h-screen flex flex-col items-center justify-center p-4 text-center animate-on-scroll">
+            <!-- Background Image Container with Overlay -->
+            <div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('https://placehold.co/1200x800/d7c4b7/2e1a0b?text=Someshwaran+%26+Devi');">
+                <div class="absolute inset-0 bg-black opacity-20"></div>
+            </div>
+            
+            <div class="relative z-10 animate-on-scroll">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-white drop-shadow-lg font-playfair">Someshwaran <span class="text-white">&</span> Devi</h1>
+                <p class="mt-4 text-xl md:text-2xl font-light tracking-wide drop-shadow-md font-montserrat text-white">Get Ready to Celebrate with Us!</p>
+                <!-- New Countdown Section -->
+                <div id="countdown" class="mt-8"></div>
+            </div>
+        </section>
+
+        <!-- Thirukural Section -->
+        <section class="py-16 md:py-24 px-4 bg-gradient-to-r from-purple-100 to-pink-100 text-center animate-on-scroll">
+            <div class="container mx-auto max-w-2xl">
+                <div class="thirukural-kural text-purple-800 leading-relaxed">
+                    <span>அன்பும் அறனும் உடைத்தாயின் இல்வாழ்க்கை</span>
+                    <span>பண்பும் பயனும் அது.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation Bar -->
+        <nav class="sticky top-0 z-50 bg-pink-300 backdrop-blur-lg bg-opacity-80 shadow-lg py-3">
+            <div class="container mx-auto px-4 flex justify-center space-x-6 text-gray-800 font-montserrat">
+                <a href="#details" class="font-semibold hover:text-red-700 transition-colors">Details</a>
+                <a href="#story" class="font-semibold hover:text-red-700 transition-colors">Our Story</a>
+                <a href="#gallery" class="font-semibold hover:text-red-700 transition-colors">Gallery</a>
+                <a href="#whatsapp-wishes" class="font-semibold hover:text-red-700 transition-colors">Wishes</a>
+            </div>
+        </nav>
+
+        <!-- Details Section -->
+        <section id="details" class="py-16 md:py-24 px-4 bg-white animate-on-scroll">
+            <div class="container mx-auto text-center">
+                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-pink-600 mb-12 animate-on-scroll flex items-center justify-center">The Ceremonies <span class="ml-2 text-red-500 animated-heart">❤️</span></h2>
+                <p class="text-gray-600 max-w-2xl mx-auto mb-12 animate-on-scroll font-montserrat">We cordially invite you to share our joy and celebrate the union of two souls.</p>
+
+                <div class="grid md:grid-cols-2 gap-8 lg:gap-12 text-gray-700">
+                    <!-- Marriage Section -->
+                    <div class="bg-pink-50 p-6 md:p-10 rounded-2xl shadow-xl border border-pink-200 animate-on-scroll">
+                        <h3 class="text-2xl md:text-3xl font-playfair font-bold text-purple-600 mb-4">Marriage</h3>
+                        <p class="text-sm md:text-base font-semibold text-purple-400 mb-2 font-montserrat">DATE & TIME</p>
+                        <p class="text-lg md:text-xl font-bold mb-4 font-montserrat">Monday, November 3, 2025<br>04:30 AM - 11:00 AM</p>
+                        <hr class="w-16 mx-auto my-6 border-pink-300">
+                        <p class="text-sm md:text-base font-semibold text-purple-400 mb-2 font-montserrat">VENUE</p>
+                        <a href="https://www.google.com/maps?sca_esv=99f1a6d769628b16&rlz=1C1ONGR_enIN1124IN1124&output=search&q=Om+Sakthi+Hall+Kaveripattinam&source=lnms&fbs=AIIjpHxU7SXXniUZfeShr2fp4giZ1Y6MJ25_tmWITc7uy4KIetxLMeWi1u_d0OMRvkClUbalBeyXa8ssyRd_VUj5FQB2M49RDgUuMIHyvVwTXA6WeXN8OYrVcEOZlc9atiCHm0R2j8foPCWdDOHylTF9fjm1GHWYqDI_AUx1PTfRHQ92eQGGKQ&entry=mc&ved=1t:200715&ictx:111" class="text-lg md:text-xl font-bold text-red-600 hover:underline font-montserrat">Om Sakthi Hall<br>Kaveripattinam</a>
+                    </div>
+
+                    <!-- Reception Section -->
+                    <div class="bg-pink-50 p-6 md:p-10 rounded-2xl shadow-xl border border-pink-200 animate-on-scroll">
+                        <h3 class="text-2xl md:text-3xl font-playfair font-bold text-purple-600 mb-4">Reception</h3>
+                        <p class="text-sm md:text-base font-semibold text-purple-400 mb-2 font-montserrat">DATE & TIME</p>
+                        <p class="text-lg md:text-xl font-bold mb-4 font-montserrat">Sunday, November 9, 2025<br>11:00 AM - 03:00 PM</p>
+                        <hr class="w-16 mx-auto my-6 border-pink-300">
+                        <p class="text-sm md:text-base font-semibold text-purple-400 mb-2 font-montserrat">VENUE</p>
+                        <a href="https://share.google/JDIlUxWFIuxoyAowG" class="text-lg md:text-xl font-bold text-red-600 hover:underline font-montserrat">MKM Kalayana Mandapam<br>Andhra Pradesh</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Story Section -->
+        <section id="story" class="py-16 md:py-24 px-4 bg-gradient-to-l from-pink-100 to-white text-center animate-on-scroll">
+            <div class="container mx-auto max-w-2xl">
+                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-pink-600 mb-8 animate-on-scroll flex items-center justify-center">Our Story <span class="ml-2 text-red-500 animated-heart">💖</span></h2>
+                <img src="https://placehold.co/600x400/e8d5b7/4a2e2e?text=Our+Story" alt="Couple's Story Photo" class="rounded-xl shadow-lg mb-8 animate-on-scroll">
+                <p class="text-gray-700 leading-relaxed text-lg font-montserrat animate-on-scroll">
+                    It all began on a crisp autumn day, a chance meeting that sparked a connection unlike any other. Through shared laughter, quiet conversations, and unwavering support, our love blossomed. We found our forever in each other's eyes, and now, we are ready to embark on this beautiful new journey.
+                </p>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="py-16 md:py-24 px-4 bg-white animate-on-scroll">
+            <div class="container mx-auto text-center">
+                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-pink-600 mb-12 animate-on-scroll flex items-center justify-center">Our Gallery <span class="ml-2 text-red-500 animated-heart">❤️</span></h2>
+                <div class="gallery-grid">
+                    <img src="https://placehold.co/600x400/FF69B4/fff" alt="Gallery Photo 1" class="gallery-item-1 rounded-2xl shadow-lg w-full h-full object-cover transition-transform transform hover:scale-105 gallery-image-tilt">
+                    <img src="https://placehold.co/400x600/8A2BE2/fff" alt="Gallery Photo 2" class="gallery-item-2 rounded-2xl shadow-lg w-full h-full object-cover transition-transform transform hover:scale-105">
+                    <img src="https://placehold.co/600x400/FFD700/fff" alt="Gallery Photo 3" class="gallery-item-3 rounded-2xl shadow-lg w-full h-full object-cover transition-transform transform hover:scale-105">
+                    <img src="https://placehold.co/600x600/DA70D6/fff" alt="Gallery Photo 4" class="gallery-item-4 rounded-full shadow-lg w-full h-full object-cover transition-transform transform hover:scale-105">
+                    <img src="https://placehold.co/600x400/FF4500/fff" alt="Gallery Photo 5" class="gallery-item-5 rounded-2xl shadow-lg w-full h-full object-cover transition-transform transform hover:scale-105 gallery-image-tilt">
+                    <img src="https://placehold.co/600x400/4B0082/fff" alt="Gallery Photo 6" class="gallery-item-6 rounded-2xl shadow-lg w-full h-full object-cover transition-transform transform hover:scale-105">
+                </div>
+            </div>
+        </section>
+
+        <!-- New WhatsApp Wishes Section -->
+        <section id="whatsapp-wishes" class="py-16 md:py-24 px-4 bg-gradient-to-r from-pink-100 to-red-100 text-center animate-on-scroll">
+            <div class="container mx-auto max-w-md">
+                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-purple-600 mb-8 animate-on-scroll">Send Your Wishes</h2>
+                <a href="https://api.whatsapp.com/send/?phone=8675168590&text=I+am+attending+the+event&type=phone_number&app_absent=0" class="inline-block bg-green-500 text-white font-bold py-2 px-6 rounded-full shadow-lg hover:bg-green-600 transition-colors transform hover:scale-105">
+                    Send Wishes on WhatsApp
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-red-900 text-center py-8 text-white">
+            <p class="font-bold text-lg font-playfair">With Love,</p>
+            <p class="mt-2 text-xl font-bold font-montserrat">Someshwaran & Devi</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hide loading screen after a short delay
+            setTimeout(() => {
+                const loadingScreen = document.getElementById('loading-screen');
+                loadingScreen.classList.add('fade-out');
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 1000);
+            }, 1000);
+            
+            setupCountdown();
+            setupIntersectionObserver();
+            generateHearts(); // Start generating floating hearts
+        });
+
+        // Function to generate a continuous stream of floating hearts
+        function generateHearts() {
+            const container = document.getElementById('heart-container');
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = `${Math.random() * 100}vw`;
+                heart.style.animationDelay = `${-Math.random() * 10}s`;
+                container.appendChild(heart);
+                
+                // Remove hearts after they float away to keep the DOM clean
+                setTimeout(() => {
+                    heart.remove();
+                }, 10000);
+            }, 500);
+        }
+
+        // Countdown Timer
+        function setupCountdown() {
+            const countdownElement = document.getElementById('countdown');
+            const weddingDate = new Date("Nov 03, 2025 04:30:00").getTime();
+
+            setInterval(() => {
+                const now = new Date().getTime();
+                const distance = weddingDate - now;
+
+                if (distance < 0) {
+                    countdownElement.innerHTML = "We're Married!";
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                countdownElement.innerHTML = `
+                    <div class="flex items-center justify-center space-x-2 md:space-x-4 backdrop-blur-sm rounded-full py-3 px-6 shadow-xl bg-pink-300 bg-opacity-40">
+                        <div class="flex flex-col items-center">
+                            <span class="text-2xl md:text-3xl font-bold font-playfair text-pink-700">${days}</span>
+                            <span class="text-xs md:text-sm font-montserrat text-gray-800">நாட்கள்</span>
+                        </div>
+                        <span class="text-2xl animated-heart text-red-500">❤️</span>
+                        <div class="flex flex-col items-center">
+                            <span class="text-2xl md:text-3xl font-bold font-playfair text-pink-700">${hours}</span>
+                            <span class="text-xs md:text-sm font-montserrat text-gray-800">மணிநேரம்</span>
+                        </div>
+                        <span class="text-2xl animated-heart text-red-500">❤️</span>
+                        <div class="flex flex-col items-center">
+                            <span class="text-2xl md:text-3xl font-bold font-playfair text-pink-700">${minutes}</span>
+                            <span class="text-xs md:text-sm font-montserrat text-gray-800">நிமிடங்கள்</span>
+                        </div>
+                        <span class="text-2xl animated-heart text-red-500">❤️</span>
+                        <div class="flex flex-col items-center">
+                            <span class="text-2xl md:text-3xl font-bold font-playfair text-pink-700">${seconds}</span>
+                            <span class="text-xs md:text-sm font-montserrat text-gray-800">விநாடிகள்</span>
+                        </div>
+                    </div>
+                `;
+            }, 1000);
+        }
+
+        // Intersection Observer for animations
+        function setupIntersectionObserver() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                    } else {
+                        entry.target.classList.remove('in-view');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.animate-on-scroll').forEach(element => {
+                observer.observe(element);
+            });
+
+            // Smooth scrolling for nav links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        }
+    </script>
+</body>
+</html>
