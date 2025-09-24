@@ -498,18 +498,18 @@
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
                 countdownElement.innerHTML = `
-                    <div class="flex items-center justify-center space-x-2 md:space-x-4 bg-white bg-opacity-40 backdrop-blur-sm rounded-full py-3 px-6 shadow-xl">
+                    <div class="flex items-center justify-center space-x-2 md:space-x-4 backdrop-blur-sm rounded-full py-3 px-6 shadow-xl" style="background-image: url('https://placehold.co/1000x100/f0b4c8/fff?text=Love+is+Timeless'); background-size: cover; background-position: center; backdrop-filter: blur(5px);">
                         <span class="text-2xl md:text-3xl font-bold font-playfair text-pink-600">${days}</span>
-                        <span class="text-xs md:text-sm font-montserrat text-gray-800">நாட்கள்</span>
+                        <span class="text-xs md:text-sm font-montserrat text-white drop-shadow-lg">நாட்கள்</span>
                         <span class="text-2xl animated-heart">❤️</span>
                         <span class="text-2xl md:text-3xl font-bold font-playfair text-red-600">${hours}</span>
-                        <span class="text-xs md:text-sm font-montserrat text-gray-800">மணிநேரம்</span>
+                        <span class="text-xs md:text-sm font-montserrat text-white drop-shadow-lg">மணிநேரம்</span>
                         <span class="text-2xl animated-heart">❤️</span>
                         <span class="text-2xl md:text-3xl font-bold font-playfair text-pink-600">${minutes}</span>
-                        <span class="text-xs md:text-sm font-montserrat text-gray-800">நிமிடங்கள்</span>
+                        <span class="text-xs md:text-sm font-montserrat text-white drop-shadow-lg">நிமிடங்கள்</span>
                         <span class="text-2xl animated-heart">❤️</span>
                         <span class="text-2xl md:text-3xl font-bold font-playfair text-red-600">${seconds}</span>
-                        <span class="text-xs md:text-sm font-montserrat text-gray-800">விநாடிகள்</span>
+                        <span class="text-xs md:text-sm font-montserrat text-white drop-shadow-lg">விநாடிகள்</span>
                     </div>
                 `;
             }, 1000);
