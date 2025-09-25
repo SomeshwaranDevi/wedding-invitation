@@ -60,34 +60,12 @@
         
         .fade-out { opacity: 0; }
         
-        /* Hero Section Split Layout & Animation */
-        .hero-split-left {
-            background-image: url('https://github.com/SomeshwaranDevi/wedding-invitation/blob/main/img/1.JPG?text=Someshwaran');
+        /* Merged Hero Section with a single background image */
+        .hero-merged {
+            background-image: url('https://placehold.co/1920x1080/d7c4b7/2e1a0b?text=Your+Cover+Photo+Here'); /* Replace with your actual photo URL */
             background-size: cover;
             background-position: center;
-        }
-        .hero-split-right {
-            background-image: url('https://placehold.co/1200x800/b7d7c4/0b2e1a?text=Devi');
-            background-size: cover;
-            background-position: center;
-        }
-        
-        /* Animation for the SVG line segments */
-        @keyframes sway-left {
-            0% { transform: translateX(0); }
-            50% { transform: translateX(-5%); }
-            100% { transform: translateX(0); }
-        }
-        @keyframes sway-right {
-            0% { transform: translateX(0); }
-            50% { transform: translateX(5%); }
-            100% { transform: translateX(0); }
-        }
-        .animated-svg-left {
-            animation: sway-left 5s ease-in-out infinite;
-        }
-        .animated-svg-right {
-            animation: sway-right 5s ease-in-out infinite;
+            background-repeat: no-repeat;
         }
         
         /* Pulsating heart animation for titles and countdown */
@@ -133,7 +111,7 @@
             to { transform: translate(20px, 20px); }
         }
 
-        /* New Floating Heart Animation for the entire page */
+        /* Floating Heart Animation */
         @keyframes float-up {
             from {
                 transform: translateY(0) rotate(0);
@@ -226,28 +204,15 @@
 
     <!-- Main Content -->
     <div class="min-h-screen">
-        <!-- Hero Section - Split Layout -->
-        <section class="relative h-screen flex flex-col items-center justify-center p-4 text-center animate-on-scroll">
-            <!-- Background: Two halves with SVG lines -->
-            <div class="absolute inset-0 flex z-0">
-                <div class="w-1/2 hero-split-left flex items-center justify-end">
-                    <svg viewBox="0 0 50 100" class="h-full animated-svg-left">
-                        <path d="M 50 50 Q 20 20, 0 50" fill="none" stroke="#fefce8" stroke-width="2" stroke-linecap="round"/>
-                    </svg>
-                    <div class="w-full h-full absolute inset-0 bg-blue-800 opacity-60"></div>
-                </div>
-                <div class="w-1/2 hero-split-right flex items-center justify-start">
-                    <svg viewBox="0 0 50 100" class="h-full animated-svg-right">
-                        <path d="M 0 50 Q 30 80, 50 50" fill="none" stroke="#fefce8" stroke-width="2" stroke-linecap="round"/>
-                    </svg>
-                    <div class="w-full h-full absolute inset-0 bg-teal-800 opacity-60"></div>
-                </div>
-            </div>
+        <!-- Hero Section - Merged with a single background photo -->
+        <section class="relative h-screen flex flex-col items-center justify-center p-4 text-center hero-merged">
+            <!-- Semi-transparent overlay for text readability -->
+            <div class="absolute inset-0 bg-black opacity-30 z-0"></div>
 
             <!-- Central Content: Names and text -->
-            <div class="relative z-10 animate-on-scroll">
-                <h1 class="text-4xl md:text-6xl font-extrabold text-white drop-shadow-md font-great-vibes">Someshwaran & Devi</h1>
-                <p class="mt-4 text-xl md:text-2xl font-light tracking-wide drop-shadow-md font-montserrat text-white">Get Ready to Celebrate with Us!</p>
+            <div class="relative z-10 text-white drop-shadow-md animate-on-scroll">
+                <h1 class="text-4xl md:text-6xl font-extrabold font-great-vibes">Someshwaran & Devi</h1>
+                <p class="mt-4 text-xl md:text-2xl font-light tracking-wide font-montserrat">Get Ready to Celebrate with Us!</p>
             </div>
         </section>
 
@@ -303,12 +268,13 @@
         </section>
 
         <!-- New Combined Story & Gallery Section -->
-        <section id="our-journey" class="py-16 md:py-24 px-4 bg-gradient-to-l from-blue-100 to-white text-center animate-on-scroll">
-            <div class="container mx-auto max-w-2xl">
-                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-teal-600 mb-8 animate-on-scroll flex items-center justify-center">Our Journey <span class="ml-2 text-yellow-500 animated-heart">💖</span></h2>
+        <section id="our-journey" class="py-12 px-4 bg-gradient-to-l from-blue-100 to-white text-center animate-on-scroll">
+            <div class="container mx-auto max-w-2xl flex flex-col items-center">
+                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-teal-600 mb-6 animate-on-scroll flex items-center justify-center">Our Journey <span class="ml-2 text-yellow-500 animated-heart">💖</span></h2>
                 
-                <div class="relative rounded-xl overflow-hidden shadow-lg mb-8 animate-on-scroll h-[400px] md:h-[600px]">
-                    <img id="story-image" src="" alt="Couple's story image" class="absolute inset-0 w-full h-full object-cover">
+                <!-- The container for the image now has flexible dimensions -->
+                <div class="relative rounded-xl overflow-hidden shadow-lg mb-6 animate-on-scroll w-full flex justify-center items-center">
+                    <img id="story-image" src="" alt="Couple's story image" class="story-slider-image rounded-xl max-h-[40vh] max-w-full">
                 </div>
 
                 <p id="story-text" class="text-gray-700 leading-relaxed text-lg font-montserrat animate-on-scroll"></p>
@@ -327,9 +293,9 @@
 
         <!-- Footer -->
         <footer class="bg-gradient-to-r from-blue-900 via-blue-800 to-teal-900 text-center py-8 text-white relative footer-pattern overflow-hidden">
-            <!-- Fixed, beating hearts in the footer -->
-            <span class="footer-fixed-heart left text-yellow-400">❤</span>
-            <span class="footer-fixed-heart right text-green-400">❤</span>
+            <!-- Fixed, beating hearts in the footer. Now using SVG for consistent coloring. -->
+            <svg class="footer-fixed-heart left w-12 h-12 fill-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            <svg class="footer-fixed-heart right w-12 h-12 fill-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
             
             <!-- New animated SVG heart in the background -->
             <div class="absolute inset-0 flex items-center justify-center z-0">
@@ -468,7 +434,7 @@
                     story: "It all began on a crisp autumn day, a chance meeting that sparked a connection unlike any other. We found our forever in each other's eyes, and now, we are ready to embark on this beautiful new journey."
                 },
                 {
-                    src: "https://placehold.co/800x600/a3d9d3/335a58?text=Building+Memories",
+                    src: "https://placehold.co/600x800/a3d9d3/335a58?text=Building+Memories",
                     story: "Through shared laughter, quiet conversations, and unwavering support, our love blossomed. We found our forever in each other's eyes, and now, we are ready to embark on this beautiful new journey."
                 },
                 {
@@ -485,7 +451,7 @@
                 },
                 {
                     src: "https://placehold.co/600x600/DA70D6/fff",
-                    story: "Here’s to the countless adventures we have ahead and the beautiful memories we have made. We are excited for our future together."
+                    story: "Here’s to the countless adventures we have ahead and the beautiful memories we have made. We are in love and excited for our future together."
                 },
             ];
 
@@ -528,7 +494,7 @@
             function createSvgHeart(color, size) {
                 const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
                 svg.setAttribute("viewBox", "0 0 24 24");
-                svg.setAttribute("fill", color);
+                svg.setAttribute("fill", color); // This sets the color
                 svg.innerHTML = `<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>`;
                 svg.classList.add('floating-heart');
                 svg.style.width = `${size}rem`;
