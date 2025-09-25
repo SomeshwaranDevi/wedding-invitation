@@ -101,88 +101,15 @@
             animation: pulse-heart 1.5s infinite;
         }
         
-        /* New Gallery Styles */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-auto-rows: minmax(200px, auto);
-            gap: 1rem;
-        }
-        @media (min-width: 768px) {
-            .gallery-grid {
-                grid-template-columns: repeat(3, 1fr);
-                grid-auto-rows: minmax(250px, auto);
-            }
-        }
-        .gallery-item-1 { grid-column: span 2; }
-        .gallery-item-2 { grid-row: span 2; }
-        .gallery-item-3 { grid-column: span 1; }
-        .gallery-item-4 { grid-row: span 1; }
-        .gallery-item-5 { grid-column: span 1; }
-        .gallery-item-6 { grid-column: span 1; }
-        .gallery-image-tilt {
-            transform: rotate(-3deg);
-            transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
-        }
-        .gallery-image-tilt:hover {
-            transform: rotate(3deg) scale(1.05);
-            filter: brightness(1.1);
-        }
-        
-        /* Modal (Lightbox) Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 100;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0,0,0);
-            background-color: rgba(0,0,0,0.9);
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            margin: auto;
-            display: block;
-            width: 80%;
-            max-width: 700px;
-        }
-        .modal-content, .modal-caption {
-            animation-name: zoom;
-            animation-duration: 0.6s;
-        }
-        @keyframes zoom {
-            from {transform: scale(0)}
-            to {transform: scale(1)}
-        }
-        .modal-close {
-            position: absolute;
-            top: 15px;
-            right: 35px;
-            color: #f1f1f1;
-            font-size: 40px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        .modal-close:hover,
-        .modal-close:focus {
-            color: #bbb;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        
-        /* Story Image Slider */
-        .story-slider-image {
-            display: none;
-            transition: opacity 0.5s ease-in-out;
+        /* Combined Story & Gallery Slider */
+        .story-slider-image, .story-text {
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
             opacity: 0;
+            transform: translateY(20px);
         }
-        .story-slider-image.active {
-            display: block;
+        .story-slider-image.active, .story-text.active {
             opacity: 1;
+            transform: translateY(0);
         }
 
         /* Creative Footer Styles */
@@ -340,8 +267,7 @@
         <nav class="sticky top-0 z-50 bg-blue-300 backdrop-blur-lg bg-opacity-80 shadow-lg py-3">
             <div class="container mx-auto px-4 flex justify-center space-x-6 text-gray-800 font-montserrat">
                 <a href="#details" class="font-semibold hover:text-blue-700 transition-colors">Details</a>
-                <a href="#story" class="font-semibold hover:text-blue-700 transition-colors">Our Story</a>
-                <a href="#gallery" class="font-semibold hover:text-blue-700 transition-colors">Gallery</a>
+                <a href="#our-journey" class="font-semibold hover:text-blue-700 transition-colors">Our Journey</a>
                 <a href="#whatsapp-wishes" class="font-semibold hover:text-blue-700 transition-colors">Wishes</a>
             </div>
         </nav>
@@ -376,46 +302,20 @@
             </div>
         </section>
 
-        <!-- Our Story Section with Slider -->
-        <section id="story" class="py-16 md:py-24 px-4 bg-gradient-to-l from-blue-100 to-white text-center animate-on-scroll">
+        <!-- New Combined Story & Gallery Section -->
+        <section id="our-journey" class="py-16 md:py-24 px-4 bg-gradient-to-l from-blue-100 to-white text-center animate-on-scroll">
             <div class="container mx-auto max-w-2xl">
-                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-teal-600 mb-8 animate-on-scroll flex items-center justify-center">Our Story <span class="ml-2 text-yellow-500 animated-heart">💖</span></h2>
+                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-teal-600 mb-8 animate-on-scroll flex items-center justify-center">Our Journey <span class="ml-2 text-yellow-500 animated-heart">💖</span></h2>
                 
-                <!-- Story Image Slider Container -->
-                <div id="story-slider-container" class="relative rounded-xl overflow-hidden shadow-lg mb-8 animate-on-scroll">
-                    <img src="https://placehold.co/800x600/e8d5b7/4a2e2e?text=First+Meeting" alt="Couple's First Meeting" class="story-slider-image active w-full h-auto object-cover">
-                    <img src="https://placehold.co/800x600/a3d9d3/335a58?text=Building+Memories" alt="Couple building memories" class="story-slider-image w-full h-auto object-cover">
-                    <img src="https://placehold.co/800x600/f5c3b2/6b3a29?text=The+Proposal" alt="The proposal" class="story-slider-image w-full h-auto object-cover">
+                <div class="relative rounded-xl overflow-hidden shadow-lg mb-8 animate-on-scroll h-[400px] md:h-[600px]">
+                    <img id="story-image" src="" alt="Couple's story image" class="absolute inset-0 w-full h-full object-cover">
                 </div>
 
-                <p class="text-gray-700 leading-relaxed text-lg font-montserrat animate-on-scroll">
-                    It all began on a crisp autumn day, a chance meeting that sparked a connection unlike any other. Through shared laughter, quiet conversations, and unwavering support, our love blossomed. We found our forever in each other's eyes, and now, we are ready to embark on this beautiful new journey.
-                </p>
+                <p id="story-text" class="text-gray-700 leading-relaxed text-lg font-montserrat animate-on-scroll"></p>
             </div>
         </section>
 
-        <!-- Gallery Section with Modal -->
-        <section id="gallery" class="py-16 md:py-24 px-4 bg-white animate-on-scroll">
-            <div class="container mx-auto text-center">
-                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-teal-600 mb-12 animate-on-scroll flex items-center justify-center">Our Gallery <span class="ml-2 text-yellow-500 animated-heart">❤️</span></h2>
-                <div class="gallery-grid">
-                    <img src="https://placehold.co/600x400/FF69B4/fff" alt="Gallery Photo 1" class="gallery-item-1 rounded-2xl shadow-lg w-full h-full object-cover transition-transform transform hover:scale-105 gallery-image-tilt cursor-pointer" onclick="openModal('https://placehold.co/800x600/FF69B4/fff')">
-                    <img src="https://placehold.co/400x600/8A2BE2/fff" alt="Gallery Photo 2" class="gallery-item-2 rounded-2xl shadow-lg w-full h-full object-cover transition-transform transform hover:scale-105 cursor-pointer" onclick="openModal('https://placehold.co/600x800/8A2BE2/fff')">
-                    <img src="https://placehold.co/600x400/FFD700/fff" alt="Gallery Photo 3" class="gallery-item-3 rounded-2xl shadow-lg w-full h-full object-cover transition-transform transform hover:scale-105 cursor-pointer" onclick="openModal('https://placehold.co/800x600/FFD700/fff')">
-                    <img src="https://placehold.co/600x600/DA70D6/fff" alt="Gallery Photo 4" class="gallery-full rounded-full shadow-lg w-full h-full object-cover transition-transform transform hover:scale-105 cursor-pointer" onclick="openModal('https://placehold.co/800x800/DA70D6/fff')">
-                    <img src="https://placehold.co/600x400/FF4500/fff" alt="Gallery Photo 5" class="gallery-item-5 rounded-2xl shadow-lg w-full h-full object-cover transition-transform transform hover:scale-105 gallery-image-tilt cursor-pointer" onclick="openModal('https://placehold.co/800x600/FF4500/fff')">
-                    <img src="https://placehold.co/600x400/4B0082/fff" alt="Gallery Photo 6" class="gallery-item-6 rounded-2xl shadow-lg w-full h-full object-cover transition-transform transform hover:scale-105 cursor-pointer" onclick="openModal('https://placehold.co/800x600/4B0082/fff')">
-                </div>
-            </div>
-        </section>
-        
-        <!-- The Modal (Lightbox) -->
-        <div id="gallery-modal" class="modal" onclick="closeModal()">
-          <span class="modal-close" onclick="closeModal()">&times;</span>
-          <img class="modal-content" id="modal-image">
-        </div>
-
-        <!-- New WhatsApp Wishes Section -->
+        <!-- WhatsApp Wishes Section -->
         <section id="whatsapp-wishes" class="py-12 md:py-16 px-4 bg-gradient-to-r from-teal-100 to-blue-200 text-center animate-on-scroll">
             <div class="container mx-auto max-w-md">
                 <h2 class="text-2xl md:text-3xl font-playfair font-bold text-blue-600 mb-8 animate-on-scroll">Send Your Wishes</h2>
@@ -462,7 +362,7 @@
             
             setupCountdown();
             setupIntersectionObserver();
-            setupStorySlider();
+            setupStoryGallerySlider();
             setupFloatingHearts();
             setupFooterFlyingHearts();
         });
@@ -560,54 +460,92 @@
             });
         }
         
-        // Gallery Modal Functions
-        function openModal(imageSrc) {
-            const modal = document.getElementById('gallery-modal');
-            const modalImage = document.getElementById('modal-image');
-            modal.style.display = 'flex';
-            modalImage.src = imageSrc;
-        }
+        // New Combined Story & Gallery Slider
+        function setupStoryGallerySlider() {
+            const storyData = [
+                {
+                    src: "https://placehold.co/800x600/e8d5b7/4a2e2e?text=First+Meeting",
+                    story: "It all began on a crisp autumn day, a chance meeting that sparked a connection unlike any other. We found our forever in each other's eyes, and now, we are ready to embark on this beautiful new journey."
+                },
+                {
+                    src: "https://placehold.co/800x600/a3d9d3/335a58?text=Building+Memories",
+                    story: "Through shared laughter, quiet conversations, and unwavering support, our love blossomed. We found our forever in each other's eyes, and now, we are ready to embark on this beautiful new journey."
+                },
+                {
+                    src: "https://placehold.co/800x600/f5c3b2/6b3a29?text=The+Proposal",
+                    story: "He got down on one knee, and in that moment, all the moments led to this one. We found our forever in each other's eyes, and now, we are ready to embark on this beautiful new journey."
+                },
+                {
+                    src: "https://placehold.co/600x400/FF69B4/fff",
+                    story: "A beautiful moment captured during our engagement shoot, surrounded by the joy and love of our families. Every photo tells a part of our story, a memory we'll cherish forever."
+                },
+                {
+                    src: "https://placehold.co/400x600/8A2BE2/fff",
+                    story: "We spent the day laughing, taking pictures, and creating new memories. We couldn't be happier to share these special moments with all of you."
+                },
+                {
+                    src: "https://placehold.co/600x600/DA70D6/fff",
+                    story: "Here’s to the countless adventures we have ahead and the beautiful memories we have made. We are excited for our future together."
+                },
+            ];
 
-        function closeModal() {
-            const modal = document.getElementById('gallery-modal');
-            modal.style.display = 'none';
-        }
-
-        // Story Image Slider
-        function setupStorySlider() {
+            const imageElement = document.getElementById('story-image');
+            const textElement = document.getElementById('story-text');
             let slideIndex = 0;
-            const slides = document.querySelectorAll('.story-slider-image');
-            
-            function showSlides() {
-                slides.forEach(slide => slide.classList.remove('active'));
-                slideIndex++;
-                if (slideIndex > slides.length) { slideIndex = 1 }
-                slides[slideIndex - 1].classList.add('active');
-                setTimeout(showSlides, 3000); // Change image every 3 seconds
+
+            function showSlide() {
+                // Fade out current content
+                imageElement.classList.remove('active');
+                textElement.classList.remove('active');
+
+                setTimeout(() => {
+                    // Update content
+                    imageElement.src = storyData[slideIndex].src;
+                    textElement.textContent = storyData[slideIndex].story;
+
+                    // Fade in new content
+                    imageElement.classList.add('active');
+                    textElement.classList.add('active');
+
+                    // Move to the next slide
+                    slideIndex = (slideIndex + 1) % storyData.length;
+                }, 1000); // Wait for fade-out before changing content
             }
 
-            showSlides();
+            // Initial load
+            showSlide();
+            
+            // Start the slideshow
+            setInterval(showSlide, 3000);
         }
 
-        // New function to handle floating hearts on scroll
+        // New function to handle floating hearts on scroll using SVG
         function setupFloatingHearts() {
             const heartColors = ['#fde047', '#34d399']; // Yellow and green
             let lastScrollY = window.scrollY;
 
+            // Create an SVG heart element
+            function createSvgHeart(color, size) {
+                const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                svg.setAttribute("viewBox", "0 0 24 24");
+                svg.setAttribute("fill", color);
+                svg.innerHTML = `<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>`;
+                svg.classList.add('floating-heart');
+                svg.style.width = `${size}rem`;
+                svg.style.height = `${size}rem`;
+                return svg;
+            }
+
             window.addEventListener('scroll', () => {
                 const currentScrollY = window.scrollY;
                 if (Math.abs(currentScrollY - lastScrollY) > 100) { // Trigger every 100px of scroll
-                    const heart = document.createElement('span');
-                    heart.innerHTML = '❤';
                     const randomX = Math.random() * window.innerWidth;
                     const randomSize = Math.random() * 0.5 + 1; // Size between 1 and 1.5rem
                     const randomColor = heartColors[Math.floor(Math.random() * heartColors.length)];
 
-                    heart.classList.add('floating-heart');
+                    const heart = createSvgHeart(randomColor, randomSize);
                     heart.style.left = `${randomX}px`;
                     heart.style.bottom = `0`; // Start at the bottom of the viewport
-                    heart.style.fontSize = `${randomSize}rem`;
-                    heart.style.color = randomColor;
 
                     document.body.appendChild(heart);
 
@@ -620,22 +558,30 @@
             });
         }
 
-        // New function for continuously flying hearts in the footer
+        // New function for continuously flying hearts in the footer using SVG
         function setupFooterFlyingHearts() {
             const footerHeartsContainer = document.getElementById('footer-hearts-container');
             const heartColors = ['#fde047', '#34d399']; // Yellow and green
 
+            // Create an SVG heart element
+            function createSvgHeart(color, size) {
+                const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                svg.setAttribute("viewBox", "0 0 24 24");
+                svg.setAttribute("fill", color);
+                svg.innerHTML = `<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>`;
+                svg.classList.add('footer-fly-heart');
+                svg.style.width = `${size}rem`;
+                svg.style.height = `${size}rem`;
+                return svg;
+            }
+
             setInterval(() => {
-                const heart = document.createElement('span');
-                heart.innerHTML = '❤';
                 const randomX = Math.random() * 100;
                 const randomSize = Math.random() * 0.5 + 1;
                 const randomColor = heartColors[Math.floor(Math.random() * heartColors.length)];
 
-                heart.classList.add('footer-fly-heart');
+                const heart = createSvgHeart(randomColor, randomSize);
                 heart.style.left = `${randomX}%`;
-                heart.style.fontSize = `${randomSize}rem`;
-                heart.style.color = randomColor; // Set the color directly via JavaScript
 
                 footerHeartsContainer.appendChild(heart);
 
