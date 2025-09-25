@@ -83,52 +83,56 @@
             animation: pulse-heart 1.5s infinite;
         }
 
-        /* Hero Name Styling */
+        /* Hero Name Styling - More Elegance and Color */
         .hero-names {
-            font-size: 3rem; /* Adjusted for better mobile view */
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
             font-weight: bold;
             letter-spacing: 0.1rem;
-            text-shadow: 0 4px 6px rgba(0,0,0,0.5); /* Stronger text shadow */
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8); /* Added a subtle glow effect */
+            color: #fff; /* White for clean contrast */
         }
         .ampersand {
-            font-family: 'Great Vibes', cursive; /* Use a different font for the ampersand */
+            font-family: 'Great Vibes', cursive;
             font-size: 3.5rem;
-            color: #fde047; /* A subtle golden color */
+            color: #fde047; /* A more vibrant golden color */
             margin: 0 0.5rem;
-            text-shadow: 0 4px 6px rgba(0,0,0,0.5); /* Stronger text shadow */
+            text-shadow: 0 0 10px #fde047; /* Subtle glow for the ampersand */
+        }
+        .hero-subtext {
+            color: #fce8e6; /* A soft, elegant color */
+            font-size: 1.25rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+            margin-top: 1rem;
         }
         @media (min-width: 768px) {
             .hero-names {
-                font-size: 5rem; /* Larger on desktop */
+                font-size: 5rem;
             }
             .ampersand {
                 font-size: 6rem;
             }
+            .hero-subtext {
+                font-size: 1.5rem;
+            }
         }
         
-        /* Story & Gallery Slider with interactive controls */
+        /* Story & Gallery Slider with elegant overlay fade transition */
         #story-slider-container {
             position: relative;
-            overflow: hidden;
-        }
-        #slider-wrapper {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
-        .story-slide {
-            flex-shrink: 0;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
         .story-slider-image {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: auto;
-            max-height: 40vh;
-            object-fit: contain;
-            user-select: none;
-            -webkit-user-select: none; /* Safari */
+            height: 100%;
+            object-fit: contain; /* Ensures the whole image is visible */
+        }
+        .story-slider-image.active {
+            opacity: 1;
         }
 
         /* Creative Footer Styles */
@@ -257,7 +261,7 @@
                     <span class="ampersand">&</span>
                     <span class="hero-names">Devi</span>
                 </h1>
-                <p class="mt-4 text-xl md:text-2xl font-light tracking-wide font-montserrat">Get Ready to Celebrate with Us!</p>
+                <p class="hero-subtext font-montserrat tracking-wide">Get Ready to Celebrate with Us!</p>
             </div>
         </section>
 
@@ -318,10 +322,8 @@
                 <h2 class="text-3xl md:text-5xl font-playfair font-bold text-teal-600 mb-6 animate-on-scroll flex items-center justify-center">Our Journey <span class="ml-2 text-yellow-500 animated-heart">💖</span></h2>
                 
                 <!-- The container for the swiping slider -->
-                <div id="story-slider-container" class="relative w-full rounded-xl overflow-hidden mb-6 animate-on-scroll">
-                    <div id="slider-wrapper" class="flex">
-                        <!-- Content will be added by JavaScript -->
-                    </div>
+                <div id="story-slider-container" class="relative w-full h-[40vh] mb-6 animate-on-scroll">
+                    <!-- Images will be dynamically added here -->
                 </div>
 
                 <p id="story-text" class="text-gray-700 leading-relaxed text-lg font-montserrat animate-on-scroll"></p>
@@ -511,79 +513,68 @@
                 },
             ];
 
-            const sliderWrapper = document.getElementById('slider-wrapper');
-            const textElement = document.getElementById('story-text');
             const sliderContainer = document.getElementById('story-slider-container');
+            const textElement = document.getElementById('story-text');
             let slideIndex = 0;
             let autoSlideTimeout;
             let touchStartX = 0;
-            let isSwiping = false;
-
+            
             const SLIDE_INTERVAL = 10000; // 10 seconds
 
-            // Populate the slider with all images
-            storyData.forEach((item, index) => {
-                const img = document.createElement('img');
+            // Create all image elements and add them to the container
+            const images = storyData.map((item) => {
+                const img = new Image();
                 img.src = item.src;
-                img.alt = `Our story image ${index + 1}`;
                 img.classList.add('story-slider-image');
                 img.loading = 'lazy';
-                sliderWrapper.appendChild(img);
+                sliderContainer.appendChild(img);
+                return img;
             });
 
-            function showSlide(index) {
-                // Get the width of the container to calculate the translation
-                const containerWidth = sliderContainer.getBoundingClientRect().width;
-                sliderWrapper.style.transform = `translateX(-${index * containerWidth}px)`;
-                textElement.textContent = storyData[index].story;
+            // Update the display for the current slide
+            function showSlide() {
+                images.forEach((img, index) => {
+                    img.classList.remove('active');
+                    if (index === slideIndex) {
+                        img.classList.add('active');
+                    }
+                });
+                textElement.textContent = storyData[slideIndex].story;
             }
 
-            function navigate(direction) {
-                slideIndex = (slideIndex + direction + storyData.length) % storyData.length;
-                showSlide(slideIndex);
-                resetAutoSlide(); // Reset timer on manual interaction
-            }
-
+            // Function to reset the automatic slide timer
             function resetAutoSlide() {
                 clearTimeout(autoSlideTimeout);
                 autoSlideTimeout = setTimeout(() => {
-                    navigate(1); // Move to next slide automatically
+                    slideIndex = (slideIndex + 1) % storyData.length;
+                    showSlide();
+                    resetAutoSlide();
                 }, SLIDE_INTERVAL);
             }
 
             // Touch/Swipe Listeners
             sliderContainer.addEventListener('touchstart', (e) => {
-                isSwiping = true;
                 touchStartX = e.changedTouches[0].screenX;
                 clearTimeout(autoSlideTimeout); // Pause auto-slide
             });
 
             sliderContainer.addEventListener('touchend', (e) => {
-                if (!isSwiping) return;
                 const touchEndX = e.changedTouches[0].screenX;
                 const swipeDistance = touchEndX - touchStartX;
-                const MIN_SWIPE_DISTANCE = 50; // Minimum pixels to count as a swipe
+                const MIN_SWIPE_DISTANCE = 50;
                 
                 if (swipeDistance > MIN_SWIPE_DISTANCE) {
-                    // Swiped right
-                    navigate(-1);
+                    slideIndex = (slideIndex - 1 + storyData.length) % storyData.length;
                 } else if (swipeDistance < -MIN_SWIPE_DISTANCE) {
-                    // Swiped left
-                    navigate(1);
-                } else {
-                    // Not a significant swipe, just reset the timer
-                    resetAutoSlide();
+                    slideIndex = (slideIndex + 1) % storyData.length;
                 }
-                isSwiping = false;
-            });
-
-            // Handle window resizing to keep the slider centered
-            window.addEventListener('resize', () => {
-                showSlide(slideIndex);
+                
+                showSlide();
+                resetAutoSlide();
             });
 
             // Initial load
-            showSlide(slideIndex);
+            showSlide();
             resetAutoSlide();
         }
 
