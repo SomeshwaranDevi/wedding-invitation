@@ -513,7 +513,7 @@
             });
         }
         
-        // New Tinder-like swiping slider
+        // New Tinder-like swiping slider with auto-play
         function setupTinderSlider() {
             const storyData = [
                 {
@@ -548,9 +548,11 @@
             let currentCardIndex = 0;
             let isSwiping = false;
             let startX = 0;
-            let currentX = 0;
+            let autoSlideTimeout;
             const swipeThreshold = 100;
+            const SLIDE_INTERVAL = 7000; // 7 seconds
 
+            // Create all cards and add them to the wrapper
             function createCards() {
                 cards = [];
                 sliderWrapper.innerHTML = '';
@@ -563,53 +565,66 @@
                     cards.push(card);
                 });
                 
-                // Show the last card on top initially
-                cards[currentCardIndex].classList.add('active');
+                // Set initial card state
+                updateCardDisplay();
+            }
+
+            // Update the display for the current slide
+            function updateCardDisplay() {
+                cards.forEach((card, index) => {
+                    card.classList.remove('active', 'inactive');
+                    if (index === currentCardIndex) {
+                        card.classList.add('active');
+                    } else if ((index === currentCardIndex + 1) || (currentCardIndex === storyData.length - 1 && index === 0)) {
+                        card.classList.add('inactive');
+                    }
+                });
                 textElement.textContent = storyData[currentCardIndex].story;
             }
 
-            function handleSwipe(card, swipeDirection) {
-                isSwiping = true;
-                if (swipeDirection === 'left') {
-                    card.classList.add('swipe-left');
-                } else {
-                    card.classList.add('swipe-right');
-                }
+            // Function to reset the automatic slide timer
+            function resetAutoSlide() {
+                clearTimeout(autoSlideTimeout);
+                autoSlideTimeout = setTimeout(() => {
+                    showNextCard();
+                }, SLIDE_INTERVAL);
+            }
+
+            // Function to show the next card
+            function showNextCard() {
+                if (isSwiping) return; // Prevent auto-slide during a user swipe
+                const activeCard = cards[currentCardIndex];
                 
-                card.addEventListener('transitionend', () => {
-                    isSwiping = false;
-                    card.remove();
-                    currentCardIndex = (currentCardIndex + 1) % storyData.length;
+                // Swipe the card off to the left (arbitrarily)
+                activeCard.style.transition = 'transform 0.5s ease-in-out';
+                activeCard.style.transform = `translateX(-300%) rotate(-30deg)`;
+
+                activeCard.addEventListener('transitionend', () => {
+                    activeCard.remove();
+                    sliderWrapper.appendChild(activeCard);
+                    activeCard.style.transition = 'none';
+                    activeCard.style.transform = '';
                     
-                    // Reset and show next card
-                    if (cards.length > 0) {
-                        const nextCard = cards.shift(); // Remove the swiped card
-                        cards.push(nextCard); // Add it to the end
-                        
-                        cards[cards.length - 1].classList.remove('active', 'swipe-left', 'swipe-right');
-                        cards[cards.length - 1].style.transform = '';
-                        
-                        cards[0].classList.add('active');
-                        textElement.textContent = storyData[cards[0].dataset.index].story;
-                    }
+                    currentCardIndex = (currentCardIndex + 1) % storyData.length;
+                    updateCardDisplay();
+                    resetAutoSlide();
                 }, { once: true });
             }
 
             function onDragStart(e) {
                 if (isSwiping) return;
-                const activeCard = cards[0];
-                if (!activeCard) return;
-
+                clearTimeout(autoSlideTimeout); // Pause auto-play
+                
                 isSwiping = false;
                 startX = e.clientX || e.touches[0].clientX;
-                activeCard.style.transition = 'none';
+                cards[currentCardIndex].style.transition = 'none';
             }
 
             function onDragMove(e) {
-                if (!isSwiping && cards[0]) {
+                if (!isSwiping && cards[currentCardIndex]) {
                     currentX = e.clientX || e.touches[0].clientX;
                     const deltaX = currentX - startX;
-                    const activeCard = cards[0];
+                    const activeCard = cards[currentCardIndex];
                     if (activeCard) {
                         activeCard.style.transform = `translateX(${deltaX}px) rotate(${deltaX / 20}deg)`;
                     }
@@ -617,17 +632,36 @@
             }
 
             function onDragEnd(e) {
-                if (isSwiping || !cards[0]) return;
-                const activeCard = cards[0];
+                if (isSwiping || !cards[currentCardIndex]) return;
+                const activeCard = cards[currentCardIndex];
                 const deltaX = (e.clientX || e.changedTouches[0].clientX) - startX;
 
                 activeCard.style.transition = 'transform 0.5s ease-in-out';
 
                 if (Math.abs(deltaX) > swipeThreshold) {
                     const direction = deltaX > 0 ? 'right' : 'left';
-                    handleSwipe(activeCard, direction);
+                    isSwiping = true;
+
+                    if (direction === 'left') {
+                        activeCard.classList.add('swipe-left');
+                    } else {
+                        activeCard.classList.add('swipe-right');
+                    }
+                    
+                    activeCard.addEventListener('transitionend', () => {
+                        isSwiping = false;
+                        activeCard.remove();
+                        sliderWrapper.appendChild(activeCard);
+                        activeCard.style.transition = 'none';
+                        activeCard.style.transform = '';
+
+                        currentCardIndex = (currentCardIndex + 1) % storyData.length;
+                        updateCardDisplay();
+                        resetAutoSlide();
+                    }, { once: true });
                 } else {
                     activeCard.style.transform = 'translateX(0) rotate(0)';
+                    resetAutoSlide(); // Resume auto-play if swipe was too short
                 }
             }
 
@@ -643,6 +677,7 @@
 
             // Initial setup
             createCards();
+            resetAutoSlide();
         }
 
         // New function to handle floating hearts on scroll using SVG
