@@ -119,29 +119,49 @@
                 font-size: 1.5rem;
             }
         }
-        
-        /* Story & Gallery Slider with elegant overlay fade transition */
-        #story-slider-wrapper {
+
+        /* New Tinder-like Slider Styles */
+        #tinder-slider-wrapper {
             position: relative;
-            max-width: 500px;
-            width: 90%;
-            height: 400px;
-            overflow: hidden;
-            border-radius: 1.5rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            height: 500px;
+            margin: 0 auto;
         }
-        .story-slider-image {
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
+        .tinder-card {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            border-radius: 1.5rem;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            will-change: transform, opacity;
+            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            cursor: grab;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0; /* Hide all cards initially */
         }
-        .story-slider-image.active {
+        .tinder-card.active {
             opacity: 1;
+            z-index: 10;
+        }
+        .tinder-card.inactive {
+            z-index: 5;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .swipe-left {
+            transform: translateX(-300%) rotate(-30deg) !important;
+        }
+        .swipe-right {
+            transform: translateX(300%) rotate(30deg) !important;
         }
 
         /* Creative Footer Styles */
@@ -330,20 +350,9 @@
             <div class="container mx-auto max-w-2xl flex flex-col items-center">
                 <h2 class="text-3xl md:text-5xl font-playfair font-bold text-teal-600 mb-6 animate-on-scroll flex items-center justify-center">Our Journey <span class="ml-2 text-yellow-500 animated-heart">💖</span></h2>
                 
-                <!-- The wrapper for the slider to add drop-shadow -->
-                <div id="story-slider-wrapper" class="relative mb-6">
-                    <!-- The container for the swiping slider -->
-                    <div id="story-slider-container" class="relative w-full h-full">
-                        <!-- Images will be dynamically added here -->
-                    </div>
-
-                    <!-- Navigation arrows -->
-                    <button id="prev-btn" class="absolute top-1/2 left-2 -translate-y-1/2 p-2 bg-white rounded-full shadow-lg hover:bg-gray-200 focus:outline-none transition-colors">
-                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                    </button>
-                    <button id="next-btn" class="absolute top-1/2 right-2 -translate-y-1/2 p-2 bg-white rounded-full shadow-lg hover:bg-gray-200 focus:outline-none transition-colors">
-                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                    </button>
+                <!-- The new Tinder-like slider wrapper -->
+                <div id="tinder-slider-wrapper" class="relative mb-6">
+                    <!-- Cards will be dynamically added here by JavaScript -->
                 </div>
 
                 <p id="story-text" class="text-gray-700 leading-relaxed text-lg font-montserrat animate-on-scroll"></p>
@@ -406,7 +415,7 @@
 
             setupCountdown();
             setupIntersectionObserver();
-            setupStoryGallerySlider();
+            setupTinderSlider();
             setupFloatingHearts();
             setupFooterFlyingHearts();
         });
@@ -504,8 +513,8 @@
             });
         }
         
-        // New Combined Story & Gallery Slider with touch/swipe
-        function setupStoryGallerySlider() {
+        // New Tinder-like swiping slider
+        function setupTinderSlider() {
             const storyData = [
                 {
                     src: "img/story_1.JPG",
@@ -533,97 +542,107 @@
                 },
             ];
 
-            const sliderContainer = document.getElementById('story-slider-container');
+            const sliderWrapper = document.getElementById('tinder-slider-wrapper');
             const textElement = document.getElementById('story-text');
-            const prevBtn = document.getElementById('prev-btn');
-            const nextBtn = document.getElementById('next-btn');
+            let cards = [];
+            let currentCardIndex = 0;
+            let isSwiping = false;
+            let startX = 0;
+            let currentX = 0;
+            const swipeThreshold = 100;
 
-            let slideIndex = 0;
-            let autoSlideTimeout;
-            let touchStartX = 0;
-            
-            const SLIDE_INTERVAL = 10000; // 10 seconds
-
-            // Create all image elements and add them to the container
-            const images = storyData.map((item) => {
-                const img = new Image();
-                img.src = item.src;
-                img.classList.add('story-slider-image');
-                img.loading = 'lazy';
-                sliderContainer.appendChild(img);
-                return img;
-            });
-
-            // Update the display for the current slide
-            function showSlide() {
-                images.forEach((img, index) => {
-                    img.classList.remove('active');
-                    if (index === slideIndex) {
-                        img.classList.add('active');
-                    }
+            function createCards() {
+                cards = [];
+                sliderWrapper.innerHTML = '';
+                storyData.forEach((item, index) => {
+                    const card = document.createElement('div');
+                    card.classList.add('tinder-card');
+                    card.style.backgroundImage = `url(${item.src})`;
+                    card.dataset.index = index;
+                    sliderWrapper.appendChild(card);
+                    cards.push(card);
                 });
-                textElement.textContent = storyData[slideIndex].story;
-            }
-
-            // Function to reset the automatic slide timer
-            function resetAutoSlide() {
-                clearTimeout(autoSlideTimeout);
-                autoSlideTimeout = setTimeout(() => {
-                    slideIndex = (slideIndex + 1) % storyData.length;
-                    showSlide();
-                    resetAutoSlide();
-                }, SLIDE_INTERVAL);
-            }
-            
-            // Go to the previous slide
-            function goToPrev() {
-                slideIndex = (slideIndex - 1 + storyData.length) % storyData.length;
-                showSlide();
-                resetAutoSlide();
-            }
-
-            // Go to the next slide
-            function goToNext() {
-                slideIndex = (slideIndex + 1) % storyData.length;
-                showSlide();
-                resetAutoSlide();
-            }
-
-            // Add event listeners for navigation buttons
-            prevBtn.addEventListener('click', goToPrev);
-            nextBtn.addEventListener('click', goToNext);
-
-            // Touch/Swipe Listeners
-            sliderContainer.addEventListener('touchstart', (e) => {
-                touchStartX = e.changedTouches[0].screenX;
-                clearTimeout(autoSlideTimeout); // Pause auto-slide
-            });
-
-            sliderContainer.addEventListener('touchend', (e) => {
-                const touchEndX = e.changedTouches[0].screenX;
-                const swipeDistance = touchEndX - touchStartX;
-                const MIN_SWIPE_DISTANCE = 50;
                 
-                if (swipeDistance > MIN_SWIPE_DISTANCE) {
-                    goToPrev();
-                } else if (swipeDistance < -MIN_SWIPE_DISTANCE) {
-                    goToNext();
+                // Show the last card on top initially
+                cards[currentCardIndex].classList.add('active');
+                textElement.textContent = storyData[currentCardIndex].story;
+            }
+
+            function handleSwipe(card, swipeDirection) {
+                isSwiping = true;
+                if (swipeDirection === 'left') {
+                    card.classList.add('swipe-left');
+                } else {
+                    card.classList.add('swipe-right');
                 }
                 
-                resetAutoSlide();
-            });
-            
-            // Parallax effect on scroll
-            const journeySection = document.getElementById('our-journey');
-            window.addEventListener('scroll', () => {
-                const scrollPosition = window.scrollY;
-                const parallaxSpeed = 0.2;
-                journeySection.style.backgroundPositionY = `${-scrollPosition * parallaxSpeed}px`;
-            });
+                card.addEventListener('transitionend', () => {
+                    isSwiping = false;
+                    card.remove();
+                    currentCardIndex = (currentCardIndex + 1) % storyData.length;
+                    
+                    // Reset and show next card
+                    if (cards.length > 0) {
+                        const nextCard = cards.shift(); // Remove the swiped card
+                        cards.push(nextCard); // Add it to the end
+                        
+                        cards[cards.length - 1].classList.remove('active', 'swipe-left', 'swipe-right');
+                        cards[cards.length - 1].style.transform = '';
+                        
+                        cards[0].classList.add('active');
+                        textElement.textContent = storyData[cards[0].dataset.index].story;
+                    }
+                }, { once: true });
+            }
 
-            // Initial load
-            showSlide();
-            resetAutoSlide();
+            function onDragStart(e) {
+                if (isSwiping) return;
+                const activeCard = cards[0];
+                if (!activeCard) return;
+
+                isSwiping = false;
+                startX = e.clientX || e.touches[0].clientX;
+                activeCard.style.transition = 'none';
+            }
+
+            function onDragMove(e) {
+                if (!isSwiping && cards[0]) {
+                    currentX = e.clientX || e.touches[0].clientX;
+                    const deltaX = currentX - startX;
+                    const activeCard = cards[0];
+                    if (activeCard) {
+                        activeCard.style.transform = `translateX(${deltaX}px) rotate(${deltaX / 20}deg)`;
+                    }
+                }
+            }
+
+            function onDragEnd(e) {
+                if (isSwiping || !cards[0]) return;
+                const activeCard = cards[0];
+                const deltaX = (e.clientX || e.changedTouches[0].clientX) - startX;
+
+                activeCard.style.transition = 'transform 0.5s ease-in-out';
+
+                if (Math.abs(deltaX) > swipeThreshold) {
+                    const direction = deltaX > 0 ? 'right' : 'left';
+                    handleSwipe(activeCard, direction);
+                } else {
+                    activeCard.style.transform = 'translateX(0) rotate(0)';
+                }
+            }
+
+            // Set up event listeners on the wrapper to handle drag/swipe
+            sliderWrapper.addEventListener('mousedown', onDragStart);
+            sliderWrapper.addEventListener('mousemove', onDragMove);
+            sliderWrapper.addEventListener('mouseup', onDragEnd);
+            sliderWrapper.addEventListener('mouseleave', onDragEnd);
+
+            sliderWrapper.addEventListener('touchstart', (e) => onDragStart(e));
+            sliderWrapper.addEventListener('touchmove', (e) => onDragMove(e));
+            sliderWrapper.addEventListener('touchend', (e) => onDragEnd(e));
+
+            // Initial setup
+            createCards();
         }
 
         // New function to handle floating hearts on scroll using SVG
