@@ -82,6 +82,29 @@
             display: inline-block;
             animation: pulse-heart 1.5s infinite;
         }
+
+        /* Hero Name Styling */
+        .hero-names {
+            font-size: 3rem; /* Adjusted for better mobile view */
+            font-weight: bold;
+            letter-spacing: 0.1rem;
+            text-shadow: 0 4px 6px rgba(0,0,0,0.5); /* Stronger text shadow */
+        }
+        .ampersand {
+            font-family: 'Great Vibes', cursive; /* Use a different font for the ampersand */
+            font-size: 3.5rem;
+            color: #fde047; /* A subtle golden color */
+            margin: 0 0.5rem;
+            text-shadow: 0 4px 6px rgba(0,0,0,0.5); /* Stronger text shadow */
+        }
+        @media (min-width: 768px) {
+            .hero-names {
+                font-size: 5rem; /* Larger on desktop */
+            }
+            .ampersand {
+                font-size: 6rem;
+            }
+        }
         
         /* Story & Gallery Slider with interactive controls */
         #story-slider-container {
@@ -235,7 +258,11 @@
 
             <!-- Central Content: Names and text -->
             <div class="relative z-10 text-white drop-shadow-md animate-on-scroll">
-                <h1 class="text-4xl md:text-6xl font-extrabold font-great-vibes">Someshwaran & Devi</h1>
+                <h1 class="font-great-vibes">
+                    <span class="hero-names">Someshwaran</span>
+                    <span class="ampersand">&</span>
+                    <span class="hero-names">Devi</span>
+                </h1>
                 <p class="mt-4 text-xl md:text-2xl font-light tracking-wide font-montserrat">Get Ready to Celebrate with Us!</p>
             </div>
         </section>
