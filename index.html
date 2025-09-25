@@ -86,7 +86,7 @@
             animation: pulse-heart 1.5s infinite;
         }
 
-        /* Hero Name Styling - More Elegance and Color */
+        /* Hero Name Styling */
         .hero-names {
             font-family: 'Dancing Script', cursive;
             font-size: 3.5rem;
@@ -121,8 +121,14 @@
         }
         
         /* Story & Gallery Slider with elegant overlay fade transition */
-        #story-slider-container {
+        #story-slider-wrapper {
             position: relative;
+            max-width: 500px;
+            width: 90%;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
         .story-slider-image {
             opacity: 0;
@@ -132,7 +138,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover;
         }
         .story-slider-image.active {
             opacity: 1;
@@ -324,9 +330,20 @@
             <div class="container mx-auto max-w-2xl flex flex-col items-center">
                 <h2 class="text-3xl md:text-5xl font-playfair font-bold text-teal-600 mb-6 animate-on-scroll flex items-center justify-center">Our Journey <span class="ml-2 text-yellow-500 animated-heart">💖</span></h2>
                 
-                <!-- The container for the swiping slider -->
-                <div id="story-slider-container" class="relative w-full h-[40vh] mb-6 animate-on-scroll">
-                    <!-- Images will be dynamically added here -->
+                <!-- The wrapper for the slider to add drop-shadow -->
+                <div id="story-slider-wrapper" class="relative mb-6">
+                    <!-- The container for the swiping slider -->
+                    <div id="story-slider-container" class="relative w-full h-full">
+                        <!-- Images will be dynamically added here -->
+                    </div>
+
+                    <!-- Navigation arrows -->
+                    <button id="prev-btn" class="absolute top-1/2 left-2 -translate-y-1/2 p-2 bg-white rounded-full shadow-lg hover:bg-gray-200 focus:outline-none transition-colors">
+                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </button>
+                    <button id="next-btn" class="absolute top-1/2 right-2 -translate-y-1/2 p-2 bg-white rounded-full shadow-lg hover:bg-gray-200 focus:outline-none transition-colors">
+                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
                 </div>
 
                 <p id="story-text" class="text-gray-700 leading-relaxed text-lg font-montserrat animate-on-scroll"></p>
@@ -518,6 +535,9 @@
 
             const sliderContainer = document.getElementById('story-slider-container');
             const textElement = document.getElementById('story-text');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+
             let slideIndex = 0;
             let autoSlideTimeout;
             let touchStartX = 0;
@@ -554,6 +574,24 @@
                     resetAutoSlide();
                 }, SLIDE_INTERVAL);
             }
+            
+            // Go to the previous slide
+            function goToPrev() {
+                slideIndex = (slideIndex - 1 + storyData.length) % storyData.length;
+                showSlide();
+                resetAutoSlide();
+            }
+
+            // Go to the next slide
+            function goToNext() {
+                slideIndex = (slideIndex + 1) % storyData.length;
+                showSlide();
+                resetAutoSlide();
+            }
+
+            // Add event listeners for navigation buttons
+            prevBtn.addEventListener('click', goToPrev);
+            nextBtn.addEventListener('click', goToNext);
 
             // Touch/Swipe Listeners
             sliderContainer.addEventListener('touchstart', (e) => {
@@ -567,13 +605,20 @@
                 const MIN_SWIPE_DISTANCE = 50;
                 
                 if (swipeDistance > MIN_SWIPE_DISTANCE) {
-                    slideIndex = (slideIndex - 1 + storyData.length) % storyData.length;
+                    goToPrev();
                 } else if (swipeDistance < -MIN_SWIPE_DISTANCE) {
-                    slideIndex = (slideIndex + 1) % storyData.length;
+                    goToNext();
                 }
                 
-                showSlide();
                 resetAutoSlide();
+            });
+            
+            // Parallax effect on scroll
+            const journeySection = document.getElementById('our-journey');
+            window.addEventListener('scroll', () => {
+                const scrollPosition = window.scrollY;
+                const parallaxSpeed = 0.2;
+                journeySection.style.backgroundPositionY = `${-scrollPosition * parallaxSpeed}px`;
             });
 
             // Initial load
