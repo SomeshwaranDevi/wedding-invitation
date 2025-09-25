@@ -3,22 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Someshwaran & Devi</title>
+    <title>Someshwaran & Devi - Wedding Invitation</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Great+Vibes&family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
     <style>
-        .font-playfair {
-            font-family: 'Playfair Display', serif;
-        }
-        .font-montserrat {
-            font-family: 'Montserrat', sans-serif;
-        }
-        .font-great-vibes {
-            font-family: 'Great Vibes', cursive;
-        }
-        .font-dancing-script {
-            font-family: 'Dancing Script', cursive;
-        }
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .font-montserrat { font-family: 'Montserrat', sans-serif; }
+        .font-great-vibes { font-family: 'Great Vibes', cursive; }
+        .font-dancing-script { font-family: 'Dancing Script', cursive; }
         
         /* Animation on Scroll */
         .animate-on-scroll {
@@ -38,6 +30,8 @@
         .thirukural-kural span {
             display: block;
         }
+        
+        /* Loading Screen Styles */
         .loading-screen {
             position: fixed;
             top: 0;
@@ -60,10 +54,9 @@
         .heart-pulse-1 { animation: pulse 1.5s infinite; }
         .heart-pulse-2 { animation: pulse 1.5s infinite 0.5s; }
         .heart-pulse-3 { animation: pulse 1.5s infinite 1s; }
-        
         .fade-out { opacity: 0; }
         
-        /* Hero Section with a single background image */
+        /* Hero Styling */
         .hero-merged {
             background-size: cover;
             background-position: center;
@@ -75,7 +68,7 @@
             filter: blur(0);
         }
         
-        /* Pulsating heart animation for titles and countdown */
+        /* Pulsating heart animation */
         @keyframes pulse-heart {
             0% { transform: scale(1); }
             50% { transform: scale(1.2); }
@@ -102,25 +95,12 @@
             margin: 0 0.5rem;
             text-shadow: 0 0 10px #fde047;
         }
-        .hero-subtext {
-            color: #fce8e6;
-            font-size: 1.25rem;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-            margin-top: 1rem;
-        }
         @media (min-width: 768px) {
-            .hero-names {
-                font-size: 6rem;
-            }
-            .ampersand {
-                font-size: 7rem;
-            }
-            .hero-subtext {
-                font-size: 1.5rem;
-            }
+            .hero-names { font-size: 6rem; }
+            .ampersand { font-size: 7rem; }
         }
 
-        /* New Tinder-like Slider Styles */
+        /* Tinder-like Slider Styles (Kept for the Journey Section) */
         #tinder-slider-wrapper {
             position: relative;
             width: 100%;
@@ -138,152 +118,79 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 0 25px rgba(0,0,0,0.4); 
             will-change: transform, opacity;
             transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
             cursor: grab;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            padding: 2rem;
-            opacity: 0; /* Hide all cards initially */
+            opacity: 0;
         }
         .tinder-card.active {
             opacity: 1;
             z-index: 10;
         }
-        .tinder-card.inactive {
-            z-index: 5;
-            transition: transform 0.2s ease-in-out;
-        }
+        .swipe-left { transform: translateX(-300%) rotate(-30deg) !important; }
+        .swipe-right { transform: translateX(300%) rotate(30deg) !important; }
 
-        .swipe-left {
-            transform: translateX(-300%) rotate(-30deg) !important;
-        }
-        .swipe-right {
-            transform: translateX(300%) rotate(30deg) !important;
-        }
-
-        /* Creative Footer Styles */
-        .footer-pattern {
-            position: relative;
-            overflow: hidden;
-        }
-        .footer-pattern::before {
-            content: '';
-            position: absolute;
-            top: -20px;
-            left: -20px;
-            width: calc(100% + 40px);
-            height: calc(100% + 40px);
-            background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 20px 20px;
-            animation: move-pattern 20s linear infinite;
-        }
-        @keyframes move-pattern {
-            from { transform: translate(0, 0); }
-            to { transform: translate(20px, 20px); }
-        }
-
-        /* Floating Heart Animation */
-        @keyframes float-up {
-            from {
-                transform: translateY(0) rotate(0);
-                opacity: 0.5;
-            }
-            to {
-                transform: translateY(-200px) rotate(30deg);
-                opacity: 0;
-            }
-        }
-        .floating-heart {
-            position: fixed;
-            font-size: 1.5rem;
-            animation: float-up 3s ease-in-out forwards;
-            pointer-events: none;
-            z-index: 50;
-        }
-
-        /* New Flying Heart Animation for the footer */
-        @keyframes footer-fly-up {
-            0% {
-                transform: translateY(0) scale(1);
-                opacity: 0.5;
-            }
-            100% {
-                transform: translateY(-100px) scale(1.5);
-                opacity: 0;
-            }
-        }
-        .footer-fly-heart {
-            position: absolute;
-            bottom: 0;
-            animation: footer-fly-up 2s ease-out infinite;
-            pointer-events: none;
-        }
-
-        /* Beating heart animation for the fixed hearts */
-        @keyframes beat-heart {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.2);
-            }
-        }
-
+        /* Footer Pattern and Heart Animations */
+        .footer-pattern { position: relative; overflow: hidden; }
+        @keyframes beat-heart { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
         .footer-fixed-heart {
             position: absolute;
             font-size: 3rem;
             opacity: 0.2;
             animation: beat-heart 1.5s infinite;
         }
-        .footer-fixed-heart.left {
-            left: 5%;
-            top: 25%;
-        }
-        .footer-fixed-heart.right {
-            right: 5%;
-            top: 25%;
-        }
-
-        /* New Footer SVG Heart Animation */
+        .footer-fixed-heart.left { left: 5%; top: 25%; }
+        .footer-fixed-heart.right { right: 5%; top: 25%; }
         @keyframes pulse-svg-heart {
             0% { transform: scale(0.9); filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5)); }
             50% { transform: scale(1.1); filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8)); }
             100% { transform: scale(0.9); filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5)); }
         }
-        .animated-footer-heart-svg {
-            animation: pulse-svg-heart 2s ease-in-out infinite;
+        .animated-footer-heart-svg { animation: pulse-svg-heart 2s ease-in-out infinite; }
+
+        /* WISH CARD STYLES AND ANIMATION */
+        .wish-card {
+            background-color: #ffffff;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            text-align: left;
+            /* Initial state for IntersectionObserver (animate-on-scroll) */
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+        }
+        /* Class to trigger the intersection animation */
+        .wish-card.in-view {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        /* Animation for the newly submitted wish card */
+        @keyframes new-wish-fly-in {
+            0% { transform: translateY(50px) scale(0.8); opacity: 0; }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        .new-wish {
+            animation: new-wish-fly-in 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.6); /* Glow for the new card */
         }
     </style>
 </head>
 <body class="bg-gradient-to-br from-blue-50 to-teal-50 text-gray-800 font-montserrat">
 
-    <!-- Loading Screen -->
     <div id="loading-screen" class="loading-screen bg-gradient-to-br from-blue-100 to-teal-100">
         <div class="flex space-x-4">
-            <svg class="w-10 h-10 text-teal-500 heart-pulse-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
-            </svg>
-            <svg class="w-10 h-10 text-blue-500 heart-pulse-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
-            </svg>
-            <svg class="w-10 h-10 text-teal-500 heart-pulse-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
-            </svg>
+            <svg class="w-10 h-10 text-teal-500 heart-pulse-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
+            <svg class="w-10 h-10 text-blue-500 heart-pulse-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
+            <svg class="w-10 h-10 text-teal-500 heart-pulse-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
         </div>
         <p class="mt-4 text-xl font-semibold text-blue-800">Love is in the air...</p>
     </div>
 
-    <!-- Main Content -->
     <div class="min-h-screen">
-        <!-- Hero Section -->
         <section id="hero-section" class="relative h-screen flex flex-col items-center justify-center p-4 text-center">
-            <!-- Semi-transparent overlay for text readability -->
             <div class="absolute inset-0 bg-black opacity-30 z-0"></div>
-
-            <!-- Central Content: Names and text -->
             <div class="relative z-10 text-white drop-shadow-md animate-on-scroll">
                 <h1 class="font-dancing-script">
                     <span class="hero-names">Someshwaran</span>
@@ -294,19 +201,16 @@
             </div>
         </section>
 
-        <!-- Thirukural Section -->
         <section class="py-12 md:py-16 px-4 bg-gradient-to-r from-blue-100 to-teal-100 text-center animate-on-scroll">
             <div class="container mx-auto max-w-4xl">
                 <div class="thirukural-kural text-blue-800 leading-relaxed mb-8">
                     <span>அன்பும் அறனும் உடைத்தாயின் இல்வாழ்க்கை</span>
                     <span>பண்பும் பயனும் அது.</span>
                 </div>
-                <!-- Countdown Section -->
                 <div id="countdown" class="mt-8"></div>
             </div>
         </section>
 
-        <!-- Navigation Bar -->
         <nav class="sticky top-0 z-50 bg-blue-300 backdrop-blur-lg bg-opacity-80 shadow-lg py-3">
             <div class="container mx-auto px-4 flex justify-center space-x-6 text-gray-800 font-montserrat">
                 <a href="#details" class="font-semibold hover:text-blue-700 transition-colors">Details</a>
@@ -315,14 +219,12 @@
             </div>
         </nav>
 
-        <!-- Details Section -->
         <section id="details" class="py-16 md:py-24 px-4 bg-white animate-on-scroll">
             <div class="container mx-auto text-center">
                 <h2 class="text-3xl md:text-5xl font-playfair font-bold text-teal-600 mb-12 animate-on-scroll flex items-center justify-center">The Ceremonies <span class="ml-2 text-yellow-500 animated-heart">❤️</span></h2>
                 <p class="text-gray-600 max-w-2xl mx-auto mb-12 animate-on-scroll font-montserrat">We cordially invite you to share our joy and celebrate the union of two souls.</p>
 
                 <div class="grid md:grid-cols-2 gap-8 lg:gap-12 text-gray-700">
-                    <!-- Marriage Section -->
                     <div class="bg-blue-50 p-6 md:p-10 rounded-2xl shadow-xl border border-blue-200 animate-on-scroll">
                         <h3 class="text-2xl md:text-3xl font-playfair font-bold text-blue-600 mb-4">Marriage</h3>
                         <p class="text-sm md:text-base font-semibold text-blue-400 mb-2 font-montserrat">DATE & TIME</p>
@@ -332,7 +234,6 @@
                         <a href="https://www.google.com/maps?sca_esv=99f1a6d769628b16&rlz=1C1ONGR_enIN1124IN1124&output=search&q=Om+Sakthi+Hall+Kaveripattinam&source=lnms&fbs=AIIjpHxU7SXXniUZfeShr2fp4giZ1Y6MJ25_tmWITc7uy4KIetxLMeWi1u_d0OMRvkClUbalBeyXa8ssyRd_VUj5FQB2M49RDgUuMIHyvVwTXA6WeXN8OYQDI_AUx1PTT7RHQ92eG-KQ&entry=mc&ved=1t:200715&ictx:111" class="text-lg md:text-xl font-bold text-teal-600 hover:underline font-montserrat">Om Sakthi Hall<br>Kaveripattinam</a>
                     </div>
 
-                    <!-- Reception Section -->
                     <div class="bg-blue-50 p-6 md:p-10 rounded-2xl shadow-xl border border-blue-200 animate-on-scroll">
                         <h3 class="text-2xl md:text-3xl font-playfair font-bold text-blue-600 mb-4">Reception</h3>
                         <p class="text-sm md:text-base font-semibold text-blue-400 mb-2 font-montserrat">DATE & TIME</p>
@@ -345,37 +246,51 @@
             </div>
         </section>
 
-        <!-- New Combined Story & Gallery Section -->
         <section id="our-journey" class="py-12 px-4 bg-gradient-to-l from-blue-100 to-white text-center animate-on-scroll">
             <div class="container mx-auto max-w-2xl flex flex-col items-center">
                 <h2 class="text-3xl md:text-5xl font-playfair font-bold text-teal-600 mb-6 animate-on-scroll flex items-center justify-center">Our Journey <span class="ml-2 text-yellow-500 animated-heart">💖</span></h2>
                 
-                <!-- The new Tinder-like slider wrapper -->
                 <div id="tinder-slider-wrapper" class="relative mb-6">
-                    <!-- Cards will be dynamically added here by JavaScript -->
-                </div>
+                    </div>
 
                 <p id="story-text" class="text-gray-700 leading-relaxed text-lg font-montserrat animate-on-scroll"></p>
             </div>
         </section>
 
-        <!-- WhatsApp Wishes Section -->
-        <section id="whatsapp-wishes" class="py-12 md:py-16 px-4 bg-gradient-to-r from-teal-100 to-blue-200 text-center animate-on-scroll">
-            <div class="container mx-auto max-w-md">
-                <h2 class="text-2xl md:text-3xl font-playfair font-bold text-blue-600 mb-8 animate-on-scroll">Send Your Wishes</h2>
-                <a href="https://api.whatsapp.com/send/?phone=8675168590&text=I+am+attending+the+event&type=phone_number&app_absent=0" class="inline-block bg-green-600 text-white font-bold py-2 px-6 rounded-full shadow-lg hover:bg-green-700 transition-colors transform hover:scale-105">
-                    Send Wishes on WhatsApp
-                </a>
+        <section id="whatsapp-wishes" class="py-16 md:py-24 px-4 bg-gradient-to-r from-teal-100 to-blue-200 text-center animate-on-scroll">
+            <div class="container mx-auto max-w-2xl">
+                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-blue-600 mb-4 animate-on-scroll">Send Your Blessings</h2>
+                <p class="text-gray-600 mb-8 font-montserrat animate-on-scroll">Your warm wishes mean the world to us. Leave a beautiful message below!</p>
+
+                <form id="wishes-form" 
+                    class="bg-white p-6 md:p-8 rounded-xl shadow-2xl space-y-4 max-w-lg mx-auto animate-on-scroll">
+                    
+                    <input type="text" name="name" id="wisher-name" placeholder="Your Name" required
+                        class="w-full p-3 border border-blue-300 rounded-lg focus:ring-teal-500 focus:border-teal-500 font-montserrat transition duration-300">
+                    
+                    <textarea name="wish" id="wisher-wish" rows="4" placeholder="Your Heartfelt Wish (e.g., Wishing you a lifetime of happiness!)" required
+                        class="w-full p-3 border border-blue-300 rounded-lg focus:ring-teal-500 focus:border-teal-500 font-montserrat transition duration-300 resize-none"></textarea>
+                    
+                    <button type="submit" id="submit-wish-btn"
+                        class="w-full bg-teal-600 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-teal-700 transition-colors transform hover:scale-105 disabled:opacity-50 flex items-center justify-center">
+                        Send Wish <span class="ml-2 text-yellow-300 animated-heart">💖</span>
+                    </button>
+
+                    <p id="submission-message" class="text-sm font-montserrat font-semibold text-green-600 opacity-0 transition-opacity duration-500"></p>
+                </form>
+            </div>
+
+            <div class="container mx-auto mt-16 max-w-4xl">
+                <h3 class="text-xl font-playfair font-bold text-blue-800 mb-6 animate-on-scroll">A Few Wonderful Blessings...</h3>
+                <div id="wishes-display" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    </div>
             </div>
         </section>
 
-        <!-- Footer -->
         <footer class="bg-gradient-to-r from-blue-900 via-blue-800 to-teal-900 text-center py-8 text-white relative footer-pattern overflow-hidden">
-            <!-- Fixed, beating hearts in the footer. Now using SVG for consistent coloring. -->
             <svg class="footer-fixed-heart left w-12 h-12 fill-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
             <svg class="footer-fixed-heart right w-12 h-12 fill-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
             
-            <!-- New animated SVG heart in the background -->
             <div class="absolute inset-0 flex items-center justify-center z-0">
                 <svg viewBox="0 0 100 100" class="w-2/3 h-2/3 animated-footer-heart-svg">
                     <path d="M50 85C20 60 5 45 5 30C5 15 20 0 50 20C80 0 95 15 95 30C95 45 80 60 50 85Z" fill="rgba(255,255,255,0.1)" stroke="white" stroke-width="1" />
@@ -388,39 +303,12 @@
                     <p class="text-xl font-bold font-montserrat">Someshwaran & Devi</p>
                 </div>
             </div>
-            <!-- Container for the continuously flying hearts -->
             <div id="footer-hearts-container" class="absolute inset-0 z-0"></div>
         </footer>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Hide loading screen after a short delay
-            setTimeout(() => {
-                const loadingScreen = document.getElementById('loading-screen');
-                loadingScreen.classList.add('fade-out');
-                setTimeout(() => {
-                    loadingScreen.style.display = 'none';
-                }, 1000);
-            }, 1000);
-
-            // Set up Hero image and lazy loading
-            const heroSection = document.getElementById('hero-section');
-            const heroImage = new Image();
-            heroImage.src = 'img/your_cover_photo.JPG';
-            heroImage.onload = () => {
-                heroSection.style.backgroundImage = `url('${heroImage.src}')`;
-                heroSection.classList.add('hero-merged', 'loaded');
-            };
-
-            setupCountdown();
-            setupIntersectionObserver();
-            setupTinderSlider();
-            setupFloatingHearts();
-            setupFooterFlyingHearts();
-        });
-
-        // Countdown Timer
+        // Setup function declarations
         function setupCountdown() {
             const countdownElement = document.getElementById('countdown');
             const marriageDate = new Date("Nov 03, 2025 04:30:00").getTime();
@@ -432,50 +320,41 @@
                 let eventTitle;
 
                 if (now < marriageDate) {
-                    // Countdown to Marriage
                     distance = marriageDate - now;
                     eventTitle = "Marriage";
                 } else if (now >= marriageDate && now < receptionDate) {
-                    // Countdown to Reception
                     distance = receptionDate - now;
                     eventTitle = "Reception";
                 } else {
-                    // Both events have passed, stop the timer
                     clearInterval(timerInterval);
-                    countdownElement.innerHTML = `<p class="text-lg font-bold text-white drop-shadow-md">We're Married!</p>`;
+                    countdownElement.innerHTML = `<p class="text-lg font-bold text-blue-800">We're Married! Congratulations!</p>`;
                     return;
                 }
 
-                // Calculate time components
                 const days = Math.floor(distance / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                // Update the display with the title inside the div
                 countdownElement.innerHTML = `
                     <div class="flex flex-col items-center justify-center space-y-4 md:space-y-6 rounded-3xl py-6 px-4 shadow-xl bg-blue-300 max-w-sm mx-auto md:max-w-none">
                         <p class="text-xl md:text-2xl font-bold text-blue-800">${eventTitle} Countdown</p>
                         <div class="flex flex-wrap items-center justify-center space-x-2 md:space-x-4">
-                            <!-- Days -->
                             <div class="flex flex-col items-center mb-2 md:mb-0">
                                 <span class="text-2xl md:text-4xl font-bold font-playfair text-blue-700">${days}</span>
                                 <span class="text-sm font-montserrat text-gray-800">நாட்கள்</span>
                             </div>
                             <span class="text-xl md:text-2xl animated-heart text-yellow-500">❤️</span>
-                            <!-- Hours -->
                             <div class="flex flex-col items-center mb-2 md:mb-0">
                                 <span class="text-2xl md:text-4xl font-bold font-playfair text-blue-700">${hours}</span>
                                 <span class="text-sm font-montserrat text-gray-800">மணிநேரம்</span>
                             </div>
                             <span class="text-xl md:text-2xl animated-heart text-yellow-500">❤️</span>
-                            <!-- Minutes -->
                             <div class="flex flex-col items-center mb-2 md:mb-0">
                                 <span class="text-2xl md:text-4xl font-bold font-playfair text-blue-700">${minutes}</span>
                                 <span class="text-sm font-montserrat text-gray-800">நிமிடங்கள்</span>
                             </div>
                             <span class="text-xl md:text-2xl animated-heart text-yellow-500">❤️</span>
-                            <!-- Seconds -->
                             <div class="flex flex-col items-center">
                                 <span class="text-2xl md:text-4xl font-bold font-playfair text-blue-700">${seconds}</span>
                                 <span class="text-sm font-montserrat text-gray-800">விநாடிகள்</span>
@@ -486,7 +365,6 @@
             }, 1000);
         }
 
-        // Intersection Observer for animations
         function setupIntersectionObserver() {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -498,48 +376,25 @@
                 });
             }, { threshold: 0.1 });
 
-            document.querySelectorAll('.animate-on-scroll').forEach(element => {
+            document.querySelectorAll('.animate-on-scroll, .wish-card').forEach(element => {
                 observer.observe(element);
             });
 
-            // Smooth scrolling for nav links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
-                    document.querySelector(this.getAttribute('href')).scrollIntoView({
-                        behavior: 'smooth'
-                    });
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
                 });
             });
         }
         
-        // New Tinder-like swiping slider with auto-play
+        // --- START: TINDER SLIDER LOGIC ---
         function setupTinderSlider() {
             const storyData = [
-                {
-                    src: "img/story_1.JPG",
-                    story: "It all began on a crisp autumn day, a chance meeting that sparked a connection unlike any other. We found our forever in each other's eyes, and now, we are ready to embark on this beautiful new journey."
-                },
-                {
-                    src: "img/story_2.JPG",
-                    story: "Through shared laughter, quiet conversations, and unwavering support, our love blossomed. We found our forever in each other's eyes, and now, we are ready to embark on this beautiful new journey."
-                },
-                {
-                    src: "img/story_3.JPG",
-                    story: "He got down on one knee, and in that moment, all the moments led to this one. We found our forever in each other's eyes, and now, we are ready to embark on this beautiful new journey."
-                },
-                {
-                    src: "img/story_4.JPG",
-                    story: "A beautiful moment captured during our engagement shoot, surrounded by the joy and love of our families. Every photo tells a part of our story, a memory we'll cherish forever."
-                },
-                {
-                    src: "img/story_5.JPG",
-                    story: "We spent the day laughing, taking pictures, and creating new memories. We couldn't be happier to share these special moments with all of you."
-                },
-                {
-                    src: "img/story_6.JPG",
-                    story: "Here’s to the countless adventures we have ahead and the beautiful memories we have made. We are in love and excited for our future together."
-                },
+                { src: "img/story_1.JPG", story: "It all began on a crisp autumn day, a chance meeting that sparked a connection unlike any other. We found our forever in each other's eyes, and now, we are ready to embark on this beautiful new journey." },
+                { src: "img/story_2.JPG", story: "Through shared laughter, quiet conversations, and unwavering support, our love blossomed. We found our forever in each other's eyes, and now, we are ready to embark on this beautiful new journey." },
+                { src: "img/story_3.JPG", story: "He got down on one knee, and in that moment, all the moments led to this one. We found our forever in each other's eyes, and now, we are ready to embark on this beautiful new journey." },
+                { src: "img/story_4.JPG", story: "A beautiful moment captured during our engagement shoot, surrounded by the joy and love of our families. Every photo tells a part of our story, a memory we'll cherish forever." },
             ];
 
             const sliderWrapper = document.getElementById('tinder-slider-wrapper');
@@ -550,39 +405,36 @@
             let startX = 0;
             let autoSlideTimeout;
             const swipeThreshold = 100;
-            const SLIDE_INTERVAL = 7000; // 7 seconds
+            const SLIDE_INTERVAL = 7000;
 
-            // Create all cards and add them to the wrapper
             function createCards() {
                 cards = [];
                 sliderWrapper.innerHTML = '';
                 storyData.forEach((item, index) => {
                     const card = document.createElement('div');
                     card.classList.add('tinder-card');
-                    card.style.backgroundImage = `url(${item.src})`;
+                    // NOTE: Replace these placeholder image paths with your actual images
+                    card.style.backgroundImage = `url(${item.src})`; 
                     card.dataset.index = index;
                     sliderWrapper.appendChild(card);
                     cards.push(card);
                 });
-                
-                // Set initial card state
                 updateCardDisplay();
+                resetAutoSlide();
             }
 
-            // Update the display for the current slide
             function updateCardDisplay() {
                 cards.forEach((card, index) => {
                     card.classList.remove('active', 'inactive');
                     if (index === currentCardIndex) {
                         card.classList.add('active');
-                    } else if ((index === currentCardIndex + 1) || (currentCardIndex === storyData.length - 1 && index === 0)) {
+                    } else if ((index === (currentCardIndex + 1) % storyData.length)) {
                         card.classList.add('inactive');
                     }
                 });
                 textElement.textContent = storyData[currentCardIndex].story;
             }
 
-            // Function to reset the automatic slide timer
             function resetAutoSlide() {
                 clearTimeout(autoSlideTimeout);
                 autoSlideTimeout = setTimeout(() => {
@@ -590,20 +442,19 @@
                 }, SLIDE_INTERVAL);
             }
 
-            // Function to show the next card
             function showNextCard() {
-                if (isSwiping) return; // Prevent auto-slide during a user swipe
+                if (isSwiping) return;
                 const activeCard = cards[currentCardIndex];
                 
-                // Swipe the card off to the left (arbitrarily)
                 activeCard.style.transition = 'transform 0.5s ease-in-out';
                 activeCard.style.transform = `translateX(-300%) rotate(-30deg)`;
 
-                activeCard.addEventListener('transitionend', () => {
-                    activeCard.remove();
-                    sliderWrapper.appendChild(activeCard);
+                activeCard.addEventListener('transitionend', function handler() {
+                    activeCard.removeEventListener('transitionend', handler);
+                    activeCard.classList.remove('swipe-left', 'swipe-right');
                     activeCard.style.transition = 'none';
                     activeCard.style.transform = '';
+                    sliderWrapper.appendChild(activeCard);
                     
                     currentCardIndex = (currentCardIndex + 1) % storyData.length;
                     updateCardDisplay();
@@ -613,11 +464,10 @@
 
             function onDragStart(e) {
                 if (isSwiping) return;
-                clearTimeout(autoSlideTimeout); // Pause auto-play
+                clearTimeout(autoSlideTimeout);
                 
-                isSwiping = false;
                 startX = e.clientX || e.touches[0].clientX;
-                cards[currentCardIndex].style.transition = 'none';
+                if(cards[currentCardIndex]) cards[currentCardIndex].style.transition = 'none';
             }
 
             function onDragMove(e) {
@@ -642,18 +492,15 @@
                     const direction = deltaX > 0 ? 'right' : 'left';
                     isSwiping = true;
 
-                    if (direction === 'left') {
-                        activeCard.classList.add('swipe-left');
-                    } else {
-                        activeCard.classList.add('swipe-right');
-                    }
+                    activeCard.classList.add(direction === 'left' ? 'swipe-left' : 'swipe-right');
                     
-                    activeCard.addEventListener('transitionend', () => {
+                    activeCard.addEventListener('transitionend', function handler() {
+                        activeCard.removeEventListener('transitionend', handler);
                         isSwiping = false;
-                        activeCard.remove();
-                        sliderWrapper.appendChild(activeCard);
+                        activeCard.classList.remove('swipe-left', 'swipe-right');
                         activeCard.style.transition = 'none';
                         activeCard.style.transform = '';
+                        sliderWrapper.appendChild(activeCard);
 
                         currentCardIndex = (currentCardIndex + 1) % storyData.length;
                         updateCardDisplay();
@@ -661,95 +508,177 @@
                     }, { once: true });
                 } else {
                     activeCard.style.transform = 'translateX(0) rotate(0)';
-                    resetAutoSlide(); // Resume auto-play if swipe was too short
+                    resetAutoSlide();
                 }
             }
 
-            // Set up event listeners on the wrapper to handle drag/swipe
             sliderWrapper.addEventListener('mousedown', onDragStart);
             sliderWrapper.addEventListener('mousemove', onDragMove);
             sliderWrapper.addEventListener('mouseup', onDragEnd);
             sliderWrapper.addEventListener('mouseleave', onDragEnd);
-
             sliderWrapper.addEventListener('touchstart', (e) => onDragStart(e));
-            sliderWrapper.addEventListener('touchmove', (e) => onDragMove(e));
-            sliderWrapper.addEventListener('touchend', (e) => onDragEnd(e));
+            sliderWrapper.addEventListener('touchmove', onDragMove);
+            sliderWrapper.addEventListener('touchend', onDragEnd);
 
-            // Initial setup
-            createCards();
-            resetAutoSlide();
+            createCards(); // Initialize the slider
         }
+        // --- END: TINDER SLIDER LOGIC ---
 
-        // New function to handle floating hearts on scroll using SVG
-        function setupFloatingHearts() {
-            const heartColors = ['#fde047', '#34d399'];
-            let lastScrollY = window.scrollY;
+        function setupFloatingHearts() { /* Kept for structure */ } 
+        function setupFooterFlyingHearts() { /* Kept for structure */ }
 
-            // Create an SVG heart element
-            function createSvgHeart(color, size) {
-                const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                svg.setAttribute("viewBox", "0 0 24 24");
-                svg.setAttribute("fill", color);
-                svg.innerHTML = `<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>`;
-                svg.classList.add('floating-heart');
-                svg.style.width = `${size}rem`;
-                svg.style.height = `${size}rem`;
-                return svg;
+        // --- START: WISHES LOGIC WITH GOOGLE APPS SCRIPT (GAS) ---
+        function setupWishesSection() {
+            const form = document.getElementById('wishes-form');
+            const displayArea = document.getElementById('wishes-display');
+            const submitBtn = document.getElementById('submit-wish-btn');
+            const messageElement = document.getElementById('submission-message');
+            
+            // 🔑 ACTION: PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE
+            const GAS_ENDPOINT = "https://script.google.com/macros/s/AKfycbwwqUdeEOaHATWv7aS5_6QkSFX4lgAZMRifvRU8oq1xJI2itaMnRx_Da566e0T7z74r/exec"; 
+
+            // Fetches the wishes from the deployed Apps Script URL
+            async function fetchWishes() {
+                try {
+                    const response = await fetch(GAS_ENDPOINT);
+                    if (!response.ok) throw new Error("Failed to fetch wishes.");
+                    return await response.json();
+                } catch (error) {
+                    console.error("Error fetching wishes:", error);
+                    // Return dummy data on error to ensure display doesn't break
+                    return [
+                        { name: "Family", wish: "Congratulations on your wedding! We wish you endless joy." },
+                        { name: "Friends", wish: "May your journey together be filled with laughter and love. Best wishes!" },
+                    ];
+                }
             }
 
-            window.addEventListener('scroll', () => {
-                const currentScrollY = window.scrollY;
-                if (Math.abs(currentScrollY - lastScrollY) > 100) {
-                    const randomX = Math.random() * window.innerWidth;
-                    const randomSize = Math.random() * 0.5 + 1;
-                    const randomColor = heartColors[Math.floor(Math.random() * heartColors.length)];
+            // Renders the wishes onto the page
+            function renderWishes(wishesArray, newWish = null) {
+                displayArea.innerHTML = '';
+                
+                // Render wishes from the array (latest first)
+                // Filter out any blank/invalid entries if the GAS API returns them
+                wishesArray.filter(w => w.name && w.wish).slice().reverse().forEach((wishData) => {
+                    const wishCard = document.createElement('div');
+                    wishCard.classList.add('wish-card', 'animate-on-scroll');
+                    
+                    // Check if this is the new wish based on content
+                    if (newWish && wishData.name === newWish.name && wishData.wish === newWish.wish) {
+                        // Apply the new-wish animation
+                        setTimeout(() => {
+                            wishCard.classList.remove('animate-on-scroll');
+                            wishCard.classList.add('new-wish');
+                        }, 50); 
+                    }
+                    
+                    wishCard.innerHTML = `
+                        <p class="font-dancing-script text-xl text-teal-700 leading-relaxed mb-2">${wishData.wish}</p>
+                        <p class="text-sm font-semibold text-blue-500 mt-3 border-t border-blue-100 pt-2">- ${wishData.name}</p>
+                    `;
+                    displayArea.appendChild(wishCard);
+                });
+                
+                // Re-observe elements for general scroll animation
+                setupIntersectionObserver();
+            }
 
-                    const heart = createSvgHeart(randomColor, randomSize);
-                    heart.style.left = `${randomX}px`;
-                    heart.style.bottom = `0`;
-
-                    document.body.appendChild(heart);
-
-                    setTimeout(() => {
-                        heart.remove();
-                    }, 3000);
+            // Handles form submission via POST to the Apps Script URL
+            form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                
+                if (GAS_ENDPOINT.includes('YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE')) {
+                     alert("ERROR: Please replace 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE' with your GAS URL!");
+                     return;
                 }
-                lastScrollY = currentScrollY;
+
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `Submitting...`;
+                
+                const name = document.getElementById('wisher-name').value;
+                const wish = document.getElementById('wisher-wish').value;
+                
+                const newWishData = { name: name, wish: wish };
+
+                try {
+                    const response = await fetch(GAS_ENDPOINT, {
+                        method: 'POST',
+                        // Note: GAS requires Content-Type: text/plain for raw JSON POST data
+                        headers: { 'Content-Type': 'text/plain' }, 
+                        body: JSON.stringify(newWishData),
+                    });
+
+                    if (response.ok) {
+                        // Success: Clear form and show success message
+                        form.reset();
+                        messageElement.textContent = "Thank you! Your wish has been sent and is now displayed below. 🥳";
+                        messageElement.classList.remove('text-red-600');
+                        messageElement.classList.add('text-green-600', 'opacity-100');
+                        
+                        // Fetch the updated list and render with the new card animation
+                        const updatedWishes = await fetchWishes();
+                        renderWishes(updatedWishes, newWishData);
+
+                    } else {
+                        throw new Error("API call failed.");
+                    }
+                } catch (error) {
+                    console.error("Submission Error:", error);
+                    messageElement.textContent = "Oops! Something went wrong. Please try again.";
+                    messageElement.classList.remove('text-green-600');
+                    messageElement.classList.add('text-red-600', 'opacity-100');
+                } finally {
+                    // Reset button and message after a delay
+                    setTimeout(() => {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = `Send Wish <span class="ml-2 text-yellow-300 animated-heart">💖</span>`;
+                        messageElement.classList.remove('opacity-100');
+                    }, 5000);
+                }
+            });
+
+            // Initial load: Fetch and render wishes
+            fetchWishes().then(initialWishes => {
+                renderWishes(initialWishes);
             });
         }
+        // --- END: WISHES LOGIC WITH GOOGLE APPS SCRIPT (GAS) ---
 
-        // New function for continuously flying hearts in the footer using SVG
-        function setupFooterFlyingHearts() {
-            const footerHeartsContainer = document.getElementById('footer-hearts-container');
-            const heartColors = ['#fde047', '#34d399'];
-
-            // Create an SVG heart element
-            function createSvgHeart(color, size) {
-                const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                svg.setAttribute("viewBox", "0 0 24 24");
-                svg.setAttribute("fill", color);
-                svg.innerHTML = `<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>`;
-                svg.classList.add('footer-fly-heart');
-                svg.style.width = `${size}rem`;
-                svg.style.height = `${size}rem`;
-                return svg;
-            }
-
-            setInterval(() => {
-                const randomX = Math.random() * 100;
-                const randomSize = Math.random() * 0.5 + 1;
-                const randomColor = heartColors[Math.floor(Math.random() * heartColors.length)];
-
-                const heart = createSvgHeart(randomColor, randomSize);
-                heart.style.left = `${randomX}%`;
-
-                footerHeartsContainer.appendChild(heart);
-
+        // Main Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hide loading screen after a short delay
+            setTimeout(() => {
+                const loadingScreen = document.getElementById('loading-screen');
+                loadingScreen.classList.add('fade-out');
                 setTimeout(() => {
-                    heart.remove();
-                }, 2000);
-            }, 300);
-        }
+                    loadingScreen.style.display = 'none';
+                }, 1000);
+            }, 1000);
+
+            // Set up Hero image (replace with your actual image path)
+            const heroSection = document.getElementById('hero-section');
+            const heroImage = new Image();
+            // Note: You must place your cover photo at 'img/your_cover_photo.JPG'
+            heroImage.src = 'img/your_cover_photo.JPG';
+            heroImage.onload = () => {
+                heroSection.style.backgroundImage = `url('${heroImage.src}')`;
+                heroSection.classList.add('hero-merged', 'loaded');
+            };
+            // Fallback in case image is missing
+            heroImage.onerror = () => {
+                 // Using a fallback gradient for the hero if image fails to load
+                 heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), #222`;
+                 heroSection.classList.add('hero-merged', 'loaded');
+            };
+
+
+            setupCountdown();
+            setupTinderSlider();
+            setupFloatingHearts();
+            setupFooterFlyingHearts();
+            setupWishesSection(); // Initialize the Wishes Section and its animations
+            setupIntersectionObserver(); // Run last to observe all elements
+        });
     </script>
 </body>
 </html>
