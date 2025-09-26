@@ -24,164 +24,123 @@
             transform: translateY(0);
         }
         
-        /* Thirukural Styling */
-        .thirukural-kural {
-            font-size: 1.25rem;
-            font-family: 'Playfair Display', serif;
-        }
-        .thirukural-kural span {
-            display: block;
-        }
-        
         /* Loading Screen Styles */
         .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 1s ease-out;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 9999; transition: opacity 1s ease-out;
         }
         @keyframes pulse {
-            0% { transform: scale(0.9); opacity: 0.7; }
+            0%, 100% { transform: scale(0.9); opacity: 0.7; }
             50% { transform: scale(1.1); opacity: 1; }
-            100% { transform: scale(0.9); opacity: 0.7; }
         }
         .heart-pulse-1 { animation: pulse 1.5s infinite; }
         .heart-pulse-2 { animation: pulse 1.5s infinite 0.5s; }
         .heart-pulse-3 { animation: pulse 1.5s infinite 1s; }
         .fade-out { opacity: 0; }
         
-        /* Hero Styling - MOBILE FIX */
+        /* Hero Styling - MOBILE FIX & RESTORED BACKGROUND */
         #hero-section {
             background-size: cover;
-            /* Default for desktop: centers the image */
             background-position: center center;
             transition: filter 1s ease-in-out;
         }
-        #hero-section.loaded {
-             filter: blur(0);
-        }
-        /* On mobile, adjust the focus to be higher up, preventing over-zooming on faces */
+        #hero-section.loaded { filter: blur(0); }
         @media (max-width: 768px) {
-            #hero-section {
-                background-position: center 30%;
-            }
+            #hero-section { background-position: center 30%; }
         }
         
-        /* Pulsating heart animation */
+        /* Pulsating Heart Animation */
         @keyframes pulse-heart {
-            0% { transform: scale(1); }
+            0%, 100% { transform: scale(1); }
             50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
         }
-        .animated-heart {
-            display: inline-block;
-            animation: pulse-heart 1.5s infinite;
-        }
+        .animated-heart { display: inline-block; animation: pulse-heart 1.5s infinite; }
 
         /* Hero Name Styling */
         .hero-names {
-            font-family: 'Dancing Script', cursive;
-            font-size: 3.5rem;
-            font-weight: bold;
-            letter-spacing: 0.1rem;
-            text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            color: #fff;
+            font-family: 'Dancing Script', cursive; font-size: 3.5rem; font-weight: bold;
+            letter-spacing: 0.1rem; text-shadow: 0 0 20px rgba(0, 0, 0, 0.5); color: #fff;
         }
         .ampersand {
-            font-family: 'Great Vibes', cursive;
-            font-size: 4rem;
-            color: #fde047; /* A bright, celebratory gold */
-            margin: 0 0.5rem;
-            text-shadow: 0 0 15px #fde047;
+            font-family: 'Great Vibes', cursive; font-size: 4rem; color: #fde047;
+            margin: 0 0.5rem; text-shadow: 0 0 15px #fde047;
         }
         @media (min-width: 768px) {
             .hero-names { font-size: 6rem; }
             .ampersand { font-size: 7rem; }
         }
 
-        /* Journey Section Slider */
-        #tinder-slider-wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            height: 500px;
-            margin: 0 auto;
-        }
+        /* Journey Section - Tinder Slider */
+        #tinder-slider-wrapper { position: relative; width: 100%; max-width: 400px; height: 500px; margin: 0 auto; }
         .tinder-card {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 1.5rem;
-            background-size: cover;
-            background-position: center;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 1.5rem;
+            background-size: cover; background-position: center;
             box-shadow: 0 10px 25px -5px rgba(0,0,0,0.2), 0 8px 10px -6px rgba(0,0,0,0.2);
-            will-change: transform, opacity;
-            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
-            cursor: grab;
-            opacity: 0;
+            will-change: transform, opacity; transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+            cursor: grab; opacity: 0;
         }
-        .tinder-card.active {
-            opacity: 1;
-            z-index: 10;
-        }
-        .swipe-left { transform: translateX(-300%) rotate(-30deg) !important; }
-        .swipe-right { transform: translateX(300%) rotate(30deg) !important; }
+        .tinder-card.active { opacity: 1; z-index: 10; }
+        .tinder-card.grabbing { cursor: grabbing; }
 
-        /* Footer Styling & Heart Fix */
+        /* Footer Styling & Blinking Hearts */
         .footer-pattern { position: relative; overflow: hidden; }
-        @keyframes beat-heart { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+        @keyframes blink-colors {
+            0%, 100% { color: #facc15; /* Yellow */ transform: scale(1); }
+            50% { color: #4ade80; /* Green */ transform: scale(1.15); }
+        }
         .footer-fixed-heart {
-            position: absolute;
-            font-size: 3rem;
-            opacity: 0.15; /* Increased opacity for better visibility */
-            animation: beat-heart 1.5s infinite;
+            position: absolute; font-size: 3rem; opacity: 0.25;
+            animation: blink-colors 2s infinite;
         }
         .footer-fixed-heart.left { left: 5%; top: 25%; }
-        .footer-fixed-heart.right { right: 5%; top: 25%; }
+        .footer-fixed-heart.right { right: 5%; top: 25%; animation-delay: 1s; }
+        
         @keyframes pulse-svg-heart {
-            0% { transform: scale(0.95); filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5)); }
+            0%, 100% { transform: scale(0.95); filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5)); }
             50% { transform: scale(1.05); filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8)); }
-            100% { transform: scale(0.95); filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5)); }
         }
         .animated-footer-heart-svg { animation: pulse-svg-heart 2s ease-in-out infinite; }
 
-        /* Wish Card Styling */
+        /* Glossy Form & Wishes Styling */
+        .glossy-form {
+            background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(255,255,255,0.6));
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(190, 24, 93, 0.1);
+        }
+        .glossy-input {
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+        .glossy-input:focus {
+             background: rgba(255, 255, 255, 0.7);
+             box-shadow: inset 0 2px 4px rgba(0,0,0,0.05), 0 0 0 2px #be185d;
+        }
+
         .wish-card {
-            background-color: #ffffff;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            text-align: left;
-            transform: translateY(20px);
-            opacity: 0;
+            background: linear-gradient(145deg, rgba(255,255,255,0.8), rgba(255,255,255,0.5));
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: left; transform: translateY(20px); opacity: 0;
             transition: transform 0.8s ease-out, opacity 0.8s ease-out;
         }
-        .wish-card.in-view {
-            transform: translateY(0);
-            opacity: 1;
-        }
+        .wish-card.in-view { transform: translateY(0); opacity: 1; }
+        
         @keyframes new-wish-fly-in {
             0% { transform: translateY(50px) scale(0.8); opacity: 0; }
             100% { transform: translateY(0) scale(1); opacity: 1; }
         }
         .new-wish {
-            animation: new-wish-fly-in 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-            box-shadow: 0 0 20px rgba(190, 24, 93, 0.4); /* Glow for the new card */
+            animation: new-wish-fly-in 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            box-shadow: 0 0 25px rgba(190, 24, 93, 0.4); /* Glow for the new card */
         }
     </style>
 </head>
 <body class="bg-gradient-to-br from-rose-50 to-amber-50 text-gray-800 font-montserrat">
 
-    <!-- Loading Screen with new elegant colors -->
     <div id="loading-screen" class="loading-screen bg-gradient-to-br from-rose-100 to-amber-100">
         <div class="flex space-x-4">
             <svg class="w-10 h-10 text-rose-500 heart-pulse-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
@@ -192,7 +151,6 @@
     </div>
 
     <div class="min-h-screen">
-        <!-- Hero Section -->
         <section id="hero-section" class="relative h-screen flex flex-col items-center justify-center p-4 text-center" style="filter: blur(5px);">
             <div class="absolute inset-0 bg-black opacity-40 z-0"></div>
             <div class="relative z-10 text-white drop-shadow-lg animate-on-scroll">
@@ -206,7 +164,6 @@
             </div>
         </section>
 
-        <!-- Thirukural & Countdown Section -->
         <section class="py-12 md:py-16 px-4 bg-gradient-to-r from-rose-100 to-amber-100 text-center animate-on-scroll">
             <div class="container mx-auto max-w-4xl">
                 <div class="thirukural-kural text-rose-800 leading-relaxed mb-8">
@@ -217,7 +174,6 @@
             </div>
         </section>
 
-        <!-- Sticky Navigation -->
         <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-lg shadow-md py-3">
             <div class="container mx-auto px-4 flex justify-center space-x-6 md:space-x-8 text-gray-700 font-montserrat">
                 <a href="#details" class="font-semibold hover:text-rose-600 transition-colors">Details</a>
@@ -226,14 +182,11 @@
             </div>
         </nav>
 
-        <!-- Details Section -->
         <section id="details" class="py-16 md:py-24 px-4 bg-white animate-on-scroll">
             <div class="container mx-auto text-center">
                 <h2 class="text-3xl md:text-5xl font-playfair font-bold text-rose-800 mb-12 animate-on-scroll flex items-center justify-center">The Ceremonies <span class="ml-2 text-amber-500 animated-heart">❤️</span></h2>
                 <p class="text-gray-600 max-w-2xl mx-auto mb-12 animate-on-scroll font-montserrat">We cordially invite you to share our joy and celebrate the union of two souls.</p>
-
                 <div class="grid md:grid-cols-2 gap-8 lg:gap-12 text-gray-700">
-                    <!-- Marriage Card -->
                     <div class="bg-rose-50/50 p-6 md:p-10 rounded-2xl shadow-lg shadow-rose-200/50 border border-rose-200/70 animate-on-scroll">
                         <h3 class="text-2xl md:text-3xl font-playfair font-bold text-rose-700 mb-4">Marriage</h3>
                         <p class="text-sm md:text-base font-semibold text-rose-400 mb-2 font-montserrat">DATE & TIME</p>
@@ -245,8 +198,6 @@
                             <span class="block text-sm text-gray-500 mt-2 font-semibold tracking-wider group-hover:text-rose-700 transition-colors duration-300">(Click for Venue Map)</span>
                         </a>
                     </div>
-
-                    <!-- Reception Card -->
                     <div class="bg-rose-50/50 p-6 md:p-10 rounded-2xl shadow-lg shadow-rose-200/50 border border-rose-200/70 animate-on-scroll">
                         <h3 class="text-2xl md:text-3xl font-playfair font-bold text-rose-700 mb-4">Reception</h3>
                         <p class="text-sm md:text-base font-semibold text-rose-400 mb-2 font-montserrat">DATE & TIME</p>
@@ -262,7 +213,6 @@
             </div>
         </section>
 
-        <!-- Our Journey Section -->
         <section id="our-journey" class="py-12 px-4 bg-gradient-to-l from-amber-100 to-white text-center animate-on-scroll">
             <div class="container mx-auto max-w-2xl flex flex-col items-center">
                 <h2 class="text-3xl md:text-5xl font-playfair font-bold text-rose-800 mb-6 animate-on-scroll flex items-center justify-center">Our Journey <span class="ml-2 text-amber-500 animated-heart">💖</span></h2>
@@ -271,40 +221,33 @@
             </div>
         </section>
 
-        <!-- Wishes Section -->
         <section id="whatsapp-wishes" class="py-16 md:py-24 px-4 bg-gradient-to-r from-rose-100 to-amber-100 text-center animate-on-scroll">
             <div class="container mx-auto max-w-2xl">
                 <h2 class="text-3xl md:text-5xl font-playfair font-bold text-rose-700 mb-4 animate-on-scroll">Send Your Blessings</h2>
                 <p class="text-gray-600 mb-8 font-montserrat animate-on-scroll">Your warm wishes mean the world to us. Leave a beautiful message below!</p>
-
-                <form id="wishes-form" class="bg-white p-6 md:p-8 rounded-xl shadow-2xl space-y-4 max-w-lg mx-auto animate-on-scroll">
-                    <input type="text" name="name" id="wisher-name" placeholder="Your Name" required class="w-full p-3 border border-rose-300 rounded-lg focus:ring-rose-500 focus:border-rose-500 font-montserrat transition duration-300">
-                    <textarea name="wish" id="wisher-wish" rows="4" placeholder="Your Heartfelt Wish..." required class="w-full p-3 border border-rose-300 rounded-lg focus:ring-rose-500 focus:border-rose-500 font-montserrat transition duration-300 resize-none"></textarea>
+                <form id="wishes-form" class="glossy-form p-6 md:p-8 rounded-xl space-y-4 max-w-lg mx-auto animate-on-scroll">
+                    <input type="text" name="name" id="wisher-name" placeholder="Your Name" required class="w-full p-3 border rounded-lg font-montserrat glossy-input">
+                    <textarea name="wish" id="wisher-wish" rows="4" placeholder="Your Heartfelt Wish..." required class="w-full p-3 border rounded-lg font-montserrat resize-none glossy-input"></textarea>
                     <button type="submit" id="submit-wish-btn" class="w-full bg-rose-600 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-rose-700 transition-transform transform hover:scale-105 disabled:opacity-50 flex items-center justify-center">
                         Send Wish <span class="ml-2 text-amber-300 animated-heart">💖</span>
                     </button>
                     <p id="submission-message" class="text-sm font-montserrat font-semibold text-green-600 opacity-0 transition-opacity duration-500"></p>
                 </form>
             </div>
-
             <div class="container mx-auto mt-16 max-w-4xl">
                 <h3 class="text-xl font-playfair font-bold text-rose-800 mb-6 animate-on-scroll">A Few Wonderful Blessings...</h3>
                 <div id="wishes-display" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
         </section>
 
-        <!-- Footer -->
         <footer class="bg-gradient-to-r from-rose-900 via-rose-800 to-gray-900 text-center py-8 text-white relative footer-pattern overflow-hidden">
-             <!-- FOOTER FIX: Changed heart icons to a more visible color using Tailwind text classes and currentColor -->
-            <svg class="footer-fixed-heart left w-12 h-12 text-amber-200" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-            <svg class="footer-fixed-heart right w-12 h-12 text-amber-200" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-            
+            <svg class="footer-fixed-heart left w-12 h-12" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            <svg class="footer-fixed-heart right w-12 h-12" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
             <div class="absolute inset-0 flex items-center justify-center z-0">
                 <svg viewBox="0 0 100 100" class="w-2/3 h-2/3 animated-footer-heart-svg">
                     <path d="M50 85C20 60 5 45 5 30C5 15 20 0 50 20C80 0 95 15 95 30C95 45 80 60 50 85Z" fill="rgba(255,255,255,0.05)" stroke="white" stroke-width="0.5" />
                 </svg>
             </div>
-
             <div class="relative z-10 flex flex-col items-center">
                 <p class="font-bold text-lg font-playfair mb-2">With Love,</p>
                 <div class="flex items-center justify-center space-x-2">
@@ -319,203 +262,168 @@
             const countdownElement = document.getElementById('countdown');
             const marriageDate = new Date("Nov 03, 2025 04:30:00").getTime();
             const receptionDate = new Date("Nov 09, 2025 11:00:00").getTime();
-            
-            let timerInterval = setInterval(function() {
+            let timerInterval = setInterval(() => {
                 const now = new Date().getTime();
                 let distance, eventTitle;
-
                 if (now < marriageDate) {
-                    distance = marriageDate - now;
-                    eventTitle = "Until The Wedding";
+                    distance = marriageDate - now; eventTitle = "Until The Wedding";
                 } else if (now < receptionDate) {
-                    distance = receptionDate - now;
-                    eventTitle = "Until The Reception";
+                    distance = receptionDate - now; eventTitle = "Until The Reception";
                 } else {
                     clearInterval(timerInterval);
                     countdownElement.innerHTML = `<p class="text-lg font-bold text-rose-800">We're Married! Thank you for celebrating with us!</p>`;
                     return;
                 }
-
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                countdownElement.innerHTML = `
-                    <div class="flex flex-col items-center justify-center space-y-4 rounded-3xl py-6 px-4 shadow-lg shadow-rose-200/50 bg-white/70 max-w-sm mx-auto md:max-w-none">
-                        <p class="text-xl md:text-2xl font-bold text-rose-800">${eventTitle}</p>
-                        <div class="flex flex-wrap items-center justify-center space-x-2 md:space-x-4">
-                            <div class="flex flex-col items-center p-2">
-                                <span class="text-2xl md:text-4xl font-bold font-playfair text-rose-700">${days}</span>
-                                <span class="text-sm font-montserrat text-gray-600">Days</span>
-                            </div>
-                            <span class="text-xl md:text-2xl animated-heart text-amber-500">❤️</span>
-                            <div class="flex flex-col items-center p-2">
-                                <span class="text-2xl md:text-4xl font-bold font-playfair text-rose-700">${hours}</span>
-                                <span class="text-sm font-montserrat text-gray-600">Hours</span>
-                            </div>
-                            <span class="text-xl md:text-2xl animated-heart text-amber-500">❤️</span>
-                            <div class="flex flex-col items-center p-2">
-                                <span class="text-2xl md:text-4xl font-bold font-playfair text-rose-700">${minutes}</span>
-                                <span class="text-sm font-montserrat text-gray-600">Minutes</span>
-                            </div>
-                            <span class="text-xl md:text-2xl animated-heart text-amber-500">❤️</span>
-                            <div class="flex flex-col items-center p-2">
-                                <span class="text-2xl md:text-4xl font-bold font-playfair text-rose-700">${seconds}</span>
-                                <span class="text-sm font-montserrat text-gray-600">Seconds</span>
-                            </div>
-                        </div>
-                    </div>`;
+                const d = Math.floor(distance / 86400000), h = Math.floor((distance % 86400000) / 3600000), m = Math.floor((distance % 3600000) / 60000), s = Math.floor((distance % 60000) / 1000);
+                countdownElement.innerHTML = `<div class="flex flex-col items-center justify-center space-y-4 rounded-3xl py-6 px-4 shadow-lg shadow-rose-200/50 bg-white/70 max-w-sm mx-auto md:max-w-none"><p class="text-xl md:text-2xl font-bold text-rose-800">${eventTitle}</p><div class="flex flex-wrap items-center justify-center space-x-2 md:space-x-4"><div class="flex flex-col items-center p-2"><span class="text-2xl md:text-4xl font-bold font-playfair text-rose-700">${d}</span><span class="text-sm font-montserrat text-gray-600">Days</span></div><span class="text-xl md:text-2xl animated-heart text-amber-500">❤️</span><div class="flex flex-col items-center p-2"><span class="text-2xl md:text-4xl font-bold font-playfair text-rose-700">${h}</span><span class="text-sm font-montserrat text-gray-600">Hours</span></div><span class="text-xl md:text-2xl animated-heart text-amber-500">❤️</span><div class="flex flex-col items-center p-2"><span class="text-2xl md:text-4xl font-bold font-playfair text-rose-700">${m}</span><span class="text-sm font-montserrat text-gray-600">Minutes</span></div><span class="text-xl md:text-2xl animated-heart text-amber-500">❤️</span><div class="flex flex-col items-center p-2"><span class="text-2xl md:text-4xl font-bold font-playfair text-rose-700">${s}</span><span class="text-sm font-montserrat text-gray-600">Seconds</span></div></div></div>`;
             }, 1000);
         }
 
         function setupIntersectionObserver() {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    entry.target.classList.toggle('in-view', entry.isIntersecting);
-                });
-            }, { threshold: 0.1 });
-
+            const observer = new IntersectionObserver((entries) => entries.forEach(e => e.target.classList.toggle('in-view', e.isIntersecting)), { threshold: 0.1 });
             document.querySelectorAll('.animate-on-scroll, .wish-card').forEach(el => observer.observe(el));
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
-                });
-            });
+            document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', function(e) { e.preventDefault(); document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' }); }));
         }
         
         function setupTinderSlider() {
             const storyData = [
-                { src: "https://placehold.co/400x500/fecaca/881337?text=Our+First+Date", story: "It all began on a crisp autumn day, a chance meeting that sparked a connection unlike any other. We found our forever in each other's eyes." },
-                { src: "https://placehold.co/400x500/fed7aa/854d0e?text=The+Proposal", story: "He got down on one knee, and in that moment, all the moments led to this one. A resounding 'Yes!' and the start of our forever." },
-                { src: "https://placehold.co/400x500/d9f99d/3f6212?text=Adventure+Time", story: "Through shared laughter, quiet conversations, and unwavering support, our love blossomed into the beautiful journey it is today." },
-                { src: "https://placehold.co/400x500/bfdbfe/1e3a8a?text=Engagement+Day", story: "A beautiful moment captured during our engagement shoot, surrounded by the joy and love of our families. We can't wait for the big day!" },
+                { src: "img/story_1.JPG", story: "It all began on a crisp autumn day, a chance meeting that sparked a connection unlike any other. We found our forever in each other's eyes." },
+                { src: "img/story_2.JPG", story: "He got down on one knee, and in that moment, all the moments led to this one. A resounding 'Yes!' and the start of our forever." },
+                { src: "img/story_3.JPG", story: "Through shared laughter, quiet conversations, and unwavering support, our love blossomed into the beautiful journey it is today." },
+                { src: "img/story_4.JPG", story: "A beautiful moment captured during our engagement shoot, surrounded by the joy and love of our families. We can't wait for the big day!" },
             ];
             const sliderWrapper = document.getElementById('tinder-slider-wrapper');
             const textElement = document.getElementById('story-text');
             if (!sliderWrapper || !textElement) return;
-            let cards = [], currentCardIndex = 0, isSwiping = false, startX = 0, autoSlideTimeout;
-            const SLIDE_INTERVAL = 7000;
+            let cards = [], currentCardIndex = 0, isDragging = false, startX = 0, autoSlideTimeout;
+            const SLIDE_INTERVAL = 7000, SWIPE_THRESHOLD = 80;
 
             function createCards() {
                 sliderWrapper.innerHTML = '';
-                cards = storyData.map((item) => {
+                cards = storyData.map(item => {
                     const card = document.createElement('div');
                     card.className = 'tinder-card';
                     card.style.backgroundImage = `url(${item.src})`;
                     sliderWrapper.appendChild(card);
                     return card;
                 });
-                updateCardDisplay();
-                resetAutoSlide();
+                updateCardDisplay(); resetAutoSlide();
             }
 
             function updateCardDisplay() {
-                cards.forEach((card, index) => {
-                    card.classList.remove('active', 'inactive');
-                    if (index === currentCardIndex) card.classList.add('active');
-                });
+                cards.forEach((card, index) => card.classList.toggle('active', index === currentCardIndex));
                 textElement.textContent = storyData[currentCardIndex].story;
             }
 
-            function resetAutoSlide() {
-                clearTimeout(autoSlideTimeout);
-                autoSlideTimeout = setTimeout(showNextCard, SLIDE_INTERVAL);
-            }
+            function resetAutoSlide() { clearTimeout(autoSlideTimeout); autoSlideTimeout = setTimeout(swipeCard, SLIDE_INTERVAL); }
 
-            function showNextCard() {
+            function swipeCard(direction = 'left') {
                 const activeCard = cards[currentCardIndex];
-                activeCard.style.transition = 'transform 0.5s ease-in-out';
-                activeCard.style.transform = `translateX(-300%) rotate(-30deg)`;
-                activeCard.addEventListener('transitionend', () => {
-                    activeCard.style.transition = 'none';
-                    activeCard.style.transform = '';
-                    sliderWrapper.appendChild(activeCard);
-                    currentCardIndex = (currentCardIndex + 1) % cards.length;
-                    updateCardDisplay();
-                    resetAutoSlide();
+                if (!activeCard) return;
+                const endX = direction === 'left' ? -window.innerWidth : window.innerWidth;
+                activeCard.style.transition = 'transform 0.5s ease-out';
+                activeCard.style.transform = `translateX(${endX}px) rotate(${direction === 'left' ? -20 : 20}deg)`;
+                activeCard.addEventListener('transitionend', function handler() {
+                    activeCard.removeEventListener('transitionend', handler);
+                    goToNextCard();
                 }, { once: true });
             }
-            createCards(); 
-        }
 
-        function setupWishesSection() {
-            const form = document.getElementById('wishes-form');
-            const displayArea = document.getElementById('wishes-display');
-            const submitBtn = document.getElementById('submit-wish-btn');
-            const messageElement = document.getElementById('submission-message');
-            const GAS_ENDPOINT = "https://script.google.com/macros/s/AKfycbwwqUdeEOaHATWv7aS5_6QkSFX4lgAZMRifvRU8oq1xJI2itaMnRx_Da566e0T7z74r/exec"; 
+            function goToNextCard() {
+                const activeCard = cards[currentCardIndex];
+                activeCard.style.transition = 'none';
+                activeCard.style.transform = '';
+                sliderWrapper.appendChild(activeCard); // Move to the end of the stack
+                currentCardIndex = (currentCardIndex + 1) % cards.length;
+                updateCardDisplay(); resetAutoSlide();
+            }
 
-            async function fetchWishes() {
-                try {
-                    const response = await fetch(GAS_ENDPOINT);
-                    if (!response.ok) throw new Error("Failed to fetch.");
-                    return await response.json();
-                } catch (error) {
-                    console.error("Error fetching wishes:", error);
-                    return [
-                        { name: "Family & Friends", wish: "Congratulations on your wedding! We wish you endless joy and happiness." },
-                        { name: "Well Wishers", wish: "May your journey together be filled with laughter and love. Best wishes!" },
-                    ];
+            function onDragStart(e) {
+                if (e.target.closest('.tinder-card.active')) {
+                    isDragging = true; clearTimeout(autoSlideTimeout);
+                    startX = e.clientX || e.touches[0].clientX;
+                    cards[currentCardIndex].style.transition = 'none';
+                    cards[currentCardIndex].classList.add('grabbing');
                 }
             }
 
-            function renderWishes(wishesArray, newWish = null) {
+            function onDragMove(e) {
+                if (!isDragging) return;
+                const currentX = e.clientX || e.touches[0].clientX;
+                const deltaX = currentX - startX;
+                cards[currentCardIndex].style.transform = `translateX(${deltaX}px) rotate(${deltaX / 20}deg)`;
+            }
+
+            function onDragEnd(e) {
+                if (!isDragging) return;
+                isDragging = false;
+                const activeCard = cards[currentCardIndex];
+                activeCard.classList.remove('grabbing');
+                const finalX = e.clientX || e.changedTouches[0].clientX;
+                const deltaX = finalX - startX;
+                if (Math.abs(deltaX) > SWIPE_THRESHOLD) {
+                    swipeCard(deltaX > 0 ? 'right' : 'left');
+                } else {
+                    activeCard.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                    activeCard.style.transform = '';
+                    resetAutoSlide();
+                }
+            }
+            sliderWrapper.addEventListener('mousedown', onDragStart); document.addEventListener('mousemove', onDragMove); document.addEventListener('mouseup', onDragEnd);
+            sliderWrapper.addEventListener('touchstart', onDragStart, { passive: true }); document.addEventListener('touchmove', onDragMove, { passive: true }); document.addEventListener('touchend', onDragEnd);
+            createCards();
+        }
+
+        function setupWishesSection() {
+            const form = document.getElementById('wishes-form'), displayArea = document.getElementById('wishes-display'), submitBtn = document.getElementById('submit-wish-btn'), messageElement = document.getElementById('submission-message');
+            const GAS_ENDPOINT = "https://script.google.com/macros/s/AKfycbwwqUdeEOaHATWv7aS5_6QkSFX4lgAZMRifvRU8oq1xJI2itaMnRx_Da566e0T7z74r/exec";
+
+            async function fetchWishes() {
+                try {
+                    const res = await fetch(GAS_ENDPOINT);
+                    return res.ok ? await res.json() : [];
+                } catch (error) {
+                    console.error("Error fetching wishes:", error);
+                    return [{ name: "Family & Friends", wish: "Wishing you a lifetime of love and happiness." }, { name: "Well Wishers", wish: "May your journey together be beautiful. Best wishes!" }];
+                }
+            }
+
+            function renderWishes(wishes, newWish = null) {
                 displayArea.innerHTML = '';
-                wishesArray.filter(w => w.name && w.wish).slice().reverse().forEach((wishData) => {
-                    const wishCard = document.createElement('div');
-                    wishCard.className = 'wish-card animate-on-scroll';
-                    
+                wishes.filter(w => w.name && w.wish).slice().reverse().forEach(wishData => {
+                    const card = document.createElement('div');
+                    card.className = 'wish-card rounded-xl p-6 animate-on-scroll';
                     if (newWish && wishData.name === newWish.name && wishData.wish === newWish.wish) {
-                        setTimeout(() => wishCard.classList.add('new-wish'), 50); 
+                        setTimeout(() => { card.classList.remove('animate-on-scroll'); card.classList.add('new-wish'); }, 50);
                     }
-                    
-                    wishCard.innerHTML = `
-                        <p class="font-dancing-script text-xl text-rose-700 leading-relaxed mb-2">"${wishData.wish}"</p>
-                        <p class="text-sm font-semibold text-amber-600 mt-3 border-t border-rose-100 pt-2">- ${wishData.name}</p>
-                    `;
-                    displayArea.appendChild(wishCard);
+                    card.innerHTML = `<p class="font-dancing-script text-xl text-rose-700 leading-relaxed mb-2">"${wishData.wish}"</p><p class="text-sm font-semibold text-amber-600 mt-3 border-t border-rose-100 pt-2">- ${wishData.name}</p>`;
+                    displayArea.appendChild(card);
                 });
                 setupIntersectionObserver();
             }
 
             form.addEventListener("submit", async (e) => {
-                e.preventDefault();
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = `Sending...`;
-                const newWishData = { name: form.name.value, wish: form.wish.value };
-
+                e.preventDefault(); submitBtn.disabled = true; submitBtn.innerHTML = `Sending...`;
+                const newWish = { name: form.name.value, wish: form.wish.value };
                 try {
-                    const response = await fetch(GAS_ENDPOINT, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'text/plain' }, 
-                        body: JSON.stringify(newWishData),
-                    });
-                    if (!response.ok) throw new Error("API call failed.");
-                    
-                    form.reset();
-                    messageElement.textContent = "Thank you! Your wish has been sent! 🥳";
+                    const res = await fetch(GAS_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(newWish) });
+                    if (!res.ok) throw new Error("API call failed.");
+                    form.reset(); messageElement.textContent = "Thank you! Your wish has been sent! 🥳";
                     messageElement.className = 'text-sm font-montserrat font-semibold text-green-600 opacity-100 transition-opacity duration-500';
-                    const updatedWishes = await fetchWishes();
-                    renderWishes(updatedWishes, newWishData);
+                    renderWishes(await fetchWishes(), newWish);
                 } catch (error) {
-                    console.error("Submission Error:", error);
-                    messageElement.textContent = "Oops! Something went wrong. Please try again.";
+                    console.error("Submission Error:", error); messageElement.textContent = "Oops! Something went wrong. Please try again.";
                     messageElement.className = 'text-sm font-montserrat font-semibold text-red-600 opacity-100 transition-opacity duration-500';
                 } finally {
                     setTimeout(() => {
-                        submitBtn.disabled = false;
-                        submitBtn.innerHTML = `Send Wish <span class="ml-2 text-amber-300 animated-heart">💖</span>`;
+                        submitBtn.disabled = false; submitBtn.innerHTML = `Send Wish <span class="ml-2 text-amber-300 animated-heart">💖</span>`;
                         messageElement.classList.remove('opacity-100');
                     }, 5000);
                 }
             });
-
-            fetchWishes().then(initialWishes => renderWishes(initialWishes));
+            fetchWishes().then(wishes => renderWishes(wishes));
         }
 
-        // Main Initialization
         document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 const loadingScreen = document.getElementById('loading-screen');
@@ -525,14 +433,13 @@
 
             const heroSection = document.getElementById('hero-section');
             const heroImage = new Image();
-            // Using a placeholder image for demonstration. Replace with your actual photo URL.
-            heroImage.src = 'https://placehold.co/1200x800/e11d48/ffffff?text=S+%26+D';
+            heroImage.src = 'img/your_cover_photo.JPG'; // Restored original image path
             heroImage.onload = () => {
                 heroSection.style.backgroundImage = `url('${heroImage.src}')`;
                 heroSection.classList.add('loaded');
             };
-            heroImage.onerror = () => {
-                 heroSection.style.backgroundImage = `linear-gradient(to top, #a855f7, #f472b6)`;
+            heroImage.onerror = () => { // Kept a fallback just in case
+                 heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://placehold.co/1200x800/e11d48/ffffff?text=Our+Story+Begins')`;
                  heroSection.classList.add('loaded');
             };
 
@@ -544,3 +451,4 @@
     </script>
 </body>
 </html>
+
