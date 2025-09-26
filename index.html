@@ -39,7 +39,7 @@
         .heart-pulse-3 { animation: pulse 1.5s infinite 1s; }
         .fade-out { opacity: 0; }
         
-        /* Hero Styling - MOBILE FIX & RESTORED BACKGROUND */
+        /* Hero Styling */
         #hero-section {
             background-size: cover;
             background-position: center center;
@@ -63,8 +63,8 @@
             letter-spacing: 0.1rem; text-shadow: 0 0 20px rgba(0, 0, 0, 0.5); color: #fff;
         }
         .ampersand {
-            font-family: 'Great Vibes', cursive; font-size: 4rem; color: #fde047;
-            margin: 0 0.5rem; text-shadow: 0 0 15px #fde047;
+            font-family: 'Great Vibes', cursive; font-size: 4rem; color: #facc15; /* VIBRANT YELLOW */
+            margin: 0 0.5rem; text-shadow: 0 0 15px #facc15;
         }
         @media (min-width: 768px) {
             .hero-names { font-size: 6rem; }
@@ -96,58 +96,68 @@
         .footer-fixed-heart.left { left: 5%; top: 25%; }
         .footer-fixed-heart.right { right: 5%; top: 25%; animation-delay: 1s; }
         
-        @keyframes pulse-svg-heart {
-            0%, 100% { transform: scale(0.95); filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5)); }
-            50% { transform: scale(1.05); filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8)); }
-        }
-        .animated-footer-heart-svg { animation: pulse-svg-heart 2s ease-in-out infinite; }
-
-        /* Glossy Form & Wishes Styling */
+        /* Glossy & Transparent Input Styling */
         .glossy-form {
-            background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(255,255,255,0.6));
+            background: linear-gradient(145deg, rgba(255,255,255,0.6), rgba(255,255,255,0.3));
             backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 8px 32px 0 rgba(190, 24, 93, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(13, 148, 136, 0.1);
         }
         .glossy-input {
-            background: rgba(255, 255, 255, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.7);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-            transition: background 0.3s ease, box-shadow 0.3s ease;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid rgba(13, 148, 136, 0.3);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 0;
         }
         .glossy-input:focus {
-             background: rgba(255, 255, 255, 0.7);
-             box-shadow: inset 0 2px 4px rgba(0,0,0,0.05), 0 0 0 2px #be185d;
+             background: transparent;
+             border-bottom-color: #0d9488; /* Teal color */
+             box-shadow: 0 1px 0 0 #0d9488;
+             outline: none;
         }
 
-        .wish-card {
-            background: linear-gradient(145deg, rgba(255,255,255,0.8), rgba(255,255,255,0.5));
-            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            text-align: left; transform: translateY(20px); opacity: 0;
-            transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+        /* UNIFIED WISHES PANEL */
+        .unified-wishes-panel {
+            background: linear-gradient(145deg, rgba(255,255,255,0.7), rgba(255,255,255,0.4));
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px 0 rgba(13, 148, 136, 0.15);
         }
-        .wish-card.in-view { transform: translateY(0); opacity: 1; }
+
+        .wish-entry {
+            text-align: left;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            border-bottom: 1px solid rgba(13, 148, 136, 0.15);
+            padding: 1rem 0.5rem;
+        }
+        .wish-entry:last-child { border-bottom: none; }
+        .wish-entry.in-view { transform: translateX(0); opacity: 1; }
         
         @keyframes new-wish-fly-in {
-            0% { transform: translateY(50px) scale(0.8); opacity: 0; }
-            100% { transform: translateY(0) scale(1); opacity: 1; }
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
         .new-wish {
             animation: new-wish-fly-in 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-            box-shadow: 0 0 25px rgba(190, 24, 93, 0.4); /* Glow for the new card */
+            background-color: rgba(20, 184, 166, 0.1);
+            border-radius: 1rem;
+            margin: -0.5rem;
+            padding: 1.5rem;
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-rose-50 to-amber-50 text-gray-800 font-montserrat">
+<body class="bg-gradient-to-br from-emerald-50 via-teal-50 to-green-100 text-gray-800 font-montserrat">
 
-    <div id="loading-screen" class="loading-screen bg-gradient-to-br from-rose-100 to-amber-100">
+    <div id="loading-screen" class="loading-screen bg-gradient-to-br from-emerald-100 to-green-100">
         <div class="flex space-x-4">
-            <svg class="w-10 h-10 text-rose-500 heart-pulse-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
-            <svg class="w-10 h-10 text-amber-500 heart-pulse-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
-            <svg class="w-10 h-10 text-rose-500 heart-pulse-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
+            <svg class="w-10 h-10 text-emerald-500 heart-pulse-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
+            <svg class="w-10 h-10 text-yellow-500 heart-pulse-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
+            <svg class="w-10 h-10 text-emerald-500 heart-pulse-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
         </div>
-        <p class="mt-4 text-xl font-semibold text-rose-800">Love is in the air...</p>
+        <p class="mt-4 text-xl font-semibold text-emerald-800">Love is in the air...</p>
     </div>
 
     <div class="min-h-screen">
@@ -164,9 +174,9 @@
             </div>
         </section>
 
-        <section class="py-12 md:py-16 px-4 bg-gradient-to-r from-rose-100 to-amber-100 text-center animate-on-scroll">
+        <section class="py-12 md:py-16 px-4 bg-gradient-to-r from-emerald-100 to-green-100 text-center animate-on-scroll">
             <div class="container mx-auto max-w-4xl">
-                <div class="thirukural-kural text-rose-800 leading-relaxed mb-8">
+                <div class="thirukural-kural text-emerald-900 leading-relaxed mb-8">
                     <span>அன்பும் அறனும் உடைத்தாயின் இல்வாழ்க்கை</span>
                     <span>பண்பும் பயனும் அது.</span>
                 </div>
@@ -176,78 +186,78 @@
 
         <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-lg shadow-md py-3">
             <div class="container mx-auto px-4 flex justify-center space-x-6 md:space-x-8 text-gray-700 font-montserrat">
-                <a href="#details" class="font-semibold hover:text-rose-600 transition-colors">Details</a>
-                <a href="#our-journey" class="font-semibold hover:text-rose-600 transition-colors">Our Journey</a>
-                <a href="#whatsapp-wishes" class="font-semibold hover:text-rose-600 transition-colors">Wishes</a>
+                <a href="#details" class="font-semibold hover:text-emerald-600 transition-colors">Details</a>
+                <a href="#our-journey" class="font-semibold hover:text-emerald-600 transition-colors">Our Journey</a>
+                <a href="#whatsapp-wishes" class="font-semibold hover:text-emerald-600 transition-colors">Wishes</a>
             </div>
         </nav>
 
         <section id="details" class="py-16 md:py-24 px-4 bg-white animate-on-scroll">
             <div class="container mx-auto text-center">
-                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-rose-800 mb-12 animate-on-scroll flex items-center justify-center">The Ceremonies <span class="ml-2 text-amber-500 animated-heart">❤️</span></h2>
+                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-emerald-900 mb-12 animate-on-scroll flex items-center justify-center">The Ceremonies <span class="ml-2 text-yellow-500 animated-heart">❤️</span></h2>
                 <p class="text-gray-600 max-w-2xl mx-auto mb-12 animate-on-scroll font-montserrat">We cordially invite you to share our joy and celebrate the union of two souls.</p>
                 <div class="grid md:grid-cols-2 gap-8 lg:gap-12 text-gray-700">
-                    <div class="bg-rose-50/50 p-6 md:p-10 rounded-2xl shadow-lg shadow-rose-200/50 border border-rose-200/70 animate-on-scroll">
-                        <h3 class="text-2xl md:text-3xl font-playfair font-bold text-rose-700 mb-4">Marriage</h3>
-                        <p class="text-sm md:text-base font-semibold text-rose-400 mb-2 font-montserrat">DATE & TIME</p>
+                    <div class="bg-emerald-50/70 p-6 md:p-10 rounded-2xl shadow-lg shadow-emerald-200/50 border border-emerald-200/70 animate-on-scroll">
+                        <h3 class="text-2xl md:text-3xl font-playfair font-bold text-emerald-800 mb-4">Marriage</h3>
+                        <p class="text-sm md:text-base font-semibold text-emerald-500 mb-2 font-montserrat">DATE & TIME</p>
                         <p class="text-lg md:text-xl font-bold mb-4 font-montserrat">Monday, November 3, 2025<br>04:30 AM - 11:00 AM</p>
-                        <hr class="w-16 mx-auto my-6 border-rose-300">
-                        <p class="text-sm md:text-base font-semibold text-rose-400 mb-2 font-montserrat">VENUE</p>
-                        <a href="https://www.google.com/maps?sca_esv=99f1a6d769628b16&rlz=1C1ONGR_enIN1124IN1124&output=search&q=Om+Sakthi+Hall+Kaveripattinam&source=lnms&fbs=AIIjpHxU7SXXniUZfeShr2fp4giZ1Y6MJ25_tmWITc7uy4KIetxLMeWi1u_d0OMRvkClUbalBeyXa8ssyRd_VUj5FQB2M49RDgUuMIHyvVwTXA6WeXN8OYQDI_AUx1PTT7RHQ92eG-KQ&entry=mc&ved=1t:200715&ictx:111" class="text-lg md:text-xl font-bold text-rose-600 hover:text-rose-800 transition-colors duration-300 font-montserrat group">
+                        <hr class="w-16 mx-auto my-6 border-emerald-300">
+                        <p class="text-sm md:text-base font-semibold text-emerald-500 mb-2 font-montserrat">VENUE</p>
+                        <a href="https://www.google.com/maps?sca_esv=99f1a6d769628b16&rlz=1C1ONGR_enIN1124IN1124&output=search&q=Om+Sakthi+Hall+Kaveripattinam&source=lnms&fbs=AIIjpHxU7SXXniUZfeShr2fp4giZ1Y6MJ25_tmWITc7uy4KIetxLMeWi1u_d0OMRvkClUbalBeyXa8ssyRd_VUj5FQB2M49RDgUuMIHyvVwTXA6WeXN8OYQDI_AUx1PTT7RHQ92eG-KQ&entry=mc&ved=1t:200715&ictx:111" class="text-lg md:text-xl font-bold text-emerald-700 hover:text-green-700 transition-colors duration-300 font-montserrat group">
                             Om Sakthi Hall<br>Kaveripattinam
-                            <span class="block text-sm text-gray-500 mt-2 font-semibold tracking-wider group-hover:text-rose-700 transition-colors duration-300">(Click for Venue Map)</span>
+                            <span class="block text-sm text-gray-500 mt-2 font-semibold tracking-wider group-hover:text-green-600 transition-colors duration-300">(Click for Venue Map)</span>
                         </a>
                     </div>
-                    <div class="bg-rose-50/50 p-6 md:p-10 rounded-2xl shadow-lg shadow-rose-200/50 border border-rose-200/70 animate-on-scroll">
-                        <h3 class="text-2xl md:text-3xl font-playfair font-bold text-rose-700 mb-4">Reception</h3>
-                        <p class="text-sm md:text-base font-semibold text-rose-400 mb-2 font-montserrat">DATE & TIME</p>
+                    <div class="bg-emerald-50/70 p-6 md:p-10 rounded-2xl shadow-lg shadow-emerald-200/50 border border-emerald-200/70 animate-on-scroll">
+                        <h3 class="text-2xl md:text-3xl font-playfair font-bold text-emerald-800 mb-4">Reception</h3>
+                        <p class="text-sm md:text-base font-semibold text-emerald-500 mb-2 font-montserrat">DATE & TIME</p>
                         <p class="text-lg md:text-xl font-bold mb-4 font-montserrat">Sunday, November 9, 2025<br>11:00 AM - 03:00 PM</p>
-                        <hr class="w-16 mx-auto my-6 border-rose-300">
-                        <p class="text-sm md:text-base font-semibold text-rose-400 mb-2 font-montserrat">VENUE</p>
-                        <a href="https://share.google/JDIlUxWFIuxoyAowG" class="text-lg md:text-xl font-bold text-rose-600 hover:text-rose-800 transition-colors duration-300 font-montserrat group">
+                        <hr class="w-16 mx-auto my-6 border-emerald-300">
+                        <p class="text-sm md:text-base font-semibold text-emerald-500 mb-2 font-montserrat">VENUE</p>
+                        <a href="https://share.google/JDIlUxWFIuxoyAowG" class="text-lg md:text-xl font-bold text-emerald-700 hover:text-green-700 transition-colors duration-300 font-montserrat group">
                             MKM Kalayana Mandapam<br>Andhra Pradesh
-                            <span class="block text-sm text-gray-500 mt-2 font-semibold tracking-wider group-hover:text-rose-700 transition-colors duration-300">(Click for Venue Map)</span>
+                            <span class="block text-sm text-gray-500 mt-2 font-semibold tracking-wider group-hover:text-green-600 transition-colors duration-300">(Click for Venue Map)</span>
                         </a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="our-journey" class="py-12 px-4 bg-gradient-to-l from-amber-100 to-white text-center animate-on-scroll">
+        <section id="our-journey" class="py-12 px-4 bg-gradient-to-l from-green-100 to-white text-center animate-on-scroll">
             <div class="container mx-auto max-w-2xl flex flex-col items-center">
-                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-rose-800 mb-6 animate-on-scroll flex items-center justify-center">Our Journey <span class="ml-2 text-amber-500 animated-heart">💖</span></h2>
+                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-emerald-900 mb-6 animate-on-scroll flex items-center justify-center">Our Journey <span class="ml-2 text-yellow-500 animated-heart">💖</span></h2>
                 <div id="tinder-slider-wrapper" class="relative mb-6"></div>
                 <p id="story-text" class="text-gray-700 leading-relaxed text-lg font-montserrat animate-on-scroll"></p>
             </div>
         </section>
 
-        <section id="whatsapp-wishes" class="py-16 md:py-24 px-4 bg-gradient-to-r from-rose-100 to-amber-100 text-center animate-on-scroll">
-            <div class="container mx-auto max-w-2xl">
-                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-rose-700 mb-4 animate-on-scroll">Send Your Blessings</h2>
-                <p class="text-gray-600 mb-8 font-montserrat animate-on-scroll">Your warm wishes mean the world to us. Leave a beautiful message below!</p>
-                <form id="wishes-form" class="glossy-form p-6 md:p-8 rounded-xl space-y-4 max-w-lg mx-auto animate-on-scroll">
-                    <input type="text" name="name" id="wisher-name" placeholder="Your Name" required class="w-full p-3 border rounded-lg font-montserrat glossy-input">
-                    <textarea name="wish" id="wisher-wish" rows="4" placeholder="Your Heartfelt Wish..." required class="w-full p-3 border rounded-lg font-montserrat resize-none glossy-input"></textarea>
-                    <button type="submit" id="submit-wish-btn" class="w-full bg-rose-600 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-rose-700 transition-transform transform hover:scale-105 disabled:opacity-50 flex items-center justify-center">
-                        Send Wish <span class="ml-2 text-amber-300 animated-heart">💖</span>
-                    </button>
-                    <p id="submission-message" class="text-sm font-montserrat font-semibold text-green-600 opacity-0 transition-opacity duration-500"></p>
-                </form>
-            </div>
-            <div class="container mx-auto mt-16 max-w-4xl">
-                <h3 class="text-xl font-playfair font-bold text-rose-800 mb-6 animate-on-scroll">A Few Wonderful Blessings...</h3>
-                <div id="wishes-display" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        <section id="whatsapp-wishes" class="relative py-16 md:py-24 px-4 bg-cover bg-center" style="background-image: url('https://www.toptal.com/designers/subtlepatterns/uploads/watercolor.png');">
+            <div class="absolute inset-0 bg-green-100/60 backdrop-blur-sm"></div>
+            <div class="relative z-10">
+                <div class="container mx-auto max-w-2xl text-center">
+                    <h2 class="text-3xl md:text-5xl font-playfair font-bold text-emerald-800 mb-4 animate-on-scroll">Send Your Blessings</h2>
+                    <p class="text-gray-700 mb-8 font-montserrat animate-on-scroll">Your warm wishes mean the world to us. Leave a beautiful message below!</p>
+                    <form id="wishes-form" class="glossy-form p-6 md:p-8 rounded-2xl space-y-4 max-w-lg mx-auto animate-on-scroll">
+                        <input type="text" name="name" id="wisher-name" placeholder="Your Name" required class="w-full p-3 font-montserrat glossy-input">
+                        <textarea name="wish" id="wisher-wish" rows="4" placeholder="Your Heartfelt Wish..." required class="w-full p-3 font-montserrat resize-none glossy-input"></textarea>
+                        <button type="submit" id="submit-wish-btn" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:shadow-xl hover:from-emerald-700 hover:to-teal-700 transition-all transform hover:scale-105 disabled:opacity-50 flex items-center justify-center">
+                            Send Wish <span class="ml-2 text-yellow-300 animated-heart">💖</span>
+                        </button>
+                        <p id="submission-message" class="text-sm font-montserrat font-semibold text-green-600 opacity-0 transition-opacity duration-500"></p>
+                    </form>
+                </div>
+                <div class="container mx-auto mt-16 max-w-3xl text-center">
+                    <h3 class="text-2xl font-playfair font-bold text-emerald-800 mb-6 animate-on-scroll">A Few Wonderful Blessings...</h3>
+                    <div id="wishes-container" class="unified-wishes-panel p-4 md:p-6 rounded-2xl">
+                         <div id="wishes-display" class="flex flex-col"></div>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <footer class="bg-gradient-to-r from-rose-900 via-rose-800 to-gray-900 text-center py-8 text-white relative footer-pattern overflow-hidden">
-            <svg class="footer-fixed-heart left w-12 h-12" fill="yellow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-            <svg class="footer-fixed-heart right w-12 h-12" fill="green" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-            <div class="absolute inset-0 flex items-center justify-center z-0">
-                <svg viewBox="0 0 100 100" class="w-2/3 h-2/3 animated-footer-heart-svg">
-                    <path d="M50 85C20 60 5 45 5 30C5 15 20 0 50 20C80 0 95 15 95 30C95 45 80 60 50 85Z" fill="rgba(255,255,255,0.05)" stroke="white" stroke-width="0.5" />
-                </svg>
-            </div>
+        <footer class="bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-center py-8 text-white relative footer-pattern overflow-hidden">
+            <svg class="footer-fixed-heart left w-12 h-12" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            <svg class="footer-fixed-heart right w-12 h-12" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
             <div class="relative z-10 flex flex-col items-center">
                 <p class="font-bold text-lg font-playfair mb-2">With Love,</p>
                 <div class="flex items-center justify-center space-x-2">
@@ -271,17 +281,17 @@
                     distance = receptionDate - now; eventTitle = "Until The Reception";
                 } else {
                     clearInterval(timerInterval);
-                    countdownElement.innerHTML = `<p class="text-lg font-bold text-rose-800">We're Married! Thank you for celebrating with us!</p>`;
+                    countdownElement.innerHTML = `<p class="text-lg font-bold text-emerald-800">We're Married! Thank you for celebrating with us!</p>`;
                     return;
                 }
                 const d = Math.floor(distance / 86400000), h = Math.floor((distance % 86400000) / 3600000), m = Math.floor((distance % 3600000) / 60000), s = Math.floor((distance % 60000) / 1000);
-                countdownElement.innerHTML = `<div class="flex flex-col items-center justify-center space-y-4 rounded-3xl py-6 px-4 shadow-lg shadow-rose-200/50 bg-white/70 max-w-sm mx-auto md:max-w-none"><p class="text-xl md:text-2xl font-bold text-rose-800">${eventTitle}</p><div class="flex flex-wrap items-center justify-center space-x-2 md:space-x-4"><div class="flex flex-col items-center p-2"><span class="text-2xl md:text-4xl font-bold font-playfair text-rose-700">${d}</span><span class="text-sm font-montserrat text-gray-600">Days</span></div><span class="text-xl md:text-2xl animated-heart text-amber-500">❤️</span><div class="flex flex-col items-center p-2"><span class="text-2xl md:text-4xl font-bold font-playfair text-rose-700">${h}</span><span class="text-sm font-montserrat text-gray-600">Hours</span></div><span class="text-xl md:text-2xl animated-heart text-amber-500">❤️</span><div class="flex flex-col items-center p-2"><span class="text-2xl md:text-4xl font-bold font-playfair text-rose-700">${m}</span><span class="text-sm font-montserrat text-gray-600">Minutes</span></div><span class="text-xl md:text-2xl animated-heart text-amber-500">❤️</span><div class="flex flex-col items-center p-2"><span class="text-2xl md:text-4xl font-bold font-playfair text-rose-700">${s}</span><span class="text-sm font-montserrat text-gray-600">Seconds</span></div></div></div>`;
+                countdownElement.innerHTML = `<div class="flex flex-col items-center justify-center space-y-4 rounded-3xl py-6 px-4 shadow-lg shadow-emerald-200/50 bg-white/70 max-w-sm mx-auto md:max-w-none"><p class="text-xl md:text-2xl font-bold text-emerald-800">${eventTitle}</p><div class="flex flex-wrap items-center justify-center space-x-2 md:space-x-4"><div class="flex flex-col items-center p-2"><span class="text-2xl md:text-4xl font-bold font-playfair text-emerald-700">${d}</span><span class="text-sm font-montserrat text-gray-600">Days</span></div><span class="text-xl md:text-2xl animated-heart text-yellow-500">❤️</span><div class="flex flex-col items-center p-2"><span class="text-2xl md:text-4xl font-bold font-playfair text-emerald-700">${h}</span><span class="text-sm font-montserrat text-gray-600">Hours</span></div><span class="text-xl md:text-2xl animated-heart text-yellow-500">❤️</span><div class="flex flex-col items-center p-2"><span class="text-2xl md:text-4xl font-bold font-playfair text-emerald-700">${m}</span><span class="text-sm font-montserrat text-gray-600">Minutes</span></div><span class="text-xl md:text-2xl animated-heart text-yellow-500">❤️</span><div class="flex flex-col items-center p-2"><span class="text-2xl md:text-4xl font-bold font-playfair text-emerald-700">${s}</span><span class="text-sm font-montserrat text-gray-600">Seconds</span></div></div></div>`;
             }, 1000);
         }
 
         function setupIntersectionObserver() {
             const observer = new IntersectionObserver((entries) => entries.forEach(e => e.target.classList.toggle('in-view', e.isIntersecting)), { threshold: 0.1 });
-            document.querySelectorAll('.animate-on-scroll, .wish-card').forEach(el => observer.observe(el));
+            document.querySelectorAll('.animate-on-scroll, .wish-entry').forEach(el => observer.observe(el));
             document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', function(e) { e.preventDefault(); document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' }); }));
         }
         
@@ -297,77 +307,32 @@
             if (!sliderWrapper || !textElement) return;
             let cards = [], currentCardIndex = 0, isDragging = false, startX = 0, autoSlideTimeout;
             const SLIDE_INTERVAL = 7000, SWIPE_THRESHOLD = 80;
-
             function createCards() {
                 sliderWrapper.innerHTML = '';
-                cards = storyData.map(item => {
-                    const card = document.createElement('div');
-                    card.className = 'tinder-card';
-                    card.style.backgroundImage = `url(${item.src})`;
-                    sliderWrapper.appendChild(card);
-                    return card;
-                });
+                cards = storyData.map(item => { const card = document.createElement('div'); card.className = 'tinder-card'; card.style.backgroundImage = `url(${item.src})`; sliderWrapper.appendChild(card); return card; });
                 updateCardDisplay(); resetAutoSlide();
             }
-
-            function updateCardDisplay() {
-                cards.forEach((card, index) => card.classList.toggle('active', index === currentCardIndex));
-                textElement.textContent = storyData[currentCardIndex].story;
-            }
-
+            function updateCardDisplay() { cards.forEach((card, index) => card.classList.toggle('active', index === currentCardIndex)); textElement.textContent = storyData[currentCardIndex].story; }
             function resetAutoSlide() { clearTimeout(autoSlideTimeout); autoSlideTimeout = setTimeout(swipeCard, SLIDE_INTERVAL); }
-
             function swipeCard(direction = 'left') {
-                const activeCard = cards[currentCardIndex];
-                if (!activeCard) return;
+                const activeCard = cards[currentCardIndex]; if (!activeCard) return;
                 const endX = direction === 'left' ? -window.innerWidth : window.innerWidth;
                 activeCard.style.transition = 'transform 0.5s ease-out';
                 activeCard.style.transform = `translateX(${endX}px) rotate(${direction === 'left' ? -20 : 20}deg)`;
-                activeCard.addEventListener('transitionend', function handler() {
-                    activeCard.removeEventListener('transitionend', handler);
-                    goToNextCard();
-                }, { once: true });
+                activeCard.addEventListener('transitionend', () => goToNextCard(), { once: true });
             }
-
             function goToNextCard() {
-                const activeCard = cards[currentCardIndex];
-                activeCard.style.transition = 'none';
-                activeCard.style.transform = '';
-                sliderWrapper.appendChild(activeCard); // Move to the end of the stack
+                const activeCard = cards[currentCardIndex]; activeCard.style.transition = 'none'; activeCard.style.transform = ''; sliderWrapper.appendChild(activeCard);
                 currentCardIndex = (currentCardIndex + 1) % cards.length;
                 updateCardDisplay(); resetAutoSlide();
             }
-
-            function onDragStart(e) {
-                if (e.target.closest('.tinder-card.active')) {
-                    isDragging = true; clearTimeout(autoSlideTimeout);
-                    startX = e.clientX || e.touches[0].clientX;
-                    cards[currentCardIndex].style.transition = 'none';
-                    cards[currentCardIndex].classList.add('grabbing');
-                }
-            }
-
-            function onDragMove(e) {
-                if (!isDragging) return;
-                const currentX = e.clientX || e.touches[0].clientX;
-                const deltaX = currentX - startX;
-                cards[currentCardIndex].style.transform = `translateX(${deltaX}px) rotate(${deltaX / 20}deg)`;
-            }
-
+            function onDragStart(e) { if (e.target.closest('.tinder-card.active')) { isDragging = true; clearTimeout(autoSlideTimeout); startX = e.clientX || e.touches[0].clientX; cards[currentCardIndex].style.transition = 'none'; cards[currentCardIndex].classList.add('grabbing'); } }
+            function onDragMove(e) { if (!isDragging) return; const currentX = e.clientX || e.touches[0].clientX; const deltaX = currentX - startX; cards[currentCardIndex].style.transform = `translateX(${deltaX}px) rotate(${deltaX / 20}deg)`; }
             function onDragEnd(e) {
-                if (!isDragging) return;
-                isDragging = false;
-                const activeCard = cards[currentCardIndex];
-                activeCard.classList.remove('grabbing');
-                const finalX = e.clientX || e.changedTouches[0].clientX;
-                const deltaX = finalX - startX;
-                if (Math.abs(deltaX) > SWIPE_THRESHOLD) {
-                    swipeCard(deltaX > 0 ? 'right' : 'left');
-                } else {
-                    activeCard.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-                    activeCard.style.transform = '';
-                    resetAutoSlide();
-                }
+                if (!isDragging) return; isDragging = false;
+                const activeCard = cards[currentCardIndex]; activeCard.classList.remove('grabbing');
+                const deltaX = (e.clientX || e.changedTouches[0].clientX) - startX;
+                if (Math.abs(deltaX) > SWIPE_THRESHOLD) { swipeCard(deltaX > 0 ? 'right' : 'left'); } else { activeCard.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)'; activeCard.style.transform = ''; resetAutoSlide(); }
             }
             sliderWrapper.addEventListener('mousedown', onDragStart); document.addEventListener('mousemove', onDragMove); document.addEventListener('mouseup', onDragEnd);
             sliderWrapper.addEventListener('touchstart', onDragStart, { passive: true }); document.addEventListener('touchmove', onDragMove, { passive: true }); document.addEventListener('touchend', onDragEnd);
@@ -377,31 +342,25 @@
         function setupWishesSection() {
             const form = document.getElementById('wishes-form'), displayArea = document.getElementById('wishes-display'), submitBtn = document.getElementById('submit-wish-btn'), messageElement = document.getElementById('submission-message');
             const GAS_ENDPOINT = "https://script.google.com/macros/s/AKfycbwwqUdeEOaHATWv7aS5_6QkSFX4lgAZMRifvRU8oq1xJI2itaMnRx_Da566e0T7z74r/exec";
-
             async function fetchWishes() {
                 try {
-                    const res = await fetch(GAS_ENDPOINT);
-                    return res.ok ? await res.json() : [];
-                } catch (error) {
-                    console.error("Error fetching wishes:", error);
-                    return [{ name: "Family & Friends", wish: "Wishing you a lifetime of love and happiness." }, { name: "Well Wishers", wish: "May your journey together be beautiful. Best wishes!" }];
-                }
+                    const res = await fetch(GAS_ENDPOINT); return res.ok ? await res.json() : [];
+                } catch (error) { console.error("Error fetching wishes:", error); return [{ name: "Family & Friends", wish: "Wishing you a lifetime of love and happiness." }, { name: "Well Wishers", wish: "May your journey together be beautiful. Best wishes!" }]; }
             }
-
             function renderWishes(wishes, newWish = null) {
                 displayArea.innerHTML = '';
-                wishes.filter(w => w.name && w.wish).slice().reverse().forEach(wishData => {
-                    const card = document.createElement('div');
-                    card.className = 'wish-card rounded-xl p-6 animate-on-scroll';
+                wishes.filter(w => w.name && w.wish).slice().reverse().forEach((wishData, index) => {
+                    const entry = document.createElement('div');
+                    entry.className = 'wish-entry';
+                    entry.style.transitionDelay = `${index * 120}ms`;
                     if (newWish && wishData.name === newWish.name && wishData.wish === newWish.wish) {
-                        setTimeout(() => { card.classList.remove('animate-on-scroll'); card.classList.add('new-wish'); }, 50);
+                        setTimeout(() => { entry.classList.remove('animate-on-scroll'); entry.classList.add('new-wish'); }, 50);
                     }
-                    card.innerHTML = `<p class="font-dancing-script text-xl text-rose-700 leading-relaxed mb-2">"${wishData.wish}"</p><p class="text-sm font-semibold text-amber-600 mt-3 border-t border-rose-100 pt-2">- ${wishData.name}</p>`;
-                    displayArea.appendChild(card);
+                    entry.innerHTML = `<p class="font-dancing-script text-xl text-emerald-700 leading-relaxed mb-2">"${wishData.wish}"</p><p class="text-sm font-semibold text-teal-600 mt-3 pt-2">- ${wishData.name}</p>`;
+                    displayArea.appendChild(entry);
                 });
                 setupIntersectionObserver();
             }
-
             form.addEventListener("submit", async (e) => {
                 e.preventDefault(); submitBtn.disabled = true; submitBtn.innerHTML = `Sending...`;
                 const newWish = { name: form.name.value, wish: form.wish.value };
@@ -416,7 +375,7 @@
                     messageElement.className = 'text-sm font-montserrat font-semibold text-red-600 opacity-100 transition-opacity duration-500';
                 } finally {
                     setTimeout(() => {
-                        submitBtn.disabled = false; submitBtn.innerHTML = `Send Wish <span class="ml-2 text-amber-300 animated-heart">💖</span>`;
+                        submitBtn.disabled = false; submitBtn.innerHTML = `Send Wish <span class="ml-2 text-yellow-300 animated-heart">💖</span>`;
                         messageElement.classList.remove('opacity-100');
                     }, 5000);
                 }
@@ -430,19 +389,11 @@
                 loadingScreen.classList.add('fade-out');
                 setTimeout(() => { loadingScreen.style.display = 'none'; }, 1000);
             }, 1000);
-
             const heroSection = document.getElementById('hero-section');
             const heroImage = new Image();
-            heroImage.src = 'img/your_cover_photo.JPG'; // Restored original image path
-            heroImage.onload = () => {
-                heroSection.style.backgroundImage = `url('${heroImage.src}')`;
-                heroSection.classList.add('loaded');
-            };
-            heroImage.onerror = () => { // Kept a fallback just in case
-                 heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://placehold.co/1200x800/e11d48/ffffff?text=Our+Story+Begins')`;
-                 heroSection.classList.add('loaded');
-            };
-
+            heroImage.src = 'img/your_cover_photo.JPG';
+            heroImage.onload = () => { heroSection.style.backgroundImage = `url('${heroImage.src}')`; heroSection.classList.add('loaded'); };
+            heroImage.onerror = () => { heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://placehold.co/1200x800/10b981/ffffff?text=Our+Story+Begins')`; heroSection.classList.add('loaded'); };
             setupCountdown();
             setupTinderSlider();
             setupWishesSection();
