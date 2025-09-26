@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Great+Vibes&family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
     <style>
+        /* Font Definitions */
         .font-playfair { font-family: 'Playfair Display', serif; }
         .font-montserrat { font-family: 'Montserrat', sans-serif; }
         .font-great-vibes { font-family: 'Great Vibes', cursive; }
@@ -23,6 +24,7 @@
             transform: translateY(0);
         }
         
+        /* Thirukural Styling */
         .thirukural-kural {
             font-size: 1.25rem;
             font-family: 'Playfair Display', serif;
@@ -38,7 +40,6 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #fce8e6;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -47,31 +48,36 @@
             transition: opacity 1s ease-out;
         }
         @keyframes pulse {
-            0% { transform: scale(0.8); opacity: 0.5; }
-            50% { transform: scale(1.2); opacity: 1; }
-            100% { transform: scale(0.8); opacity: 0.5; }
+            0% { transform: scale(0.9); opacity: 0.7; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(0.9); opacity: 0.7; }
         }
         .heart-pulse-1 { animation: pulse 1.5s infinite; }
         .heart-pulse-2 { animation: pulse 1.5s infinite 0.5s; }
         .heart-pulse-3 { animation: pulse 1.5s infinite 1s; }
         .fade-out { opacity: 0; }
         
-        /* Hero Styling */
-        .hero-merged {
+        /* Hero Styling - MOBILE FIX */
+        #hero-section {
             background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            filter: blur(5px);
+            /* Default for desktop: centers the image */
+            background-position: center center;
             transition: filter 1s ease-in-out;
         }
-        .hero-merged.loaded {
-            filter: blur(0);
+        #hero-section.loaded {
+             filter: blur(0);
+        }
+        /* On mobile, adjust the focus to be higher up, preventing over-zooming on faces */
+        @media (max-width: 768px) {
+            #hero-section {
+                background-position: center 30%;
+            }
         }
         
         /* Pulsating heart animation */
         @keyframes pulse-heart {
             0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+            50% { transform: scale(1.1); }
             100% { transform: scale(1); }
         }
         .animated-heart {
@@ -85,22 +91,22 @@
             font-size: 3.5rem;
             font-weight: bold;
             letter-spacing: 0.1rem;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+            text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
             color: #fff;
         }
         .ampersand {
             font-family: 'Great Vibes', cursive;
             font-size: 4rem;
-            color: #fde047;
+            color: #fde047; /* A bright, celebratory gold */
             margin: 0 0.5rem;
-            text-shadow: 0 0 10px #fde047;
+            text-shadow: 0 0 15px #fde047;
         }
         @media (min-width: 768px) {
             .hero-names { font-size: 6rem; }
             .ampersand { font-size: 7rem; }
         }
 
-        /* Tinder-like Slider Styles (Kept for the Journey Section) */
+        /* Journey Section Slider */
         #tinder-slider-wrapper {
             position: relative;
             width: 100%;
@@ -117,8 +123,7 @@
             border-radius: 1.5rem;
             background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
-            box-shadow: 0 0 25px rgba(0,0,0,0.4); 
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.2), 0 8px 10px -6px rgba(0,0,0,0.2);
             will-change: transform, opacity;
             transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
             cursor: grab;
@@ -131,81 +136,80 @@
         .swipe-left { transform: translateX(-300%) rotate(-30deg) !important; }
         .swipe-right { transform: translateX(300%) rotate(30deg) !important; }
 
-        /* Footer Pattern and Heart Animations */
+        /* Footer Styling & Heart Fix */
         .footer-pattern { position: relative; overflow: hidden; }
-        @keyframes beat-heart { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+        @keyframes beat-heart { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
         .footer-fixed-heart {
             position: absolute;
             font-size: 3rem;
-            opacity: 0.2;
+            opacity: 0.15; /* Increased opacity for better visibility */
             animation: beat-heart 1.5s infinite;
         }
         .footer-fixed-heart.left { left: 5%; top: 25%; }
         .footer-fixed-heart.right { right: 5%; top: 25%; }
         @keyframes pulse-svg-heart {
-            0% { transform: scale(0.9); filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5)); }
-            50% { transform: scale(1.1); filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8)); }
-            100% { transform: scale(0.9); filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5)); }
+            0% { transform: scale(0.95); filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5)); }
+            50% { transform: scale(1.05); filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8)); }
+            100% { transform: scale(0.95); filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5)); }
         }
         .animated-footer-heart-svg { animation: pulse-svg-heart 2s ease-in-out infinite; }
 
-        /* WISH CARD STYLES AND ANIMATION */
+        /* Wish Card Styling */
         .wish-card {
             background-color: #ffffff;
             padding: 1.5rem;
             border-radius: 1rem;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             text-align: left;
-            /* Initial state for IntersectionObserver (animate-on-scroll) */
             transform: translateY(20px);
             opacity: 0;
             transition: transform 0.8s ease-out, opacity 0.8s ease-out;
         }
-        /* Class to trigger the intersection animation */
         .wish-card.in-view {
             transform: translateY(0);
             opacity: 1;
         }
-        /* Animation for the newly submitted wish card */
         @keyframes new-wish-fly-in {
             0% { transform: translateY(50px) scale(0.8); opacity: 0; }
             100% { transform: translateY(0) scale(1); opacity: 1; }
         }
         .new-wish {
             animation: new-wish-fly-in 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.6); /* Glow for the new card */
+            box-shadow: 0 0 20px rgba(190, 24, 93, 0.4); /* Glow for the new card */
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-teal-50 text-gray-800 font-montserrat">
+<body class="bg-gradient-to-br from-rose-50 to-amber-50 text-gray-800 font-montserrat">
 
-    <div id="loading-screen" class="loading-screen bg-gradient-to-br from-blue-100 to-teal-100">
+    <!-- Loading Screen with new elegant colors -->
+    <div id="loading-screen" class="loading-screen bg-gradient-to-br from-rose-100 to-amber-100">
         <div class="flex space-x-4">
-            <svg class="w-10 h-10 text-teal-500 heart-pulse-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
-            <svg class="w-10 h-10 text-blue-500 heart-pulse-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
-            <svg class="w-10 h-10 text-teal-500 heart-pulse-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
+            <svg class="w-10 h-10 text-rose-500 heart-pulse-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
+            <svg class="w-10 h-10 text-amber-500 heart-pulse-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
+            <svg class="w-10 h-10 text-rose-500 heart-pulse-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
         </div>
-        <p class="mt-4 text-xl font-semibold text-blue-800">Love is in the air...</p>
+        <p class="mt-4 text-xl font-semibold text-rose-800">Love is in the air...</p>
     </div>
 
     <div class="min-h-screen">
-        <section id="hero-section" class="relative h-screen flex flex-col items-center justify-center p-4 text-center">
-            <div class="absolute inset-0 bg-black opacity-30 z-0"></div>
-             <div class="relative z-10 text-white drop-shadow-md animate-on-scroll">
+        <!-- Hero Section -->
+        <section id="hero-section" class="relative h-screen flex flex-col items-center justify-center p-4 text-center" style="filter: blur(5px);">
+            <div class="absolute inset-0 bg-black opacity-40 z-0"></div>
+            <div class="relative z-10 text-white drop-shadow-lg animate-on-scroll">
                 <p class="text-2xl font-playfair mb-4 tracking-wider">You are Invited to the Wedding of</p>
-                
                 <h1 class="font-dancing-script">
                     <span class="hero-names">Someshwaran</span>
                     <span class="ampersand">&</span>
                     <span class="hero-names">Devi</span>
                 </h1>
-                <p class="hero-subtext font-montserrat tracking-wide">Get Ready to Celebrate with Us!</p>
+                <p class="hero-subtext font-montserrat tracking-wide mt-2">Get Ready to Celebrate with Us!</p>
             </div>
         </section>
 
-        <section class="py-12 md:py-16 px-4 bg-gradient-to-r from-blue-100 to-teal-100 text-center animate-on-scroll">
+        <!-- Thirukural & Countdown Section -->
+        <section class="py-12 md:py-16 px-4 bg-gradient-to-r from-rose-100 to-amber-100 text-center animate-on-scroll">
             <div class="container mx-auto max-w-4xl">
-                <div class="thirukural-kural text-blue-800 leading-relaxed mb-8">
+                <div class="thirukural-kural text-rose-800 leading-relaxed mb-8">
                     <span>அன்பும் அறனும் உடைத்தாயின் இல்வாழ்க்கை</span>
                     <span>பண்பும் பயனும் அது.</span>
                 </div>
@@ -213,89 +217,91 @@
             </div>
         </section>
 
-        <nav class="sticky top-0 z-50 bg-blue-300 backdrop-blur-lg bg-opacity-80 shadow-lg py-3">
-            <div class="container mx-auto px-4 flex justify-center space-x-6 text-gray-800 font-montserrat">
-                <a href="#details" class="font-semibold hover:text-blue-700 transition-colors">Details</a>
-                <a href="#our-journey" class="font-semibold hover:text-blue-700 transition-colors">Our Journey</a>
-                <a href="#whatsapp-wishes" class="font-semibold hover:text-blue-700 transition-colors">Wishes</a>
+        <!-- Sticky Navigation -->
+        <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-lg shadow-md py-3">
+            <div class="container mx-auto px-4 flex justify-center space-x-6 md:space-x-8 text-gray-700 font-montserrat">
+                <a href="#details" class="font-semibold hover:text-rose-600 transition-colors">Details</a>
+                <a href="#our-journey" class="font-semibold hover:text-rose-600 transition-colors">Our Journey</a>
+                <a href="#whatsapp-wishes" class="font-semibold hover:text-rose-600 transition-colors">Wishes</a>
             </div>
         </nav>
 
+        <!-- Details Section -->
         <section id="details" class="py-16 md:py-24 px-4 bg-white animate-on-scroll">
             <div class="container mx-auto text-center">
-                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-teal-600 mb-12 animate-on-scroll flex items-center justify-center">The Ceremonies <span class="ml-2 text-yellow-500 animated-heart">❤️</span></h2>
+                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-rose-800 mb-12 animate-on-scroll flex items-center justify-center">The Ceremonies <span class="ml-2 text-amber-500 animated-heart">❤️</span></h2>
                 <p class="text-gray-600 max-w-2xl mx-auto mb-12 animate-on-scroll font-montserrat">We cordially invite you to share our joy and celebrate the union of two souls.</p>
 
                 <div class="grid md:grid-cols-2 gap-8 lg:gap-12 text-gray-700">
-                    <div class="bg-blue-50 p-6 md:p-10 rounded-2xl shadow-xl border border-blue-200 animate-on-scroll">
-                        <h3 class="text-2xl md:text-3xl font-playfair font-bold text-blue-600 mb-4">Marriage</h3>
-                        <p class="text-sm md:text-base font-semibold text-blue-400 mb-2 font-montserrat">DATE & TIME</p>
+                    <!-- Marriage Card -->
+                    <div class="bg-rose-50/50 p-6 md:p-10 rounded-2xl shadow-lg shadow-rose-200/50 border border-rose-200/70 animate-on-scroll">
+                        <h3 class="text-2xl md:text-3xl font-playfair font-bold text-rose-700 mb-4">Marriage</h3>
+                        <p class="text-sm md:text-base font-semibold text-rose-400 mb-2 font-montserrat">DATE & TIME</p>
                         <p class="text-lg md:text-xl font-bold mb-4 font-montserrat">Monday, November 3, 2025<br>04:30 AM - 11:00 AM</p>
-                        <hr class="w-16 mx-auto my-6 border-blue-300">
-                        <p class="text-sm md:text-base font-semibold text-blue-400 mb-2 font-montserrat">VENUE</p>
-                        <a href="https://www.google.com/maps?sca_esv=99f1a6d769628b16&rlz=1C1ONGR_enIN1124IN1124&output=search&q=Om+Sakthi+Hall+Kaveripattinam&source=lnms&fbs=AIIjpHxU7SXXniUZfeShr2fp4giZ1Y6MJ25_tmWITc7uy4KIetxLMeWi1u_d0OMRvkClUbalBeyXa8ssyRd_VUj5FQB2M49RDgUuMIHyvVwTXA6WeXN8OYQDI_AUx1PTT7RHQ92eG-KQ&entry=mc&ved=1t:200715&ictx:111" class="text-lg md:text-xl font-bold text-teal-600 hover:underline font-montserrat">Om Sakthi Hall<br>Kaveripattinam</a>
+                        <hr class="w-16 mx-auto my-6 border-rose-300">
+                        <p class="text-sm md:text-base font-semibold text-rose-400 mb-2 font-montserrat">VENUE</p>
+                        <a href="https://www.google.com/maps?sca_esv=99f1a6d769628b16&rlz=1C1ONGR_enIN1124IN1124&output=search&q=Om+Sakthi+Hall+Kaveripattinam&source=lnms&fbs=AIIjpHxU7SXXniUZfeShr2fp4giZ1Y6MJ25_tmWITc7uy4KIetxLMeWi1u_d0OMRvkClUbalBeyXa8ssyRd_VUj5FQB2M49RDgUuMIHyvVwTXA6WeXN8OYQDI_AUx1PTT7RHQ92eG-KQ&entry=mc&ved=1t:200715&ictx:111" class="text-lg md:text-xl font-bold text-rose-600 hover:text-rose-800 transition-colors duration-300 font-montserrat group">
+                            Om Sakthi Hall<br>Kaveripattinam
+                            <span class="block text-sm text-gray-500 mt-2 font-semibold tracking-wider group-hover:text-rose-700 transition-colors duration-300">(Click for Venue Map)</span>
+                        </a>
                     </div>
 
-                    <div class="bg-blue-50 p-6 md:p-10 rounded-2xl shadow-xl border border-blue-200 animate-on-scroll">
-                        <h3 class="text-2xl md:text-3xl font-playfair font-bold text-blue-600 mb-4">Reception</h3>
-                        <p class="text-sm md:text-base font-semibold text-blue-400 mb-2 font-montserrat">DATE & TIME</p>
+                    <!-- Reception Card -->
+                    <div class="bg-rose-50/50 p-6 md:p-10 rounded-2xl shadow-lg shadow-rose-200/50 border border-rose-200/70 animate-on-scroll">
+                        <h3 class="text-2xl md:text-3xl font-playfair font-bold text-rose-700 mb-4">Reception</h3>
+                        <p class="text-sm md:text-base font-semibold text-rose-400 mb-2 font-montserrat">DATE & TIME</p>
                         <p class="text-lg md:text-xl font-bold mb-4 font-montserrat">Sunday, November 9, 2025<br>11:00 AM - 03:00 PM</p>
-                        <hr class="w-16 mx-auto my-6 border-blue-300">
-                        <p class="text-sm md:text-base font-semibold text-blue-400 mb-2 font-montserrat">VENUE</p>
-                        <a href="https://share.google/JDIlUxWFIuxoyAowG" class="text-lg md:text-xl font-bold text-teal-600 hover:underline font-montserrat">MKM Kalayana Mandapam<br>Andhra Pradesh</a>
+                        <hr class="w-16 mx-auto my-6 border-rose-300">
+                        <p class="text-sm md:text-base font-semibold text-rose-400 mb-2 font-montserrat">VENUE</p>
+                        <a href="https://share.google/JDIlUxWFIuxoyAowG" class="text-lg md:text-xl font-bold text-rose-600 hover:text-rose-800 transition-colors duration-300 font-montserrat group">
+                            MKM Kalayana Mandapam<br>Andhra Pradesh
+                            <span class="block text-sm text-gray-500 mt-2 font-semibold tracking-wider group-hover:text-rose-700 transition-colors duration-300">(Click for Venue Map)</span>
+                        </a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="our-journey" class="py-12 px-4 bg-gradient-to-l from-blue-100 to-white text-center animate-on-scroll">
+        <!-- Our Journey Section -->
+        <section id="our-journey" class="py-12 px-4 bg-gradient-to-l from-amber-100 to-white text-center animate-on-scroll">
             <div class="container mx-auto max-w-2xl flex flex-col items-center">
-                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-teal-600 mb-6 animate-on-scroll flex items-center justify-center">Our Journey <span class="ml-2 text-yellow-500 animated-heart">💖</span></h2>
-                
-                <div id="tinder-slider-wrapper" class="relative mb-6">
-                    </div>
-
+                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-rose-800 mb-6 animate-on-scroll flex items-center justify-center">Our Journey <span class="ml-2 text-amber-500 animated-heart">💖</span></h2>
+                <div id="tinder-slider-wrapper" class="relative mb-6"></div>
                 <p id="story-text" class="text-gray-700 leading-relaxed text-lg font-montserrat animate-on-scroll"></p>
             </div>
         </section>
 
-        <section id="whatsapp-wishes" class="py-16 md:py-24 px-4 bg-gradient-to-r from-teal-100 to-blue-200 text-center animate-on-scroll">
+        <!-- Wishes Section -->
+        <section id="whatsapp-wishes" class="py-16 md:py-24 px-4 bg-gradient-to-r from-rose-100 to-amber-100 text-center animate-on-scroll">
             <div class="container mx-auto max-w-2xl">
-                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-blue-600 mb-4 animate-on-scroll">Send Your Blessings</h2>
+                <h2 class="text-3xl md:text-5xl font-playfair font-bold text-rose-700 mb-4 animate-on-scroll">Send Your Blessings</h2>
                 <p class="text-gray-600 mb-8 font-montserrat animate-on-scroll">Your warm wishes mean the world to us. Leave a beautiful message below!</p>
 
-                <form id="wishes-form" 
-                    class="bg-white p-6 md:p-8 rounded-xl shadow-2xl space-y-4 max-w-lg mx-auto animate-on-scroll">
-                    
-                    <input type="text" name="name" id="wisher-name" placeholder="Your Name" required
-                        class="w-full p-3 border border-blue-300 rounded-lg focus:ring-teal-500 focus:border-teal-500 font-montserrat transition duration-300">
-                    
-                    <textarea name="wish" id="wisher-wish" rows="4" placeholder="Your Heartfelt Wish (e.g., Wishing you a lifetime of happiness!)" required
-                        class="w-full p-3 border border-blue-300 rounded-lg focus:ring-teal-500 focus:border-teal-500 font-montserrat transition duration-300 resize-none"></textarea>
-                    
-                    <button type="submit" id="submit-wish-btn"
-                        class="w-full bg-teal-600 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-teal-700 transition-colors transform hover:scale-105 disabled:opacity-50 flex items-center justify-center">
-                        Send Wish <span class="ml-2 text-yellow-300 animated-heart">💖</span>
+                <form id="wishes-form" class="bg-white p-6 md:p-8 rounded-xl shadow-2xl space-y-4 max-w-lg mx-auto animate-on-scroll">
+                    <input type="text" name="name" id="wisher-name" placeholder="Your Name" required class="w-full p-3 border border-rose-300 rounded-lg focus:ring-rose-500 focus:border-rose-500 font-montserrat transition duration-300">
+                    <textarea name="wish" id="wisher-wish" rows="4" placeholder="Your Heartfelt Wish..." required class="w-full p-3 border border-rose-300 rounded-lg focus:ring-rose-500 focus:border-rose-500 font-montserrat transition duration-300 resize-none"></textarea>
+                    <button type="submit" id="submit-wish-btn" class="w-full bg-rose-600 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-rose-700 transition-transform transform hover:scale-105 disabled:opacity-50 flex items-center justify-center">
+                        Send Wish <span class="ml-2 text-amber-300 animated-heart">💖</span>
                     </button>
-
                     <p id="submission-message" class="text-sm font-montserrat font-semibold text-green-600 opacity-0 transition-opacity duration-500"></p>
                 </form>
             </div>
 
             <div class="container mx-auto mt-16 max-w-4xl">
-                <h3 class="text-xl font-playfair font-bold text-blue-800 mb-6 animate-on-scroll">A Few Wonderful Blessings...</h3>
-                <div id="wishes-display" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    </div>
+                <h3 class="text-xl font-playfair font-bold text-rose-800 mb-6 animate-on-scroll">A Few Wonderful Blessings...</h3>
+                <div id="wishes-display" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
         </section>
 
-        <footer class="bg-gradient-to-r from-blue-900 via-blue-800 to-teal-900 text-center py-8 text-white relative footer-pattern overflow-hidden">
-            <svg class="footer-fixed-heart left w-12 h-12 fill-yellow-800" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-            <svg class="footer-fixed-heart right w-12 h-12 fill-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        <!-- Footer -->
+        <footer class="bg-gradient-to-r from-rose-900 via-rose-800 to-gray-900 text-center py-8 text-white relative footer-pattern overflow-hidden">
+             <!-- FOOTER FIX: Changed heart icons to a more visible color using Tailwind text classes and currentColor -->
+            <svg class="footer-fixed-heart left w-12 h-12 text-amber-200" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            <svg class="footer-fixed-heart right w-12 h-12 text-amber-200" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
             
             <div class="absolute inset-0 flex items-center justify-center z-0">
                 <svg viewBox="0 0 100 100" class="w-2/3 h-2/3 animated-footer-heart-svg">
-                    <path d="M50 85C20 60 5 45 5 30C5 15 20 0 50 20C80 0 95 15 95 30C95 45 80 60 50 85Z" fill="rgba(255,255,255,0.1)" stroke="white" stroke-width="1" />
+                    <path d="M50 85C20 60 5 45 5 30C5 15 20 0 50 20C80 0 95 15 95 30C95 45 80 60 50 85Z" fill="rgba(255,255,255,0.05)" stroke="white" stroke-width="0.5" />
                 </svg>
             </div>
 
@@ -305,12 +311,10 @@
                     <p class="text-xl font-bold font-montserrat">Someshwaran & Devi</p>
                 </div>
             </div>
-            <div id="footer-hearts-container" class="absolute inset-0 z-0"></div>
         </footer>
     </div>
 
     <script>
-        // Setup function declarations
         function setupCountdown() {
             const countdownElement = document.getElementById('countdown');
             const marriageDate = new Date("Nov 03, 2025 04:30:00").getTime();
@@ -318,18 +322,17 @@
             
             let timerInterval = setInterval(function() {
                 const now = new Date().getTime();
-                let distance;
-                let eventTitle;
+                let distance, eventTitle;
 
                 if (now < marriageDate) {
                     distance = marriageDate - now;
-                    eventTitle = "Marriage";
-                } else if (now >= marriageDate && now < receptionDate) {
+                    eventTitle = "Until The Wedding";
+                } else if (now < receptionDate) {
                     distance = receptionDate - now;
-                    eventTitle = "Reception";
+                    eventTitle = "Until The Reception";
                 } else {
                     clearInterval(timerInterval);
-                    countdownElement.innerHTML = `<p class="text-lg font-bold text-blue-800">We're Married! Congratulations!</p>`;
+                    countdownElement.innerHTML = `<p class="text-lg font-bold text-rose-800">We're Married! Thank you for celebrating with us!</p>`;
                     return;
                 }
 
@@ -339,49 +342,41 @@
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
                 countdownElement.innerHTML = `
-                    <div class="flex flex-col items-center justify-center space-y-4 md:space-y-6 rounded-3xl py-6 px-4 shadow-xl bg-blue-300 max-w-sm mx-auto md:max-w-none">
-                        <p class="text-xl md:text-2xl font-bold text-blue-800">${eventTitle} Countdown</p>
+                    <div class="flex flex-col items-center justify-center space-y-4 rounded-3xl py-6 px-4 shadow-lg shadow-rose-200/50 bg-white/70 max-w-sm mx-auto md:max-w-none">
+                        <p class="text-xl md:text-2xl font-bold text-rose-800">${eventTitle}</p>
                         <div class="flex flex-wrap items-center justify-center space-x-2 md:space-x-4">
-                            <div class="flex flex-col items-center mb-2 md:mb-0">
-                                <span class="text-2xl md:text-4xl font-bold font-playfair text-blue-700">${days}</span>
-                                <span class="text-sm font-montserrat text-gray-800">நாட்கள்</span>
+                            <div class="flex flex-col items-center p-2">
+                                <span class="text-2xl md:text-4xl font-bold font-playfair text-rose-700">${days}</span>
+                                <span class="text-sm font-montserrat text-gray-600">Days</span>
                             </div>
-                            <span class="text-xl md:text-2xl animated-heart text-yellow-500">❤️</span>
-                            <div class="flex flex-col items-center mb-2 md:mb-0">
-                                <span class="text-2xl md:text-4xl font-bold font-playfair text-blue-700">${hours}</span>
-                                <span class="text-sm font-montserrat text-gray-800">மணிநேரம்</span>
+                            <span class="text-xl md:text-2xl animated-heart text-amber-500">❤️</span>
+                            <div class="flex flex-col items-center p-2">
+                                <span class="text-2xl md:text-4xl font-bold font-playfair text-rose-700">${hours}</span>
+                                <span class="text-sm font-montserrat text-gray-600">Hours</span>
                             </div>
-                            <span class="text-xl md:text-2xl animated-heart text-yellow-500">❤️</span>
-                            <div class="flex flex-col items-center mb-2 md:mb-0">
-                                <span class="text-2xl md:text-4xl font-bold font-playfair text-blue-700">${minutes}</span>
-                                <span class="text-sm font-montserrat text-gray-800">நிமிடங்கள்</span>
+                            <span class="text-xl md:text-2xl animated-heart text-amber-500">❤️</span>
+                            <div class="flex flex-col items-center p-2">
+                                <span class="text-2xl md:text-4xl font-bold font-playfair text-rose-700">${minutes}</span>
+                                <span class="text-sm font-montserrat text-gray-600">Minutes</span>
                             </div>
-                            <span class="text-xl md:text-2xl animated-heart text-yellow-500">❤️</span>
-                            <div class="flex flex-col items-center">
-                                <span class="text-2xl md:text-4xl font-bold font-playfair text-blue-700">${seconds}</span>
-                                <span class="text-sm font-montserrat text-gray-800">விநாடிகள்</span>
+                            <span class="text-xl md:text-2xl animated-heart text-amber-500">❤️</span>
+                            <div class="flex flex-col items-center p-2">
+                                <span class="text-2xl md:text-4xl font-bold font-playfair text-rose-700">${seconds}</span>
+                                <span class="text-sm font-montserrat text-gray-600">Seconds</span>
                             </div>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             }, 1000);
         }
 
         function setupIntersectionObserver() {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('in-view');
-                    } else {
-                        entry.target.classList.remove('in-view');
-                    }
+                    entry.target.classList.toggle('in-view', entry.isIntersecting);
                 });
             }, { threshold: 0.1 });
 
-            document.querySelectorAll('.animate-on-scroll, .wish-card').forEach(element => {
-                observer.observe(element);
-            });
-
+            document.querySelectorAll('.animate-on-scroll, .wish-card').forEach(el => observer.observe(el));
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -390,36 +385,27 @@
             });
         }
         
-        // --- START: TINDER SLIDER LOGIC ---
         function setupTinderSlider() {
             const storyData = [
-                { src: "img/story_1.JPG", story: "It all began on a crisp autumn day, a chance meeting that sparked a connection unlike any other. We found our forever in each other's eyes, and now, we are ready to embark on this beautiful new journey." },
-                { src: "img/story_2.JPG", story: "Through shared laughter, quiet conversations, and unwavering support, our love blossomed. We found our forever in each other's eyes, and now, we are ready to embark on this beautiful new journey." },
-                { src: "img/story_3.JPG", story: "He got down on one knee, and in that moment, all the moments led to this one. We found our forever in each other's eyes, and now, we are ready to embark on this beautiful new journey." },
-                { src: "img/story_4.JPG", story: "A beautiful moment captured during our engagement shoot, surrounded by the joy and love of our families. Every photo tells a part of our story, a memory we'll cherish forever." },
+                { src: "https://placehold.co/400x500/fecaca/881337?text=Our+First+Date", story: "It all began on a crisp autumn day, a chance meeting that sparked a connection unlike any other. We found our forever in each other's eyes." },
+                { src: "https://placehold.co/400x500/fed7aa/854d0e?text=The+Proposal", story: "He got down on one knee, and in that moment, all the moments led to this one. A resounding 'Yes!' and the start of our forever." },
+                { src: "https://placehold.co/400x500/d9f99d/3f6212?text=Adventure+Time", story: "Through shared laughter, quiet conversations, and unwavering support, our love blossomed into the beautiful journey it is today." },
+                { src: "https://placehold.co/400x500/bfdbfe/1e3a8a?text=Engagement+Day", story: "A beautiful moment captured during our engagement shoot, surrounded by the joy and love of our families. We can't wait for the big day!" },
             ];
-
             const sliderWrapper = document.getElementById('tinder-slider-wrapper');
             const textElement = document.getElementById('story-text');
-            let cards = [];
-            let currentCardIndex = 0;
-            let isSwiping = false;
-            let startX = 0;
-            let autoSlideTimeout;
-            const swipeThreshold = 100;
+            if (!sliderWrapper || !textElement) return;
+            let cards = [], currentCardIndex = 0, isSwiping = false, startX = 0, autoSlideTimeout;
             const SLIDE_INTERVAL = 7000;
 
             function createCards() {
-                cards = [];
                 sliderWrapper.innerHTML = '';
-                storyData.forEach((item, index) => {
+                cards = storyData.map((item) => {
                     const card = document.createElement('div');
-                    card.classList.add('tinder-card');
-                    // NOTE: Replace these placeholder image paths with your actual images
-                    card.style.backgroundImage = `url(${item.src})`; 
-                    card.dataset.index = index;
+                    card.className = 'tinder-card';
+                    card.style.backgroundImage = `url(${item.src})`;
                     sliderWrapper.appendChild(card);
-                    cards.push(card);
+                    return card;
                 });
                 updateCardDisplay();
                 resetAutoSlide();
@@ -428,258 +414,132 @@
             function updateCardDisplay() {
                 cards.forEach((card, index) => {
                     card.classList.remove('active', 'inactive');
-                    if (index === currentCardIndex) {
-                        card.classList.add('active');
-                    } else if ((index === (currentCardIndex + 1) % storyData.length)) {
-                        card.classList.add('inactive');
-                    }
+                    if (index === currentCardIndex) card.classList.add('active');
                 });
                 textElement.textContent = storyData[currentCardIndex].story;
             }
 
             function resetAutoSlide() {
                 clearTimeout(autoSlideTimeout);
-                autoSlideTimeout = setTimeout(() => {
-                    showNextCard();
-                }, SLIDE_INTERVAL);
+                autoSlideTimeout = setTimeout(showNextCard, SLIDE_INTERVAL);
             }
 
             function showNextCard() {
-                if (isSwiping) return;
                 const activeCard = cards[currentCardIndex];
-                
                 activeCard.style.transition = 'transform 0.5s ease-in-out';
                 activeCard.style.transform = `translateX(-300%) rotate(-30deg)`;
-
-                activeCard.addEventListener('transitionend', function handler() {
-                    activeCard.removeEventListener('transitionend', handler);
-                    activeCard.classList.remove('swipe-left', 'swipe-right');
+                activeCard.addEventListener('transitionend', () => {
                     activeCard.style.transition = 'none';
                     activeCard.style.transform = '';
                     sliderWrapper.appendChild(activeCard);
-                    
-                    currentCardIndex = (currentCardIndex + 1) % storyData.length;
+                    currentCardIndex = (currentCardIndex + 1) % cards.length;
                     updateCardDisplay();
                     resetAutoSlide();
                 }, { once: true });
             }
-
-            function onDragStart(e) {
-                if (isSwiping) return;
-                clearTimeout(autoSlideTimeout);
-                
-                startX = e.clientX || e.touches[0].clientX;
-                if(cards[currentCardIndex]) cards[currentCardIndex].style.transition = 'none';
-            }
-
-            function onDragMove(e) {
-                if (!isSwiping && cards[currentCardIndex]) {
-                    currentX = e.clientX || e.touches[0].clientX;
-                    const deltaX = currentX - startX;
-                    const activeCard = cards[currentCardIndex];
-                    if (activeCard) {
-                        activeCard.style.transform = `translateX(${deltaX}px) rotate(${deltaX / 20}deg)`;
-                    }
-                }
-            }
-
-            function onDragEnd(e) {
-                if (isSwiping || !cards[currentCardIndex]) return;
-                const activeCard = cards[currentCardIndex];
-                const deltaX = (e.clientX || e.changedTouches[0].clientX) - startX;
-
-                activeCard.style.transition = 'transform 0.5s ease-in-out';
-
-                if (Math.abs(deltaX) > swipeThreshold) {
-                    const direction = deltaX > 0 ? 'right' : 'left';
-                    isSwiping = true;
-
-                    activeCard.classList.add(direction === 'left' ? 'swipe-left' : 'swipe-right');
-                    
-                    activeCard.addEventListener('transitionend', function handler() {
-                        activeCard.removeEventListener('transitionend', handler);
-                        isSwiping = false;
-                        activeCard.classList.remove('swipe-left', 'swipe-right');
-                        activeCard.style.transition = 'none';
-                        activeCard.style.transform = '';
-                        sliderWrapper.appendChild(activeCard);
-
-                        currentCardIndex = (currentCardIndex + 1) % storyData.length;
-                        updateCardDisplay();
-                        resetAutoSlide();
-                    }, { once: true });
-                } else {
-                    activeCard.style.transform = 'translateX(0) rotate(0)';
-                    resetAutoSlide();
-                }
-            }
-
-            sliderWrapper.addEventListener('mousedown', onDragStart);
-            sliderWrapper.addEventListener('mousemove', onDragMove);
-            sliderWrapper.addEventListener('mouseup', onDragEnd);
-            sliderWrapper.addEventListener('mouseleave', onDragEnd);
-            sliderWrapper.addEventListener('touchstart', (e) => onDragStart(e));
-            sliderWrapper.addEventListener('touchmove', onDragMove);
-            sliderWrapper.addEventListener('touchend', onDragEnd);
-
-            createCards(); // Initialize the slider
+            createCards(); 
         }
-        // --- END: TINDER SLIDER LOGIC ---
 
-        function setupFloatingHearts() { /* Kept for structure */ } 
-        function setupFooterFlyingHearts() { /* Kept for structure */ }
-
-        // --- START: WISHES LOGIC WITH GOOGLE APPS SCRIPT (GAS) ---
         function setupWishesSection() {
             const form = document.getElementById('wishes-form');
             const displayArea = document.getElementById('wishes-display');
             const submitBtn = document.getElementById('submit-wish-btn');
             const messageElement = document.getElementById('submission-message');
-            
-            // 🔑 ACTION: PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE
             const GAS_ENDPOINT = "https://script.google.com/macros/s/AKfycbwwqUdeEOaHATWv7aS5_6QkSFX4lgAZMRifvRU8oq1xJI2itaMnRx_Da566e0T7z74r/exec"; 
 
-            // Fetches the wishes from the deployed Apps Script URL
             async function fetchWishes() {
                 try {
                     const response = await fetch(GAS_ENDPOINT);
-                    if (!response.ok) throw new Error("Failed to fetch wishes.");
+                    if (!response.ok) throw new Error("Failed to fetch.");
                     return await response.json();
                 } catch (error) {
                     console.error("Error fetching wishes:", error);
-                    // Return dummy data on error to ensure display doesn't break
                     return [
-                        { name: "Family", wish: "Congratulations on your wedding! We wish you endless joy." },
-                        { name: "Friends", wish: "May your journey together be filled with laughter and love. Best wishes!" },
+                        { name: "Family & Friends", wish: "Congratulations on your wedding! We wish you endless joy and happiness." },
+                        { name: "Well Wishers", wish: "May your journey together be filled with laughter and love. Best wishes!" },
                     ];
                 }
             }
 
-            // Renders the wishes onto the page
             function renderWishes(wishesArray, newWish = null) {
                 displayArea.innerHTML = '';
-                
-                // Render wishes from the array (latest first)
-                // Filter out any blank/invalid entries if the GAS API returns them
                 wishesArray.filter(w => w.name && w.wish).slice().reverse().forEach((wishData) => {
                     const wishCard = document.createElement('div');
-                    wishCard.classList.add('wish-card', 'animate-on-scroll');
+                    wishCard.className = 'wish-card animate-on-scroll';
                     
-                    // Check if this is the new wish based on content
                     if (newWish && wishData.name === newWish.name && wishData.wish === newWish.wish) {
-                        // Apply the new-wish animation
-                        setTimeout(() => {
-                            wishCard.classList.remove('animate-on-scroll');
-                            wishCard.classList.add('new-wish');
-                        }, 50); 
+                        setTimeout(() => wishCard.classList.add('new-wish'), 50); 
                     }
                     
                     wishCard.innerHTML = `
-                        <p class="font-dancing-script text-xl text-teal-700 leading-relaxed mb-2">${wishData.wish}</p>
-                        <p class="text-sm font-semibold text-blue-500 mt-3 border-t border-blue-100 pt-2">- ${wishData.name}</p>
+                        <p class="font-dancing-script text-xl text-rose-700 leading-relaxed mb-2">"${wishData.wish}"</p>
+                        <p class="text-sm font-semibold text-amber-600 mt-3 border-t border-rose-100 pt-2">- ${wishData.name}</p>
                     `;
                     displayArea.appendChild(wishCard);
                 });
-                
-                // Re-observe elements for general scroll animation
                 setupIntersectionObserver();
             }
 
-            // Handles form submission via POST to the Apps Script URL
             form.addEventListener("submit", async (e) => {
                 e.preventDefault();
-                
-                if (GAS_ENDPOINT.includes('YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE')) {
-                     alert("ERROR: Please replace 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE' with your GAS URL!");
-                     return;
-                }
-
                 submitBtn.disabled = true;
-                submitBtn.innerHTML = `Submitting...`;
-                
-                const name = document.getElementById('wisher-name').value;
-                const wish = document.getElementById('wisher-wish').value;
-                
-                const newWishData = { name: name, wish: wish };
+                submitBtn.innerHTML = `Sending...`;
+                const newWishData = { name: form.name.value, wish: form.wish.value };
 
                 try {
                     const response = await fetch(GAS_ENDPOINT, {
                         method: 'POST',
-                        // Note: GAS requires Content-Type: text/plain for raw JSON POST data
                         headers: { 'Content-Type': 'text/plain' }, 
                         body: JSON.stringify(newWishData),
                     });
-
-                    if (response.ok) {
-                        // Success: Clear form and show success message
-                        form.reset();
-                        messageElement.textContent = "Thank you! Your wish has been sent and is now displayed below. 🥳";
-                        messageElement.classList.remove('text-red-600');
-                        messageElement.classList.add('text-green-600', 'opacity-100');
-                        
-                        // Fetch the updated list and render with the new card animation
-                        const updatedWishes = await fetchWishes();
-                        renderWishes(updatedWishes, newWishData);
-
-                    } else {
-                        throw new Error("API call failed.");
-                    }
+                    if (!response.ok) throw new Error("API call failed.");
+                    
+                    form.reset();
+                    messageElement.textContent = "Thank you! Your wish has been sent! 🥳";
+                    messageElement.className = 'text-sm font-montserrat font-semibold text-green-600 opacity-100 transition-opacity duration-500';
+                    const updatedWishes = await fetchWishes();
+                    renderWishes(updatedWishes, newWishData);
                 } catch (error) {
                     console.error("Submission Error:", error);
                     messageElement.textContent = "Oops! Something went wrong. Please try again.";
-                    messageElement.classList.remove('text-green-600');
-                    messageElement.classList.add('text-red-600', 'opacity-100');
+                    messageElement.className = 'text-sm font-montserrat font-semibold text-red-600 opacity-100 transition-opacity duration-500';
                 } finally {
-                    // Reset button and message after a delay
                     setTimeout(() => {
                         submitBtn.disabled = false;
-                        submitBtn.innerHTML = `Send Wish <span class="ml-2 text-yellow-300 animated-heart">💖</span>`;
+                        submitBtn.innerHTML = `Send Wish <span class="ml-2 text-amber-300 animated-heart">💖</span>`;
                         messageElement.classList.remove('opacity-100');
                     }, 5000);
                 }
             });
 
-            // Initial load: Fetch and render wishes
-            fetchWishes().then(initialWishes => {
-                renderWishes(initialWishes);
-            });
+            fetchWishes().then(initialWishes => renderWishes(initialWishes));
         }
-        // --- END: WISHES LOGIC WITH GOOGLE APPS SCRIPT (GAS) ---
 
         // Main Initialization
         document.addEventListener('DOMContentLoaded', () => {
-            // Hide loading screen after a short delay
             setTimeout(() => {
                 const loadingScreen = document.getElementById('loading-screen');
                 loadingScreen.classList.add('fade-out');
-                setTimeout(() => {
-                    loadingScreen.style.display = 'none';
-                }, 1000);
+                setTimeout(() => { loadingScreen.style.display = 'none'; }, 1000);
             }, 1000);
 
-            // Set up Hero image (replace with your actual image path)
             const heroSection = document.getElementById('hero-section');
             const heroImage = new Image();
-            // Note: You must place your cover photo at 'img/your_cover_photo.JPG'
-            heroImage.src = 'img/your_cover_photo.JPG';
+            // Using a placeholder image for demonstration. Replace with your actual photo URL.
+            heroImage.src = 'https://placehold.co/1200x800/e11d48/ffffff?text=S+%26+D';
             heroImage.onload = () => {
                 heroSection.style.backgroundImage = `url('${heroImage.src}')`;
-                heroSection.classList.add('hero-merged', 'loaded');
+                heroSection.classList.add('loaded');
             };
-            // Fallback in case image is missing
             heroImage.onerror = () => {
-                 // Using a fallback gradient for the hero if image fails to load
-                 heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), #222`;
-                 heroSection.classList.add('hero-merged', 'loaded');
+                 heroSection.style.backgroundImage = `linear-gradient(to top, #a855f7, #f472b6)`;
+                 heroSection.classList.add('loaded');
             };
-
 
             setupCountdown();
             setupTinderSlider();
-            setupFloatingHearts();
-            setupFooterFlyingHearts();
-            setupWishesSection(); // Initialize the Wishes Section and its animations
-            setupIntersectionObserver(); // Run last to observe all elements
+            setupWishesSection();
+            setupIntersectionObserver();
         });
     </script>
 </body>
