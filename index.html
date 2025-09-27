@@ -121,8 +121,8 @@
         .unified-wishes-panel {
             background: linear-gradient(145deg, rgba(255,255,255,0.7), rgba(255,255,255,0.4));
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border: 3px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 10px 32px 0 rgba(13, 148, 136, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px 0 rgba(13, 148, 136, 0.15);
         }
 
         .wish-entry {
@@ -134,7 +134,7 @@
             padding: 1rem 0.5rem;
         }
         .wish-entry:last-child { border-bottom: none; }
-        .wish-entry.in-view { transform: translateX(0); opacity: 0; }
+        .wish-entry.in-view { transform: translateX(0); opacity: 1; }
         
         @keyframes new-wish-fly-in {
             0% { transform: scale(0.9); opacity: 0; }
@@ -403,4 +403,3 @@
     </script>
 </body>
 </html>
-
