@@ -307,7 +307,7 @@
             const textElement = document.getElementById('story-text');
             if (!sliderWrapper || !textElement) return;
             let cards = [], currentCardIndex = 0, isDragging = false, startX = 0, autoSlideTimeout;
-            const SLIDE_INTERVAL = 7000, SWIPE_THRESHOLD = 80;
+            const SLIDE_INTERVAL = 7000, SWIPE_THRESHOLD = 100;
             function createCards() {
                 sliderWrapper.innerHTML = '';
                 cards = storyData.map(item => { const card = document.createElement('div'); card.className = 'tinder-card'; card.style.backgroundImage = `url(${item.src})`; sliderWrapper.appendChild(card); return card; });
