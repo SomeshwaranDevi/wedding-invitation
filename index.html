@@ -392,7 +392,7 @@
             }, 1000);
             const heroSection = document.getElementById('hero-section');
             const heroImage = new Image();
-            heroImage.src = 'img/your_cover_photo.JPG';
+            heroImage.src = 'img/your_cover_photo0.JPG';
             heroImage.onload = () => { heroSection.style.backgroundImage = `url('${heroImage.src}')`; heroSection.classList.add('loaded'); };
             heroImage.onerror = () => { heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://placehold.co/1200x800/10b981/ffffff?text=Our+Story+Begins')`; heroSection.classList.add('loaded'); };
             setupCountdown();
